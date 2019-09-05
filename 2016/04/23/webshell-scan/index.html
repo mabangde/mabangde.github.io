@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="tools论坛@imspider写了一款 完美扫描PHP特殊一句话后门 感觉挺漂亮的，博主加入了一些其它规则，目前仅支持php。  可扫描 weevelyshell 生成或加密的shell 及各种变异webshell 支持扫描callback一句话shell 支持各种php大马  由于是根据文件内容正则匹配所以不能保证误报漏报想要更强大的webshell扫描推荐用d盾 webshell扫描  12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webshell扫描脚本">
+<meta property="og:url" content="http://wolvez.club/2016/04/23/webshell-scan/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="tools论坛@imspider写了一款 完美扫描PHP特殊一句话后门 感觉挺漂亮的，博主加入了一些其它规则，目前仅支持php。  可扫描 weevelyshell 生成或加密的shell 及各种变异webshell 支持扫描callback一句话shell 支持各种php大马  由于是根据文件内容正则匹配所以不能保证误报漏报想要更强大的webshell扫描推荐用d盾 webshell扫描  12">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/06bfd1dc70e4de0ed7bcb9002a5949ae.png">
+<meta property="og:updated_time" content="2019-07-19T12:20:56.310Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webshell扫描脚本">
+<meta name="twitter:description" content="tools论坛@imspider写了一款 完美扫描PHP特殊一句话后门 感觉挺漂亮的，博主加入了一些其它规则，目前仅支持php。  可扫描 weevelyshell 生成或加密的shell 及各种变异webshell 支持扫描callback一句话shell 支持各种php大马  由于是根据文件内容正则匹配所以不能保证误报漏报想要更强大的webshell扫描推荐用d盾 webshell扫描  12">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/06bfd1dc70e4de0ed7bcb9002a5949ae.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>webshell扫描脚本</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/04/29/dz-dumper/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2015/05/24/Small-ssd/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2016/04/23/webshell-scan/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2016/04/23/webshell-scan/&text=webshell扫描脚本"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2016/04/23/webshell-scan/&title=webshell扫描脚本"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2016/04/23/webshell-scan/&is_video=false&description=webshell扫描脚本"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=webshell扫描脚本&body=Check out this article: http://wolvez.club/2016/04/23/webshell-scan/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2016/04/23/webshell-scan/&title=webshell扫描脚本"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2016/04/23/webshell-scan/&title=webshell扫描脚本"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2016/04/23/webshell-scan/&title=webshell扫描脚本"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2016/04/23/webshell-scan/&title=webshell扫描脚本"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2016/04/23/webshell-scan/&name=webshell扫描脚本&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        webshell扫描脚本
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-04-23T12:08:00.000Z" itemprop="datePublished">2016-04-23</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>tools论坛@imspider写了一款 <a href="https://www.t00ls.net/viewthread.php?tid=22557" target="_blank" rel="noopener">完美扫描PHP特殊一句话后门</a> 感觉挺漂亮的，博主加入了一些其它规则，目前仅支持php。</p>
+<ol>
+<li>可扫描 <code>weevelyshell</code> 生成或加密的<code>shell</code> 及各种变异<code>webshell</code></li>
+<li>支持扫描callback一句话shell</li>
+<li>支持各种php大马</li>
+</ol>
+<p>由于是根据文件内容<strong>正则匹配</strong>所以不能保证误报漏报<br>想要更强大的<strong>webshell</strong>扫描推荐用d盾 <strong>webshell</strong>扫描</p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/06bfd1dc70e4de0ed7bcb9002a5949ae.png" alt="2019-07-21-00-31-21"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">        &lt;meta charset=<span class="string">'gb2312'</span>&gt;</span><br><span class="line">        &lt;title&gt;PHP web shell scan&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">define(<span class="string">"SELF"</span>,php_self());        </span><br><span class="line">error_reporting(E_ERROR);</span><br><span class="line">ini_set(<span class="string">'max_execution_time'</span>,<span class="number">20000</span>);</span><br><span class="line">ini_set(<span class="string">'memory_limit'</span>,<span class="string">'512M'</span>);</span><br><span class="line">header(<span class="string">"content-Type: text/html; charset=gb2312"</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">weevelyshell</span><span class="params">($file)</span></span>&#123;</span><br><span class="line">        $content=file_get_contents($file);</span><br><span class="line">        <span class="keyword">if</span>( </span><br><span class="line">                (</span><br><span class="line">                preg_match(<span class="string">'#(\$\w&#123;2,4&#125;\s?=\s?str_replace\("\w+","","[\w_]+"\);\s?)+#s'</span>,$content)&amp;&amp;</span><br><span class="line">            preg_match(<span class="string">'#(\$\w&#123;2,4&#125;\s?=\s?"[\w\d\+\/\=]+";\s?)+#'</span>,$content)&amp;&amp;                             preg_match(<span class="string">'#\$[\w]&#123;2,4&#125;\s?=\s\$[\w]&#123;2,4&#125;\(\'\',\s?\$\w&#123;2,4&#125;\(\$\w&#123;2,4&#125;\("\w&#123;1,4&#125;",\s?"",\s?\$\w&#123;2,4&#125;\.\$\w&#123;2,4&#125;\.\$\w&#123;2,4&#125;\.\$\w&#123;2,4&#125;\)\)\);\s+?\$\w&#123;2,4&#125;\(\)\;#'</span>,$content))</span><br><span class="line">                    ||</span><br><span class="line">                    (preg_match(<span class="string">'#\$\w+\d\s?=\s?str_replace\(\"[\w\d]+\",\"\",\"[\w\d]+\"\);#s'</span>,$content)&amp;&amp;</span><br><span class="line">                preg_match(<span class="string">'#\$\w+\s?=\s?\$[\w\d]+\(\'\',\s?\$[\w\d]+\(\$\w+\(\$\w+\(\"[[:punct:]]+\",\s?\"\",\s?\$\w+\.\$\w+\.\$\w+\.\$\w+\)\)\)\);\s?\$\w+\(\);#s'</span>,$content))</span><br><span class="line">                )&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callbackshell</span><span class="params">($file)</span></span>&#123;</span><br><span class="line">        $content=file_get_contents($file);</span><br><span class="line">        <span class="keyword">if</span>(</span><br><span class="line">                preg_match(<span class="string">'#\$\w+\s?=\s?\$_(?:GET|POST|REQUEST|COOKIE|SERVER)\[.*?\]#is'</span>,$content)&amp;&amp;</span><br><span class="line">                preg_match(<span class="string">'#\$\w+\s?=\s?(?:new)?\s?array\w*\s?\(.*?_(?:GET|POST|REQUEST|COOKIE|SERVER)\[.*?\].*?\)+#is'</span>,$content)&amp;&amp;</span><br><span class="line">                preg_match(<span class="string">'#(?:array_(?:reduce|map|udiff|walk|walk_recursive|filter)|u[ak]sort)\s?\(.*?\)+?#is'</span>,$content)</span><br><span class="line">                </span><br><span class="line">                </span><br><span class="line">                )</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">php_self</span><span class="params">()</span></span>&#123;</span><br><span class="line">    $php_self=substr($_SERVER[<span class="string">'PHP_SELF'</span>],strrpos($_SERVER[<span class="string">'PHP_SELF'</span>],<span class="string">'/'</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> $php_self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$matches = <span class="keyword">array</span>(</span><br><span class="line">                <span class="string">'/mb_ereg_replace\([\'\*\s\,\.\"]+\$_(?:GET|POST|REQUEST|COOKIE|SERVER)\[[\'\"].*?[\'\"][\]][\,\s\'\"]+e[\'\"]'</span>/is,</span><br><span class="line">                <span class="string">'/preg_filter\([\'\"\|\.\*e]+.*\$_(?:GET|POST|REQUEST|COOKIE|SERVER)/is'</span>,</span><br><span class="line">                <span class="string">'/create_function\s?\(.*assert\(/is'</span>,</span><br><span class="line">                <span class="string">'/ini_get\(\'safe_mode\'\)/i'</span>,</span><br><span class="line">                <span class="string">'/get_current_user\(.*?\)/i'</span>,</span><br><span class="line">                <span class="string">'/@?assert\s?\(\$.*?\)/i'</span>,</span><br><span class="line">                <span class="string">'/proc_open\s?\(.*?pipe\',\s?\'w\'\)/is'</span>,</span><br><span class="line">        <span class="string">'/sTr_RepLaCe\s?\([\'\"].*?[\'\"],[\'\"].*?[\'\"]\s?,\s?\'a[[:alnum:][:punct:]]+?s[[:alnum:][:punct:]]+?s[[:alnum:][:punct:]]+?e[[:alnum:][:punct:]]+?r[[:alnum:][:punct:]]+?t[[:alnum:][:punct:]]+?\)/i'</span>,</span><br><span class="line">                <span class="string">'/preg_replace_callback\(.*?create_function\(/is'</span>,</span><br><span class="line">                <span class="string">'/filter_var(?:_array)?\s?.*?\$_(?:GET|POST|REQUEST|COOKIE|SERVER)\[[\'\"][[:punct:][:alnum:]]+[\'\"]\][[:punct:][:alnum:][:space:]]+?assert[\'\"]\)/is'</span>,</span><br><span class="line">                <span class="string">'/ob_start\([\'\"]+assert[\'\"]+\)/is'</span>,</span><br><span class="line">                <span class="string">'/new\s?ReflectionFunction\(.*?-&gt;invoke\(/is'</span>,</span><br><span class="line">            <span class="string">'/PDO::FETCH_FUNC/'</span>,</span><br><span class="line">                <span class="string">'/\$\w+.*\s?(?:=|-&gt;)\s?.*?[\'\"]assert[\'\"]\)?/i'</span>,</span><br><span class="line">                <span class="string">'/\$\w+-&gt;(?:sqlite)?createFunction\(.*?\)/i'</span>,</span><br><span class="line">                <span class="string">'/eval\([\"\']?\\\?\$\w+\s?=\s?.*?\)/i'</span>,</span><br><span class="line">                <span class="string">'/eval\(.*?gzinflate\(base64_decode\(/i'</span>,</span><br><span class="line">                <span class="string">'/copy\(\$HTTP_POST_FILES\[\'\w+\'\]\s?\[\'tmp_name\'\]/i'</span>,</span><br><span class="line">                <span class="string">'/register_(?:shutdown|tick)_function\s?\(\$\w+,\s\$_(?:GET|POST|REQUEST|COOKIE|SERVER)\[.*?\]\)/is'</span>,</span><br><span class="line">                <span class="string">'/register_(?:shutdown|tick)_function\s?\(?[\'\"]assert[\"\'].*?\)/i'</span>,</span><br><span class="line">                <span class="string">'/call_user_func.*?\([\"|\']assert[\"|\'],.*\$_(?:GET|POST|REQUEST|COOKIE|SERVER)\[[\'|\"].*\]\)+/is'</span>,</span><br><span class="line">            <span class="string">'/preg_replace\(.*?e.*?\'\s?,\s?.*?\w+\(.*?\)/i'</span>,</span><br><span class="line">        <span class="string">'/function_exists\s*\(\s*[\'|\"](popen|exec|proc_open|system|passthru)+[\'|\"]\s*\)/i'</span>,</span><br><span class="line">        <span class="string">'/(exec|shell_exec|system|passthru)+\s*\(\s*\$_(\w+)\[(.*)\]\s*\)/i'</span>,</span><br><span class="line">        <span class="string">'/(exec|shell_exec|system|passthru)+\s*\(\$\w+\)/i'</span>,</span><br><span class="line">        <span class="string">'/(exec|shell_exec|system|passthru)\s?\(\w+\(\"http_.*\"\)\)/i'</span>,</span><br><span class="line">                  <span class="string">'/(?:john\.barker446@gmail\.com|xb5@hotmail\.com|shopen@aventgrup\.net|milw0rm\.com|www\.aventgrup\.net|mgeisler@mgeisler\.net)/i'</span>,</span><br><span class="line">            <span class="string">'/Php\s*?Shell/i'</span>,</span><br><span class="line">        <span class="string">'/((udp|tcp)\:\/\/(.*)\;)+/i'</span>,</span><br><span class="line">        <span class="string">'/preg_replace\s*\((.*)\/e(.*)\,\s*\$_(.*)\,(.*)\)/i'</span>,</span><br><span class="line">        <span class="string">'/preg_replace\s*\((.*)\(base64_decode\(\$/i'</span>,</span><br><span class="line">        <span class="string">'/(eval|assert|include|require|include_once|require_once)+\s*\(\s*(base64_decode|str_rot13|gz(\w+)|file_(\w+)_contents|(.*)php\:\/\/input)+/i'</span>,</span><br><span class="line">        <span class="string">'/(eval|assert|include|require|include_once|require_once|array_map|array_walk)+\s*\(.*?\$_(?:GET|POST|REQUEST|COOKIE|SERVER|SESSION)+\[(.*)\]\s*\)/i'</span>,</span><br><span class="line">        <span class="string">'/eval\s*\(\s*\(\s*\$\$(\w+)/i'</span>,</span><br><span class="line">            <span class="string">'/((?:include|require|include_once|require_once)+\s*\(?\s*[\'|\"]\w+\.(?!php).*[\'|\"])/i'</span>,</span><br><span class="line">        <span class="string">'/\$_(\w+)(.*)(eval|assert|include|require|include_once|require_once)+\s*\(\s*\$(\w+)\s*\)/i'</span>,</span><br><span class="line">        <span class="string">'/\(\s*\$_FILES\[(.*)\]\[(.*)\]\s*\,\s*\$_(GET|POST|REQUEST|FILES)+\[(.*)\]\[(.*)\]\s*\)/i'</span>,</span><br><span class="line">        <span class="string">'/(fopen|fwrite|fputs|file_put_contents)+\s*\((.*)\$_(GET|POST|REQUEST|COOKIE|SERVER)+\[(.*)\](.*)\)/i'</span>,</span><br><span class="line">        <span class="string">'/echo\s*curl_exec\s*\(\s*\$(\w+)\s*\)/i'</span>,</span><br><span class="line">        <span class="string">'/new com\s*\(\s*[\'|\"]shell(.*)[\'|\"]\s*\)/i'</span>,</span><br><span class="line">        <span class="string">'/\$(.*)\s*\((.*)\/e(.*)\,\s*\$_(.*)\,(.*)\)/i'</span>,</span><br><span class="line">        <span class="string">'/\$_\=(.*)\$_/i'</span>,</span><br><span class="line">        <span class="string">'/\$_(GET|POST|REQUEST|COOKIE|SERVER)+\[(.*)\]\(\s*\$(.*)\)/i'</span>,</span><br><span class="line">        <span class="string">'/\$(\w+)\s*\(\s*\$_(GET|POST|REQUEST|COOKIE|SERVER)+\[(.*)\]\s*\)/i'</span>,</span><br><span class="line">        <span class="string">'/\$(\w+)\s*\(\s*\$\&#123;(.*)\&#125;/i'</span>,</span><br><span class="line">        <span class="string">'/\$(\w+)\s*\(\s*chr\(\d+\)/i'</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">antivirus</span><span class="params">($dir,$exs,$matches)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(($handle = @opendir($dir)) == <span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">false</span> !== ($name = readdir($handle))) &#123;</span><br><span class="line">                <span class="keyword">if</span>($name == <span class="string">'.'</span> || $name == <span class="string">'..'</span>) <span class="keyword">continue</span>;</span><br><span class="line">                $path = $dir.$name;</span><br><span class="line">                <span class="keyword">if</span>(strstr($name,<span class="keyword">SELF</span>)) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="comment">//$path=iconv("UTF-8","gb2312",$path);</span></span><br><span class="line">                <span class="keyword">if</span>(is_dir($path)) &#123;</span><br><span class="line">                        <span class="comment">//chmod($path,0777);/*主要针对一些0111的目录*/</span></span><br><span class="line">                        <span class="keyword">if</span>(is_readable($path)) antivirus($path.<span class="string">'/'</span>,$exs,$matches);</span><br><span class="line">                &#125; <span class="keyword">elseif</span>(strpos($name,<span class="string">';'</span>) &gt; <span class="number">-1</span> || strpos($name,<span class="string">'%00'</span>) &gt; <span class="number">-1</span> || strpos($name,<span class="string">'/'</span>) &gt; <span class="number">-1</span>) &#123;</span><br><span class="line">                        <span class="keyword">echo</span> <span class="string">'特征 &lt;input type="text" style="width:250px;" value="解析漏洞"&gt;         '</span>.$path.<span class="string">'&lt;div&gt;&lt;/div&gt;'</span>; flush(); ob_flush();</span><br><span class="line">                &#125; </span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span>(!preg_match($exs,$name)) <span class="keyword">continue</span>;</span><br><span class="line">                        <span class="keyword">if</span>(filesize($path) &gt; <span class="number">10000000</span>) <span class="keyword">continue</span>;</span><br><span class="line">                        $fp = fopen($path,<span class="string">'r'</span>);</span><br><span class="line">                        $code = fread($fp,filesize($path));</span><br><span class="line">                        fclose($fp);</span><br><span class="line">                        <span class="keyword">if</span>(<span class="keyword">empty</span>($code)) <span class="keyword">continue</span>;                     </span><br><span class="line">                        <span class="keyword">if</span>(weevelyshell($path))&#123;</span><br><span class="line">                        <span class="keyword">echo</span> <span class="string">'特征 &lt;input type="text" style="width:250px;" value="weevely 加密shell"&gt;         '</span>.$path.<span class="string">'&lt;div&gt;&lt;/div&gt;'</span>; flush(); ob_flush();</span><br><span class="line"></span><br><span class="line">                &#125;<span class="keyword">elseif</span>(callbackshell($path))&#123;</span><br><span class="line">                                <span class="keyword">echo</span> <span class="string">'特征 &lt;input type="text" style="width:250px;" value="Callback shell"&gt;         '</span>.$path.<span class="string">'&lt;div&gt;&lt;/div&gt;'</span>; flush(); ob_flush();</span><br><span class="line">                &#125;</span><br><span class="line">                        <span class="keyword">foreach</span>($matches <span class="keyword">as</span> $matche) &#123;</span><br><span class="line">                                $array = <span class="keyword">array</span>();</span><br><span class="line">                                preg_match($matche,$code,$array);</span><br><span class="line">                                <span class="keyword">if</span>(!$array) <span class="keyword">continue</span>;</span><br><span class="line">                                <span class="keyword">if</span>(strpos($array[<span class="number">0</span>],<span class="string">"\x24\x74\x68\x69\x73\x2d\x3e"</span>)) <span class="keyword">continue</span>;</span><br><span class="line">                                $len = strlen($array[<span class="number">0</span>]);</span><br><span class="line">                                <span class="keyword">if</span>($len &gt; <span class="number">6</span> &amp;&amp; $len &lt; <span class="number">200</span>) &#123;</span><br><span class="line">                                        <span class="keyword">echo</span> <span class="string">'特征 &lt;input type="text" style="width:250px;" value="'</span>.htmlspecialchars($array[<span class="number">0</span>]).<span class="string">'"&gt;        '</span>.$path.<span class="string">'&lt;div&gt;&lt;/div&gt;'</span>;</span><br><span class="line">                                        flush(); ob_flush(); <span class="keyword">break</span>;</span><br><span class="line">                                &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">unset</span>($code,$array);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        closedir($handle);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">strdir</span><span class="params">($str)</span> </span>&#123; <span class="keyword">return</span> str_replace(<span class="keyword">array</span>(<span class="string">'\\'</span>,<span class="string">'//'</span>,<span class="string">'//'</span>),<span class="keyword">array</span>(<span class="string">'/'</span>,<span class="string">'/'</span>,<span class="string">'/'</span>),chop($str)); &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;form method="POST"&gt;'</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'路径: &lt;input type="text" name="dir" value="'</span>.($_POST[<span class="string">'dir'</span>] ? strdir($_POST[<span class="string">'dir'</span>].<span class="string">'/'</span>) : strdir($_SERVER[<span class="string">'DOCUMENT_ROOT'</span>].<span class="string">'/'</span>)).<span class="string">'" style="width:398px;"&gt;&lt;div&gt;&lt;/div&gt;'</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'后缀: &lt;input type="text" name="exs" value="'</span>.($_POST[<span class="string">'exs'</span>] ? $_POST[<span class="string">'exs'</span>] : <span class="string">'.php|.inc|.phtml'</span>).<span class="string">'" style="width:398px;"&gt;&lt;div&gt;&lt;/div&gt;'</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'操作: &lt;input type="submit" style="width:80px;" value="scan"&gt;&lt;div&gt;&lt;/div&gt;'</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;/form&gt;'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(file_exists($_POST[<span class="string">'dir'</span>]) &amp;&amp; $_POST[<span class="string">'exs'</span>]) &#123;</span><br><span class="line">        $dir = strdir($_POST[<span class="string">'dir'</span>].<span class="string">'/'</span>);</span><br><span class="line">        $exs = <span class="string">'/('</span>.str_replace(<span class="string">'.'</span>,<span class="string">'\\.'</span>,$_POST[<span class="string">'exs'</span>]).<span class="string">')/i'</span>;</span><br><span class="line">        <span class="keyword">echo</span> antivirus($dir,$exs,$matches) ? <span class="string">'&lt;/br &gt;&lt;div&gt;&lt;/div&gt;扫描完毕!'</span> : <span class="string">'&lt;/br &gt; &lt;div&gt;&lt;/div&gt;扫描中断'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2016/04/23/webshell-scan/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2016/04/23/webshell-scan/&text=webshell扫描脚本"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2016/04/23/webshell-scan/&title=webshell扫描脚本"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2016/04/23/webshell-scan/&is_video=false&description=webshell扫描脚本"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=webshell扫描脚本&body=Check out this article: http://wolvez.club/2016/04/23/webshell-scan/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2016/04/23/webshell-scan/&title=webshell扫描脚本"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2016/04/23/webshell-scan/&title=webshell扫描脚本"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2016/04/23/webshell-scan/&title=webshell扫描脚本"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2016/04/23/webshell-scan/&title=webshell扫描脚本"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2016/04/23/webshell-scan/&name=webshell扫描脚本&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

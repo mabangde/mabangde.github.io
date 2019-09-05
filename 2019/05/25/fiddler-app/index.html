@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="某视频app发现有观影次数限制很是不爽；想通过分析数据包来看看能不能绕过限制  使用fiddler包分析发现返回请求数据包都加密了 0x01 加密方式 对每个字符进行异或混淆  1234567public static String decodeResponse(String str) &amp;#123;       char[] toCharArray = str.toCharArray();">
+<meta name="keywords" content="app测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fiddler script功能实战">
+<meta property="og:url" content="http://wolvez.club/2019/05/25/fiddler-app/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="某视频app发现有观影次数限制很是不爽；想通过分析数据包来看看能不能绕过限制  使用fiddler包分析发现返回请求数据包都加密了 0x01 加密方式 对每个字符进行异或混淆  1234567public static String decodeResponse(String str) &amp;#123;       char[] toCharArray = str.toCharArray();">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-23-26.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-09-14.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-17-29.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-32-14.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-37-23.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-42-42.png">
+<meta property="og:updated_time" content="2019-07-20T10:30:41.640Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="fiddler script功能实战">
+<meta name="twitter:description" content="某视频app发现有观影次数限制很是不爽；想通过分析数据包来看看能不能绕过限制  使用fiddler包分析发现返回请求数据包都加密了 0x01 加密方式 对每个字符进行异或混淆  1234567public static String decodeResponse(String str) &amp;#123;       char[] toCharArray = str.toCharArray();">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-23-26.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>fiddler script功能实战</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/08/27/remote-exec-powershell/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/04/07/EventLog/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/05/25/fiddler-app/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/05/25/fiddler-app/&text=fiddler script功能实战"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/05/25/fiddler-app/&title=fiddler script功能实战"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/05/25/fiddler-app/&is_video=false&description=fiddler script功能实战"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=fiddler script功能实战&body=Check out this article: http://wolvez.club/2019/05/25/fiddler-app/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/05/25/fiddler-app/&title=fiddler script功能实战"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/05/25/fiddler-app/&title=fiddler script功能实战"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/05/25/fiddler-app/&title=fiddler script功能实战"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/05/25/fiddler-app/&title=fiddler script功能实战"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/05/25/fiddler-app/&name=fiddler script功能实战&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-加密方式"><span class="toc-number">1.</span> <span class="toc-text">0x01 加密方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-使用Chrome-console调试解密方式"><span class="toc-number">2.</span> <span class="toc-text">0x02 使用Chrome console调试解密方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-使用fiddler-script进行自动解密"><span class="toc-number">3.</span> <span class="toc-text">0x03 使用fiddler script进行自动解密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-解除观看限制"><span class="toc-number">4.</span> <span class="toc-text">0x04 解除观看限制</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        fiddler script功能实战
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-05-24T19:37:19.000Z" itemprop="datePublished">2019-05-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/app测试/">app测试</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>某视频app发现有观影次数限制很是不爽；想通过分析数据包来看看能不能绕过限制</p>
+</blockquote>
+<p>使用fiddler包分析发现返回请求数据包都加密了<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-23-26.png" alt></p>
+<h2 id="0x01-加密方式"><a href="#0x01-加密方式" class="headerlink" title="0x01 加密方式"></a>0x01 加密方式</h2><blockquote>
+<p>对每个字符进行异或混淆</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">decodeResponse</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">char</span>[] toCharArray = str.toCharArray();</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; toCharArray.length; i++) &#123;</span><br><span class="line">           toCharArray[i] = (<span class="keyword">char</span>) (toCharArray[i] ^ <span class="number">20190101</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> String.valueOf(toCharArray);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x02-使用Chrome-console调试解密方式"><a href="#0x02-使用Chrome-console调试解密方式" class="headerlink" title="0x02 使用Chrome console调试解密方式"></a>0x02 使用Chrome console调试解密方式</h2><p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-09-14.png" alt></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> testStr=<span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> toCharArray=testStr.split(<span class="string">''</span>)</span><br><span class="line">en=<span class="string">''</span>;</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; toCharArray.length; i++)&#123;</span><br><span class="line">en += <span class="built_in">String</span>.fromCharCode(toCharArray[i].charCodeAt(<span class="number">0</span>).toString(<span class="number">10</span>) ^ <span class="number">20190101</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x03-使用fiddler-script进行自动解密"><a href="#0x03-使用fiddler-script进行自动解密" class="headerlink" title="0x03 使用fiddler script进行自动解密"></a>0x03 使用fiddler script进行自动解密</h2><blockquote>
+<p>fiddler 使用的是<code>jscript.net</code> 语言作为脚本，使用fiddler脚本实现了自动解加密包以便后面分析</p>
+</blockquote>
+<p><strong>解密后的效果</strong><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-17-29.png" alt></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">OnBeforeResponse</span>(<span class="params">oSession: Session</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (oSession.HostnameIs(<span class="string">"api88.awk2.work"</span>) ||oSession.HostnameIs(<span class="string">"api99.chinanb.work"</span>) ) &#123;</span><br><span class="line">        oSession[<span class="string">"ui-color"</span>] = <span class="string">"white"</span>;</span><br><span class="line">        oSession[<span class="string">"ui-backcolor"</span>] = <span class="string">"green"</span>;</span><br><span class="line">        oSession.utilDecodeResponse();</span><br><span class="line">        <span class="keyword">var</span> oBody = System.Text.Encoding.UTF8.GetString(oSession.responseBodyBytes);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> en=<span class="string">''</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i:int = <span class="number">0</span>;i&lt;=oBody.length;i++)&#123;</span><br><span class="line">            en+=<span class="built_in">String</span>.fromCharCode(oBody.charCodeAt(i) ^ <span class="number">20190101</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        oSession.utilSetResponseBody(en);  </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x04-解除观看限制"><a href="#0x04-解除观看限制" class="headerlink" title="0x04 解除观看限制"></a>0x04 解除观看限制</h2><blockquote>
+<p>以下返回数据包记录以及控制观影次数<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-32-14.png" alt></p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"code"</span>:<span class="number">0</span>,<span class="attr">"data"</span>:[&#123;<span class="attr">"readLevel"</span>:<span class="number">0</span>,<span class="attr">"preferenceCustom"</span>:<span class="string">""</span>,<span class="attr">"gender"</span>:<span class="number">-1</span>,<span class="attr">"supUserId"</span>:<span class="number">5483824</span>,<span class="attr">"todayDownNum"</span>:<span class="number">0</span>,<span class="attr">"companion"</span>:<span class="string">""</span>,<span class="attr">"userBrowCnt"</span>:<span class="number">39</span>,<span class="attr">"tagIds"</span>:<span class="string">""</span>,<span class="attr">"icon"</span>:<span class="string">""</span>,<span class="attr">"title"</span>:<span class="string">""</span>,<span class="attr">"dailyViewNum"</span>:<span class="number">10</span>,<span class="attr">"myInviteCode"</span>:<span class="string">"XUPBUL"</span>,<span class="attr">"userCode"</span>:<span class="literal">null</span>,<span class="attr">"tagNames"</span>:<span class="string">""</span>,<span class="attr">"inviteCnt"</span>:<span class="number">0</span>,<span class="attr">"nextLevelNeed"</span>:<span class="number">1</span>,<span class="attr">"leftViewNum"</span>:<span class="number">9</span>,<span class="attr">"vipExpiredDate"</span>:<span class="string">""</span>,<span class="attr">"aliasName"</span>:<span class="literal">null</span>,<span class="attr">"userCls"</span>:<span class="number">2</span>,<span class="attr">"level"</span>:<span class="number">0</span>,<span class="attr">"limitDownNum"</span>:<span class="number">0</span>,<span class="attr">"exceedPercent"</span>:<span class="number">0</span>,<span class="attr">"birth"</span>:<span class="string">""</span>,<span class="attr">"gmtCreate"</span>:<span class="string">"2019-01-01 23:04:27.000"</span>,<span class="attr">"userId"</span>:<span class="number">9216760</span>,<span class="attr">"isMaxLevel"</span>:<span class="number">0</span>,<span class="attr">"oldDriver"</span>:<span class="number">0</span>,<span class="attr">"phone"</span>:<span class="string">"15****35"</span>,<span class="attr">"name"</span>:<span class="literal">null</span>,<span class="attr">"job"</span>:<span class="string">""</span>&#125;],<span class="attr">"enumCode"</span>:<span class="string">"SUCCESS"</span>,<span class="attr">"msg"</span>:<span class="string">"1"</span>,<span class="attr">"success"</span>:<span class="literal">true</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用fiddler脚本功能捕获关键字插入正常观影次数的数据包</p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-37-23.png" alt></p>
+<blockquote>
+<p>手机端发现观看次数变成9次了:)</p>
+</blockquote>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2019-05-25-03-42-42.png" alt></p>
+<p>实际上只是表面显示上是突破了，服务端有作统计校验，<strong>本次破解以失败告终。</strong></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-加密方式"><span class="toc-number">1.</span> <span class="toc-text">0x01 加密方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-使用Chrome-console调试解密方式"><span class="toc-number">2.</span> <span class="toc-text">0x02 使用Chrome console调试解密方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-使用fiddler-script进行自动解密"><span class="toc-number">3.</span> <span class="toc-text">0x03 使用fiddler script进行自动解密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-解除观看限制"><span class="toc-number">4.</span> <span class="toc-text">0x04 解除观看限制</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/05/25/fiddler-app/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/05/25/fiddler-app/&text=fiddler script功能实战"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/05/25/fiddler-app/&title=fiddler script功能实战"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/05/25/fiddler-app/&is_video=false&description=fiddler script功能实战"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=fiddler script功能实战&body=Check out this article: http://wolvez.club/2019/05/25/fiddler-app/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/05/25/fiddler-app/&title=fiddler script功能实战"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/05/25/fiddler-app/&title=fiddler script功能实战"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/05/25/fiddler-app/&title=fiddler script功能实战"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/05/25/fiddler-app/&title=fiddler script功能实战"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/05/25/fiddler-app/&name=fiddler script功能实战&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

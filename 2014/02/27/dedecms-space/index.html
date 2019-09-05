@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="123456789101112131415161718else if($fmdo==&apos;moodmsg&apos;)&amp;#123;    //用户登录    if($dopost==&quot;sendmsg&quot;)    &amp;#123;        if(!empty($content))        &amp;#123;        $ip = GetIP();        $dtime = time();">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dedecms 空间存储型xss分析">
+<meta property="og:url" content="http://wolvez.club/2014/02/27/dedecms-space/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="123456789101112131415161718else if($fmdo==&apos;moodmsg&apos;)&amp;#123;    //用户登录    if($dopost==&quot;sendmsg&quot;)    &amp;#123;        if(!empty($content))        &amp;#123;        $ip = GetIP();        $dtime = time();">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/dad0bb832a4820c27e17b4cfb79429cd.png">
+<meta property="og:updated_time" content="2019-07-20T17:06:39.430Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="dedecms 空间存储型xss分析">
+<meta name="twitter:description" content="123456789101112131415161718else if($fmdo==&apos;moodmsg&apos;)&amp;#123;    //用户登录    if($dopost==&quot;sendmsg&quot;)    &amp;#123;        if(!empty($content))        &amp;#123;        $ip = GetIP();        $dtime = time();">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/dad0bb832a4820c27e17b4cfb79429cd.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>dedecms 空间存储型xss分析</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2014/02/27/hdwiki-xss/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2013/11/19/php-GPC-bypass/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2014/02/27/dedecms-space/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2014/02/27/dedecms-space/&text=dedecms 空间存储型xss分析"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2014/02/27/dedecms-space/&title=dedecms 空间存储型xss分析"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2014/02/27/dedecms-space/&is_video=false&description=dedecms 空间存储型xss分析"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=dedecms 空间存储型xss分析&body=Check out this article: http://wolvez.club/2014/02/27/dedecms-space/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2014/02/27/dedecms-space/&title=dedecms 空间存储型xss分析"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2014/02/27/dedecms-space/&title=dedecms 空间存储型xss分析"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2014/02/27/dedecms-space/&title=dedecms 空间存储型xss分析"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2014/02/27/dedecms-space/&title=dedecms 空间存储型xss分析"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2014/02/27/dedecms-space/&name=dedecms 空间存储型xss分析&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        dedecms 空间存储型xss分析
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2014-02-26T18:21:00.000Z" itemprop="datePublished">2014-02-27</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>($fmdo==<span class="string">'moodmsg'</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//用户登录</span></span><br><span class="line">    <span class="keyword">if</span>($dopost==<span class="string">"sendmsg"</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">empty</span>($content))</span><br><span class="line">        &#123;</span><br><span class="line">        $ip = GetIP();</span><br><span class="line">        $dtime = time();</span><br><span class="line">          $ischeck = ($cfg_mb_msgischeck == <span class="string">'Y'</span>)? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">          <span class="keyword">if</span>($cfg_soft_lang == <span class="string">'gb2312'</span>)</span><br><span class="line">          &#123;</span><br><span class="line">              $content = utf82gb(nl2br($content));</span><br><span class="line">          &#125; </span><br><span class="line">          $content = cn_substrR(HtmlReplace($content,<span class="number">1</span>),<span class="number">360</span>);  <span class="comment">//对内容进行处理 -&gt; 看看 HtmlReplace函数</span></span><br><span class="line">          <span class="comment">//对表情进行解析</span></span><br><span class="line">          $content = addslashes(preg_replace(<span class="string">"/\[face:(\d&#123;1,2&#125;)\]/is"</span>,<span class="string">"&lt;img src='"</span>.$cfg_memberurl.<span class="string">"/templets/images/smiley/\\1.gif' style='cursor: pointer; position: relative;'&gt;"</span>,$content));</span><br><span class="line">          省略...</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">HtmlReplace</span><span class="params">($str,$rptype=<span class="number">0</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $str = stripslashes($str); <span class="comment">//函数删除由 addslashes() 函数添加的反斜杠</span></span><br><span class="line">                $str = preg_replace(<span class="string">"/&lt;[\/]&#123;0,1&#125;style([^&gt;]*)&gt;(.*)&lt;\/style&gt;/i"</span>, <span class="string">''</span>, $str);<span class="comment">//2011-06-30 禁止会员投稿添加css样式 (by:织梦的鱼)</span></span><br><span class="line">        <span class="keyword">if</span>($rptype==<span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            $str = htmlspecialchars($str);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>($rptype==<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            $str = htmlspecialchars($str); <span class="comment">//预定义的字符转换为 HTML 实体</span></span><br><span class="line">            $str = str_replace(<span class="string">"　"</span>, <span class="string">' '</span>, $str);</span><br><span class="line">            $str = preg_replace(<span class="string">"/[\r\n\t ]&#123;1,&#125;/"</span>, <span class="string">' '</span>, $str);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>($rptype==<span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            $str = htmlspecialchars($str);</span><br><span class="line">            $str = str_replace(<span class="string">"　"</span>, <span class="string">''</span>, $str);</span><br><span class="line">            $str = preg_replace(<span class="string">"/[\r\n\t ]/"</span>, <span class="string">''</span>, $str);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            $str = preg_replace(<span class="string">"/[\r\n\t ]&#123;1,&#125;/"</span>, <span class="string">' '</span>, $str);</span><br><span class="line">            $str = preg_replace(<span class="string">'/script/i'</span>, <span class="string">'ｓｃｒｉｐｔ'</span>, $str);</span><br><span class="line">            $str = preg_replace(<span class="string">"/&lt;[\/]&#123;0,1&#125;(link|meta|ifr|fra)[^&gt;]*&gt;/i"</span>, <span class="string">''</span>, $str);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> addslashes($str);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>HtmlReplace</code> 函数  <code>$rptype</code> 传递过来的是1预定义的字符转换为 HTML 实体</p>
+<p>因此插入到数据库的数据 是经过转换 成 html实体的 从而过滤特殊字符</p>
+<p>经过函数跟踪发现显示会员心情管理  </p>
+<p><code>&lt;?php echo jstrimjajxlog($fields[&#39;msg&#39;],200); ?&gt;</code></p>
+<p>调用了  <code>jstrimjajxlog</code>函数 （将<strong>html</strong>实体 又还原了 0rz…）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">JstrimJajxLog</span><span class="params">($str,$len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $str = cn_substr($str,$len);</span><br><span class="line">    $str = str_replace(<span class="string">''</span><span class="string">', '</span><span class="string">"', $str);</span></span><br><span class="line"><span class="string">    $str = str_replace('&amp;lt;', '&lt;', $str);</span></span><br><span class="line"><span class="string">    $str = str_replace('&amp;gt;', '&gt;', $str);</span></span><br><span class="line"><span class="string">    return $str;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/dad0bb832a4820c27e17b4cfb79429cd.png" alt="2019-07-22-05-16-33"></p>
+<p>一般管理员不会去看这个的</p>
+<ul>
+<li>注意不要用 引号 因为有 stripslashes 转义<br>测试语句:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">object</span> <span class="attr">data</span>=<span class="string">data:text/html;base64,PHNjcmlwdD5hbGVydChkb2N1bWVudC5jb29raWUpOzwvc2NyaXB0Pg</span>==&gt;</span><span class="tag">&lt;/<span class="name">object</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2014/02/27/dedecms-space/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2014/02/27/dedecms-space/&text=dedecms 空间存储型xss分析"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2014/02/27/dedecms-space/&title=dedecms 空间存储型xss分析"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2014/02/27/dedecms-space/&is_video=false&description=dedecms 空间存储型xss分析"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=dedecms 空间存储型xss分析&body=Check out this article: http://wolvez.club/2014/02/27/dedecms-space/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2014/02/27/dedecms-space/&title=dedecms 空间存储型xss分析"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2014/02/27/dedecms-space/&title=dedecms 空间存储型xss分析"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2014/02/27/dedecms-space/&title=dedecms 空间存储型xss分析"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2014/02/27/dedecms-space/&title=dedecms 空间存储型xss分析"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2014/02/27/dedecms-space/&name=dedecms 空间存储型xss分析&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

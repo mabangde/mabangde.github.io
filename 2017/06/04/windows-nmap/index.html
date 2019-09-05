@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="nmap 功能非常强大一直是广大安全测试人员最喜爱工具之一渗透测试过程中很多时候目标环境不方便安装nmap 所以就需要编译一份单文件版nmap支持低版本windows(winxp\win2003)本人代码功底非常粗浅，所遇到问题大多通过google找到解决方案的写这篇文章目的是当作个人笔记，如果想喷请有建设性的喷，欢迎指出不足，或加以改良(剔除不必要的库和功能以减少体积) 运行截图: 按照常规的方">
+<meta name="keywords" content="计算机基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="win下编译最新单文件nmap">
+<meta property="og:url" content="http://wolvez.club/2017/06/04/windows-nmap/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="nmap 功能非常强大一直是广大安全测试人员最喜爱工具之一渗透测试过程中很多时候目标环境不方便安装nmap 所以就需要编译一份单文件版nmap支持低版本windows(winxp\win2003)本人代码功底非常粗浅，所遇到问题大多通过google找到解决方案的写这篇文章目的是当作个人笔记，如果想喷请有建设性的喷，欢迎指出不足，或加以改良(剔除不必要的库和功能以减少体积) 运行截图: 按照常规的方">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/1.PNG">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/2.PNG">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/3.PNG">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/4.PNG">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/5.PNG">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/6.PNG">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/7.PNG">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/8.PNG">
+<meta property="og:updated_time" content="2019-07-16T20:54:50.050Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="win下编译最新单文件nmap">
+<meta name="twitter:description" content="nmap 功能非常强大一直是广大安全测试人员最喜爱工具之一渗透测试过程中很多时候目标环境不方便安装nmap 所以就需要编译一份单文件版nmap支持低版本windows(winxp\win2003)本人代码功底非常粗浅，所遇到问题大多通过google找到解决方案的写这篇文章目的是当作个人笔记，如果想喷请有建设性的喷，欢迎指出不足，或加以改良(剔除不必要的库和功能以减少体积) 运行截图: 按照常规的方">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/1.PNG">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>win下编译最新单文件nmap</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/06/11/runassystem/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/04/18/netcat-dll/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2017/06/04/windows-nmap/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2017/06/04/windows-nmap/&text=win下编译最新单文件nmap"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2017/06/04/windows-nmap/&title=win下编译最新单文件nmap"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2017/06/04/windows-nmap/&is_video=false&description=win下编译最新单文件nmap"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=win下编译最新单文件nmap&body=Check out this article: http://wolvez.club/2017/06/04/windows-nmap/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2017/06/04/windows-nmap/&title=win下编译最新单文件nmap"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2017/06/04/windows-nmap/&title=win下编译最新单文件nmap"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2017/06/04/windows-nmap/&title=win下编译最新单文件nmap"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2017/06/04/windows-nmap/&title=win下编译最新单文件nmap"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2017/06/04/windows-nmap/&name=win下编译最新单文件nmap&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        win下编译最新单文件nmap
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-06-04T15:39:00.000Z" itemprop="datePublished">2017-06-04</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/计算机基础/">计算机基础</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>nmap 功能非常强大一直是广大安全测试人员最喜爱工具之一<br>渗透测试过程中很多时候目标环境不方便安装nmap 所以就需要编译一份单文件版nmap<br>支持低版本windows(winxp\win2003)<br>本人代码功底非常粗浅，所遇到问题大多通过google找到解决方案的写这篇文章目的是当作个人笔记，如果想喷请有建设性的喷，欢迎指出不足，或加以改良(剔除不必要的库和功能以减少体积)</p>
+<p>运行截图:<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/1.PNG" alt></p>
+<p>按照常规的方式静态编译 拿到第三方系统运行发现缺少openssl 相关库<br>查询原因原来是 openssl 库需要单独静态编译</p>
+<p>静态编译openssl 请参考：<br><a href="http://www.jianshu.com/p/4522f17ce2ff" target="_blank" rel="noopener">http://www.jianshu.com/p/4522f17ce2ff</a><br><a href="http://seclists.org/nmap-dev/2011/q2/att-1090/ncat-portable-static.txt" target="_blank" rel="noopener">http://seclists.org/nmap-dev/2011/q2/att-1090/ncat-portable-static.txt</a></p>
+<p>简要说明下：<br>在Windows环境下编译openssl需要perl支持，安装ActivePerl<br><a href="https://www.openssl.org/source/openssl-1.0.1f.tar.gz" target="_blank" rel="noopener">下载OpenSSL源码</a></p>
+<p>我们用<strong>VS2013</strong>来作为编译工具，打开命令行，切换到bin目录，比如</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; <span class="built_in">cd</span> d:\Program Files (x86)\Microsoft Visual Studio <span class="number">12</span>.<span class="number">0</span>\VC\bin</span><br><span class="line">shell&gt; vcvars32.bat</span><br><span class="line">shell&gt; perl Configure --prefix=C:/OpenSSL VC-WIN32 no-asm  -no-shared</span><br><span class="line">shell&gt; ms\do_ms.bat</span><br><span class="line">shell&gt; nmake -f ms\nt.mak install</span><br></pre></td></tr></table></figure>
+
+<p>此处：附上以静态编译好了的openssl静态库 免去安装编译环境的麻烦</p>
+<p><a href="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/OpenSSL.zip" target="_blank" rel="noopener">OpenSSL静态库下载</a></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/2.PNG" alt></p>
+<p>配置包含目录及编译好的<strong>openssl</strong>库目录<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/3.PNG" alt></p>
+<p>设置平台工具集 使编译的文件支持低版本windows<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/4.PNG" alt></p>
+<p><strong>设置静态编译</strong></p>
+<blockquote>
+<p>说明：<br>多线程（MT） 与 多线程调试（MTd）貌似一样，都没有MSVCP和MSVCR函数导入，只有Kernel32.dll。同时观察这两个文件的体积，都比MD或MDd大了很多，这正是它们不需要导入运行时库DLL函数的原因，因为它们把运行时库静态编译到自己的文件中去了。这也代表着它们运行的时候不会再依赖外部的运行时库DLL文件。</p>
+</blockquote>
+<p><a href="https://www.zhihu.com/question/25415940" target="_blank" rel="noopener">来源</a></p>
+<p><strong>这里编译会遇到几个坑：</strong></p>
+<p><strong>第一个坑：</strong><br>报错：</p>
+<blockquote>
+<p>1&gt;libeay32.lib(cryptlib.obj) : error LNK2019: unresolved external symbol <strong>imp</strong>GetUserObjectInformationW@20 referenced in function _OPENSSL_isservice1&gt;libeay32.lib(cryptlib.obj) : error LNK2019: unresolved external symbol <strong>imp</strong>GetProcessWindowStation@0 referenced in function _OPENSSL_isservice1&gt;libeay32.lib(cryptlib.obj) : error LNK2019: unresolved external symbol <strong>imp</strong>GetDesktopWindow@0 referenced in function _OPENSSL_isservice1&gt;libeay32.lib(cryptlib.obj) : error LNK2019: unresolved external symbol <strong>imp</strong>MessageBoxA@16 referenced in function _OPENSSL_showfatal</p>
+</blockquote>
+<p>解决办法<br>附加依赖项添加<br><strong>user32.lib</strong><br><strong>gdi32.lib</strong></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/5.PNG" alt></p>
+<p><a href="http://seclists.org/nmap-dev/2011/q2/att-1090/ncat-portable-static.txt" target="_blank" rel="noopener">参考来源</a></p>
+<p><strong>第二个坑</strong></p>
+<p>选release编译，在链接的时候出问题了：</p>
+<blockquote>
+<p>7&gt;LIBCMT.lib(crt0init.obj) : warning LNK4098: 默认库“libcmtd.lib”与其他库的使用冲突；请使用 /NODEFAULTLIB:library<br>7&gt;LIBCMT.lib(crt0init.obj) : warning LNK4098: 默认库“msvcrt.lib”与其他库的使用冲突；请使用 /NODEFAULTLIB:library</p>
+</blockquote>
+<p>解决办法：</p>
+<p>在项目连接器里面忽略两个lib就可以过了<br><strong>libcmtd.lib</strong> 和 <strong>libcmt.lib</strong></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/6.PNG" alt></p>
+<p><strong>第三个坑：</strong></p>
+<blockquote>
+<p>Error lnk2026: module unsafe for safeseh image</p>
+</blockquote>
+<p>解决办法：</p>
+<p><strong>stackoverflow</strong> 上找到解决办法</p>
+<blockquote>
+<p>Right-click on your project -&gt;<br>Properties -&gt;<br>Configuration Properties -&gt;<br>Linker -&gt;<br>Advanced and changed “Image Has Safe Exception Handlers” to “No (/SAFESEH:NO)”</p>
+</blockquote>
+<p>对应中文版配置如下：<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/7.PNG" alt></p>
+<p>解决方法二：</p>
+<blockquote>
+<p>在项目的“属性页”中找到“链接器”标签，然后点击“命令行”将/SAFESEH:NO添加到“附加选项”的框中，点击应用即可。</p>
+</blockquote>
+<p>原始单文件nmap 下载：<br><a href="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/nmap.zip" target="_blank" rel="noopener">nmap原始单文件</a><br>大小:  2.25 MB<br>MD5: a7628eb98bc1b705fb3099c2c6857e02</p>
+<p>nmap 剔除openssl lua  win7 测试通过</p>
+<p><a href="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/nmap_mt_upx.zip" target="_blank" rel="noopener">nmap瘦身版</a><br>大小: 486 KB<br>MD5: b518dba54aac5caa3ee29647411212dd</p>
+<p><strong>已知问题：</strong><br>win2k3\winxp 报错：<br>在winxp 或win2k3 下编译 即可解决<br>由于没有winxp 开发环境，并未解决，期待大家来解决<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/nmap/8.PNG" alt></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2017/06/04/windows-nmap/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2017/06/04/windows-nmap/&text=win下编译最新单文件nmap"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2017/06/04/windows-nmap/&title=win下编译最新单文件nmap"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2017/06/04/windows-nmap/&is_video=false&description=win下编译最新单文件nmap"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=win下编译最新单文件nmap&body=Check out this article: http://wolvez.club/2017/06/04/windows-nmap/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2017/06/04/windows-nmap/&title=win下编译最新单文件nmap"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2017/06/04/windows-nmap/&title=win下编译最新单文件nmap"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2017/06/04/windows-nmap/&title=win下编译最新单文件nmap"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2017/06/04/windows-nmap/&title=win下编译最新单文件nmap"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2017/06/04/windows-nmap/&name=win下编译最新单文件nmap&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

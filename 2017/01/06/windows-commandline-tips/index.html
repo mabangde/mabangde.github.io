@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="使用wmic识别安装到系统中的补丁情况 1C:\&amp;gt; wmic qfe get description,installedOn  外部调用获取补丁情况 12select * from Win32_QuickFixEngineeringSELECT * FROM Win32_OperatingSystemQFE  识别正在运行的服务 12C:\&amp;gt;sc query type= service">
+<meta name="keywords" content="pentest">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wmi一些操作">
+<meta property="og:url" content="http://wolvez.club/2017/01/06/windows-commandline-tips/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="使用wmic识别安装到系统中的补丁情况 1C:\&amp;gt; wmic qfe get description,installedOn  外部调用获取补丁情况 12select * from Win32_QuickFixEngineeringSELECT * FROM Win32_OperatingSystemQFE  识别正在运行的服务 12C:\&amp;gt;sc query type= service">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-29T20:55:24.490Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="wmi一些操作">
+<meta name="twitter:description" content="使用wmic识别安装到系统中的补丁情况 1C:\&amp;gt; wmic qfe get description,installedOn  外部调用获取补丁情况 12select * from Win32_QuickFixEngineeringSELECT * FROM Win32_OperatingSystemQFE  识别正在运行的服务 12C:\&amp;gt;sc query type= service">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>wmi一些操作</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/04/18/netcat-dll/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/10/19/iphone-network/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2017/01/06/windows-commandline-tips/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&text=wmi一些操作"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&title=wmi一些操作"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&is_video=false&description=wmi一些操作"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=wmi一些操作&body=Check out this article: http://wolvez.club/2017/01/06/windows-commandline-tips/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&title=wmi一些操作"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&title=wmi一些操作"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&title=wmi一些操作"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&title=wmi一些操作"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&name=wmi一些操作&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        wmi一些操作
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-01-05T17:06:00.000Z" itemprop="datePublished">2017-01-06</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/pentest/">pentest</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><strong>使用wmic识别安装到系统中的补丁情况</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">C:\&gt; <span class="title">wmic</span> <span class="title">qfe</span> <span class="title">get</span> <span class="title">description</span>,<span class="title">installedOn</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>外部调用获取补丁情况</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from Win32_QuickFixEngineering</span><br><span class="line">SELECT * FROM Win32_OperatingSystemQFE</span><br></pre></td></tr></table></figure>
+
+<p><strong>识别正在运行的服务</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">C:\&gt;<span class="title">sc</span> <span class="title">query</span> <span class="title">type</span>= <span class="title">service</span></span></span><br><span class="line"><span class="function"><span class="title">C</span>:\&gt;<span class="title">net</span> <span class="title">start</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>识别开机启动的程序，包括路径</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">C:\&gt;<span class="title">wmic</span> <span class="title">startup</span> <span class="title">list</span> <span class="title">full</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>查看系统中网卡的IP地址和MAC地址</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">D:\&gt;<span class="title">wmic</span> <span class="title">nicconfig</span> <span class="title">get</span> <span class="title">ipaddress</span>,<span class="title">macaddress</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>用户列表</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">D:\&gt;<span class="title">wmic</span> <span class="title">useraccount</span> <span class="title">list</span> <span class="title">brief</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>查看当前系统是否有屏保保护，延迟是多少</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">D:\&gt;<span class="title">wmic</span> <span class="title">desktop</span> <span class="title">get</span> <span class="title">screensaversecure</span>,<span class="title">screensavertimeout</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>域控机器</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">D:\&gt;<span class="title">wmic</span> <span class="title">ntdomain</span> <span class="title">list</span> <span class="title">brief</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>登录用户</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">D:\&gt;<span class="title">wmic</span> <span class="title">logon</span> <span class="title">list</span> <span class="title">brief</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>查看系统中开放的共享</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">D:\&gt;<span class="title">wmic</span> <span class="title">share</span> <span class="title">get</span> <span class="title">name</span>,<span class="title">path</span></span></span><br><span class="line"><span class="function"><span class="title">D</span>:\&gt;<span class="title">net</span> <span class="title">share</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>卸载和重新安装程序</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wmic product where &quot;name like &apos;%Office%&apos;&quot; get name</span><br><span class="line">wmic product where name=&quot;Office&quot; call uninstall</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://uknowsec.cn/posts/notes/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81-WMI.html" target="_blank" rel="noopener">来源:</a><br><strong>查看系统中开启的日志</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">C:\&gt;<span class="title">wmic</span> <span class="title">nteventlog</span> <span class="title">get</span> <span class="title">path</span>,<span class="title">filename</span>,<span class="title">writeable</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>清除相关的日志（这里是全部清除）</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wevtutil cl "windows powershell"</span><br><span class="line">wevtutil cl "security"</span><br><span class="line">wevtutil cl "system"</span><br></pre></td></tr></table></figure>
+
+<p><em>博主注:建议使用tr 或sed 或其他方法替换关键字符<br>*</em>查看系统中安装的软件以及版本**</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">C:\&gt;<span class="title">wmic</span> <span class="title">product</span> <span class="title">get</span> <span class="title">name</span>,<span class="title">version</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>查看某个进程的详细信息 （路径，命令行参数等）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\&gt;wmic process where name=&quot;chrome.exe&quot; list full</span><br></pre></td></tr></table></figure>
+
+<p><strong>终止一个进程</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">D:\&gt;<span class="title">wmic</span> <span class="title">process</span> <span class="title">where</span> <span class="title">name</span>="<span class="title">xshell.exe</span>" <span class="title">call</span> <span class="title">terminate</span></span></span><br><span class="line"><span class="function"><span class="title">D</span>:\&gt;<span class="title">ntsd</span> -<span class="title">c</span> <span class="title">q</span> -<span class="title">p</span> 进程的<span class="title">PID</span></span></span><br><span class="line"><span class="function"><span class="title">D</span>:\&gt;<span class="title">taskkill</span> -<span class="title">im</span> <span class="title">pid</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>获取存储在注册表中所有包含密码的键值：</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">REG query HKCU  /v "pwd" /s  #pwd可替换为password \ HKCU 可替换为HKCR</span><br></pre></td></tr></table></figure>
+
+<p><strong>显示系统中的曾经连接过的无线密码</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">D:\&gt;<span class="title">netsh</span> <span class="title">wlan</span> <span class="title">show</span> <span class="title">profiles</span> </span></span><br><span class="line"><span class="function"><span class="title">D</span>:\&gt;<span class="title">netsh</span> <span class="title">wlan</span> <span class="title">show</span> <span class="title">profiles</span> <span class="title">name</span>="<span class="title">profiles</span>的名字" <span class="title">key</span>=<span class="title">clear</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>博主首发:</strong><br>一键获取:</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> /f "skip=<span class="number">9</span> tokens=<span class="number">1</span>,<span class="number">2</span> delims=:" %i <span class="keyword">in</span> ('netsh wlan show profiles') <span class="keyword">do</span> @<span class="built_in">echo</span> %j | <span class="built_in">findstr</span> -i -v <span class="built_in">echo</span> | netsh wlan show profiles %j key=clear</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看当前系统是否是VMWARE</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">C:\&gt;<span class="title">wmic</span> <span class="title">bios</span> <span class="title">list</span> <span class="title">full</span> | <span class="title">find</span> /<span class="title">i</span> "<span class="title">vmware</span>"</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>获取进程服务名称 PID</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tasklist /svc | <span class="built_in">findstr</span> "TermService" </span><br><span class="line">netstat -ano | <span class="built_in">findstr</span> "PID"</span><br></pre></td></tr></table></figure>
+
+<p><strong>杀毒软件</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-WmiObject</span> -Namespace root\SecurityCenter2 -Class AntiVirusProduct</span><br></pre></td></tr></table></figure>
+
+<p><strong>虚拟机检测</strong></p>
+<ol>
+<li><p>判断TotalPhysicalMemory和NumberOfLogicalProcessors</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$VMDetected</span> = <span class="literal">$False</span></span><br><span class="line"><span class="variable">$Arguments</span> = @&#123;</span><br><span class="line"> Class = <span class="string">'Win32_ComputerSystem'</span></span><br><span class="line"> <span class="keyword">Filter</span> = <span class="string">'NumberOfLogicalProcessors &lt; 2 AND TotalPhysicalMemory &lt; 2147483648'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">Get-WmiObject</span> @Arguments) &#123; </span><br><span class="line"><span class="variable">$VMDetected</span> = <span class="literal">$True</span></span><br><span class="line"><span class="string">"In vm"</span></span><br><span class="line"> &#125; </span><br><span class="line"> <span class="keyword">else</span>&#123;</span><br><span class="line"> <span class="string">"Not in vm"</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>判断虚拟机进程</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$VMwareDetected</span> = <span class="literal">$False</span></span><br><span class="line"><span class="variable">$VMAdapter</span> = <span class="built_in">Get-WmiObject</span> Win32_NetworkAdapter -Filter <span class="string">'Manufacturer LIKE</span></span><br><span class="line"><span class="string">"%VMware%" OR Name LIKE "%VMware%"'</span></span><br><span class="line"><span class="variable">$VMBios</span> = <span class="built_in">Get-WmiObject</span> Win32_BIOS -Filter <span class="string">'SerialNumber LIKE "%VMware%"'</span></span><br><span class="line"><span class="variable">$VMToolsRunning</span> = <span class="built_in">Get-WmiObject</span> Win32_Process -Filter <span class="string">'Name="vmtoolsd.exe"'</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$VMAdapter</span> -or <span class="variable">$VMBios</span> -or <span class="variable">$VMToolsRunning</span>) </span><br><span class="line">&#123; <span class="variable">$VMwareDetected</span> = <span class="literal">$True</span> </span><br><span class="line"><span class="string">"in vm"</span></span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"not in vm"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p><a href="https://uknowsec.cn/posts/notes/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81-WMI.html" target="_blank" rel="noopener">来源:权限维持-WMI</a></p>
+<p><strong>获取电脑产品编号和型号信息</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wmic baseboard get Product,SerialNumber</span><br><span class="line">wmic bios get serialnumber</span><br></pre></td></tr></table></figure>
+
+<p><strong>安装软件</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wmic product get name,version</span><br><span class="line">wmic product list brief</span><br></pre></td></tr></table></figure>
+
+<p><strong>程序运行时间</strong></p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wmic process get CreationDate</span><br></pre></td></tr></table></figure>
+
+<p><strong>检查服务路径中包含空格且没有双引号的服务</strong><br>*博主首发</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wmic service where   "((state='running') and  (pathname like '% %') and <span class="keyword">not</span> (pathname like '<span class="variable">%\"%</span>') and <span class="keyword">not</span> (pathname like '<span class="variable">%system32%</span>') and <span class="keyword">not</span> (pathname like '<span class="variable">%syswow64%</span>'))"  get pathname,name,displayname,startname</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2017/01/06/windows-commandline-tips/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&text=wmi一些操作"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&title=wmi一些操作"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&is_video=false&description=wmi一些操作"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=wmi一些操作&body=Check out this article: http://wolvez.club/2017/01/06/windows-commandline-tips/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&title=wmi一些操作"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&title=wmi一些操作"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&title=wmi一些操作"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&title=wmi一些操作"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2017/01/06/windows-commandline-tips/&name=wmi一些操作&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

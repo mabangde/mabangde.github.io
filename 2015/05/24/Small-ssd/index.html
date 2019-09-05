@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="文章发表于T00ls参考资料 超级本 通常都设计 得 小、薄、待机长、开机速度快体积小 功耗小 就得牺牲 硬件性能通常超级本 都配置一个 小容量的(固态硬盘) ssd 我测试的机器固态硬盘体积22GB 左右( thinkpad x230s)完全不能愉快的 安装一个正常版的win7 我们可以把系统相关目录转移到 大的磁盘(机械)分区 c: 盘为系统盘 固态硬盘 (ssd)d: 盘为软件安装盘 机械硬">
+<meta name="keywords" content="电脑基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows 7 小容量ssd硬盘解决方案">
+<meta property="og:url" content="http://wolvez.club/2015/05/24/Small-ssd/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="文章发表于T00ls参考资料 超级本 通常都设计 得 小、薄、待机长、开机速度快体积小 功耗小 就得牺牲 硬件性能通常超级本 都配置一个 小容量的(固态硬盘) ssd 我测试的机器固态硬盘体积22GB 左右( thinkpad x230s)完全不能愉快的 安装一个正常版的win7 我们可以把系统相关目录转移到 大的磁盘(机械)分区 c: 盘为系统盘 固态硬盘 (ssd)d: 盘为软件安装盘 机械硬">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-16T16:48:07.060Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows 7 小容量ssd硬盘解决方案">
+<meta name="twitter:description" content="文章发表于T00ls参考资料 超级本 通常都设计 得 小、薄、待机长、开机速度快体积小 功耗小 就得牺牲 硬件性能通常超级本 都配置一个 小容量的(固态硬盘) ssd 我测试的机器固态硬盘体积22GB 左右( thinkpad x230s)完全不能愉快的 安装一个正常版的win7 我们可以把系统相关目录转移到 大的磁盘(机械)分区 c: 盘为系统盘 固态硬盘 (ssd)d: 盘为软件安装盘 机械硬">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>windows 7 小容量ssd硬盘解决方案</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/04/23/webshell-scan/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2015/05/24/host2ip/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2015/05/24/Small-ssd/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2015/05/24/Small-ssd/&text=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2015/05/24/Small-ssd/&title=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2015/05/24/Small-ssd/&is_video=false&description=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=windows 7 小容量ssd硬盘解决方案&body=Check out this article: http://wolvez.club/2015/05/24/Small-ssd/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2015/05/24/Small-ssd/&title=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2015/05/24/Small-ssd/&title=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2015/05/24/Small-ssd/&title=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2015/05/24/Small-ssd/&title=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2015/05/24/Small-ssd/&name=windows 7 小容量ssd硬盘解决方案&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        windows 7 小容量ssd硬盘解决方案
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2015-05-24T10:27:00.000Z" itemprop="datePublished">2015-05-24</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/电脑基础/">电脑基础</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><a href="https://www.t00ls.net/thread-28547-1-1.html" target="_blank" rel="noopener">文章发表于T00ls</a><br><a href="http://www.tomshardware.com/faq/id-1934205/move-users-programfiles-x86-programdata-hdd-installing-windows-ssd-boot-drive.html" target="_blank" rel="noopener">参考资料</a></p>
+<p>超级本 通常都设计 得 小、薄、待机长、开机速度快<br>体积小 功耗小 就得牺牲 硬件性能<br>通常超级本 都配置一个 小容量的(固态硬盘) ssd 我测试的机器固态硬盘体积22GB 左右( thinkpad x230s)<br>完全不能愉快的 安装一个正常版的win7</p>
+<p>我们可以把系统相关目录转移到 大的磁盘(机械)分区</p>
+<p>c: 盘为系统盘 固态硬盘 (ssd)<br>d: 盘为软件安装盘 机械硬盘(hdd)</p>
+<p>在安装系统时(非ghos安装)</p>
+<p>切记：<br>最后一次重启，系统要求设置用户名和密码时候<br>按住 <strong>shitf+f10</strong> 进入命令行 执行下面命令</p>
+<p>一定不要在 系统以安装完成作以下操作 否则会出现故障</p>
+<blockquote>
+<p>以下命令纯手敲 未经过验证 非专业人士请勿使用<br>在使用过程中一定要注意盘符 有可能 d:为u盘<br>命令行 运行 <strong>compmgmt.msc</strong> 或<strong>diskpart</strong> 命令 进行磁盘管理 重新分配盘符</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">robocopy &quot;C:\Users&quot; &quot;D:\Users&quot; /E /COPYALL /XJ /V /ZB</span><br><span class="line">robocopy &quot;C:\Program Files&quot; &quot;D:\Program Files&quot; /E /COPYALL /XJ /V /ZB</span><br><span class="line">robocopy &quot;C:\Program Files (x86)&quot; &quot;D:\Program Files (x86)&quot; /E /COPYALL /XJ /V /ZB</span><br><span class="line">robocopy &quot;C:\ProgramData&quot; &quot;D:\ProgramData&quot; /E /COPYALL /XJ /V /ZB</span><br><span class="line">rmdir &quot;C:\Users&quot; /S /Q</span><br><span class="line">rmdir &quot;C:\Program Files&quot; /S /Q</span><br><span class="line">rmdir &quot;C:\Program Files (x86)&quot; /S /Q</span><br><span class="line">rmdir &quot;C:\ProgramData&quot; /S /Q</span><br><span class="line">mklink /J &quot;C:\Users&quot; &quot;D:\Users&quot;</span><br><span class="line">mklink /J &quot;C:\Program Files&quot; &quot;D:\Program Files&quot;</span><br><span class="line">mklink /J &quot;C:\Program Files (x86)&quot; &quot;D:\Program Files (x86)&quot;</span><br><span class="line"></span><br><span class="line">reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion /v CommonFilesDir /t REG_SZ /d &quot;d:\Program Files\Common Files&quot; /f</span><br><span class="line">reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion /v &quot;CommonFilesDir (x86)&quot; /t REG_SZ /d &quot;d:\Program Files (x86)\Common Files&quot; /f</span><br><span class="line">reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion /v CommonW6432Dir /t REG_SZ /d &quot;d:\Program Files\Common Files&quot; /f</span><br><span class="line">reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion /v programfilesdir /t REG_SZ /d &quot;d:\Program Files&quot; /f</span><br><span class="line">reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion /v &quot;programfilesdir (x86)&quot; /t REG_SZ /d &quot;d:\Program Files (x86)&quot; /f</span><br><span class="line">reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion /v programw6432dir /t REG_SZ /d &quot;d:\Program Files&quot; /f</span><br><span class="line">reg add HKLM\SOFTWARE\Microsoft\Windows&quot; &quot;NT\CurrentVersion\ProfileList /v ProfilesDirectory /t REG_EXPAND_SZ /d d:\Users /f</span><br><span class="line">reg add HKLM\SOFTWARE\Microsoft\Windows&quot; &quot;NT\CurrentVersion\ProfileList /v Default /t REG_EXPAND_SZ /d d:\Users\Default /f</span><br><span class="line">reg add HKLM\SOFTWARE\Microsoft\Windows&quot; &quot;NT\CurrentVersion\ProfileList /v Public  /t REG_EXPAND_SZ /d d:\Users\Public /f</span><br><span class="line">reg add HKLM\SOFTWARE\Microsoft\Windows&quot; &quot;NT\CurrentVersion\ProfileList /v ProgramData /t REG_EXPAND_SZ /d d:\ProgramData /f</span><br></pre></td></tr></table></figure>
+
+<p>进入系统后 以管理员权限 运行cmd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rmdir &quot;C:\ProgramData&quot; /S /Q</span><br><span class="line"></span><br><span class="line">mklink /J &quot;C:\ProgramData&quot; &quot;D:\ProgramData&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>或以当前用户运行(未验证该方法)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">takeown /f &quot;c:\ProgramData&quot; /r /d y  &amp;&amp; icacls &quot;c:\ProgramData&quot; /grant %USERNAME%:F /T &amp;&amp; rmdir c:\ProgramData /s /q &amp;&amp;  mklink /J &quot;C:\ProgramData&quot; &quot;D:\ProgramData&quot;</span><br></pre></td></tr></table></figure>
+
+<p>查看c 盘隐藏文件 我们会发现 有两个可恶的文件 占数GB 甚至数十GB 磁盘空间！<br>分别是 <strong>pagefile.sys</strong> <strong>hiberfil.sys</strong></p>
+<p>用如下方法 移动 或清理它<br>清理windows 7 休眠文件 关闭休眠</p>
+<p>powercfg -h off<br>清理 移动虚拟内存文件 管理员 权限运行命令行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wmic pagefileset list /format:list 查看 虚拟内存设置</span><br><span class="line">wmic pagefileset create name=&apos;d:\pagefile.sys&apos;,initialsize=0,maximumsize=0</span><br><span class="line">wmic pagefileset where&quot;name=&apos;c:\\pagefile.sys&apos;&quot; delete</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2015/05/24/Small-ssd/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2015/05/24/Small-ssd/&text=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2015/05/24/Small-ssd/&title=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2015/05/24/Small-ssd/&is_video=false&description=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=windows 7 小容量ssd硬盘解决方案&body=Check out this article: http://wolvez.club/2015/05/24/Small-ssd/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2015/05/24/Small-ssd/&title=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2015/05/24/Small-ssd/&title=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2015/05/24/Small-ssd/&title=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2015/05/24/Small-ssd/&title=windows 7 小容量ssd硬盘解决方案"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2015/05/24/Small-ssd/&name=windows 7 小容量ssd硬盘解决方案&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

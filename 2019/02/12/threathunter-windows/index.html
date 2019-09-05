@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="以下案例均为项目中遇到的，欢迎补充,文章随时更新  0x01 删除指定hash值的文件需求：已知恶意文件md5值为：59B18D6146A2AA066F661599C496090D、6FF97A7DABF09EBB07C157F286DC81AD ，需要全部删除。 代码如下： 123[array]$md5=Get-FileHash .\*.exe -Algorithm md5$md5 | Whe">
+<meta name="keywords" content="应急响应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应急响应笔记 windows 常用命令记录">
+<meta property="og:url" content="http://wolvez.club/2019/02/12/threathunter-windows/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="以下案例均为项目中遇到的，欢迎补充,文章随时更新  0x01 删除指定hash值的文件需求：已知恶意文件md5值为：59B18D6146A2AA066F661599C496090D、6FF97A7DABF09EBB07C157F286DC81AD ，需要全部删除。 代码如下： 123[array]$md5=Get-FileHash .\*.exe -Algorithm md5$md5 | Whe">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1103363282.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/3939328751.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/287109341.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2058851295.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/280331542.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1023506850.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1550764772.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2955844708.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1129965653.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/4279610697.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/738368265.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2586815607.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1926447350.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/3289779667.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/494053681.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/550706275.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/972269086.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/3420416264.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2650766313.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2239360247.png">
+<meta property="og:updated_time" content="2019-07-28T18:31:05.290Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="应急响应笔记 windows 常用命令记录">
+<meta name="twitter:description" content="以下案例均为项目中遇到的，欢迎补充,文章随时更新  0x01 删除指定hash值的文件需求：已知恶意文件md5值为：59B18D6146A2AA066F661599C496090D、6FF97A7DABF09EBB07C157F286DC81AD ，需要全部删除。 代码如下： 123[array]$md5=Get-FileHash .\*.exe -Algorithm md5$md5 | Whe">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1103363282.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>应急响应笔记 windows 常用命令记录</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/03/05/Data-cleaning/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/01/26/Volatility-tools/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/02/12/threathunter-windows/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/02/12/threathunter-windows/&text=应急响应笔记 windows 常用命令记录"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/02/12/threathunter-windows/&title=应急响应笔记 windows 常用命令记录"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/02/12/threathunter-windows/&is_video=false&description=应急响应笔记 windows 常用命令记录"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=应急响应笔记 windows 常用命令记录&body=Check out this article: http://wolvez.club/2019/02/12/threathunter-windows/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/02/12/threathunter-windows/&title=应急响应笔记 windows 常用命令记录"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/02/12/threathunter-windows/&title=应急响应笔记 windows 常用命令记录"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/02/12/threathunter-windows/&title=应急响应笔记 windows 常用命令记录"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/02/12/threathunter-windows/&title=应急响应笔记 windows 常用命令记录"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/02/12/threathunter-windows/&name=应急响应笔记 windows 常用命令记录&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-删除指定hash值的文件"><span class="toc-number">1.</span> <span class="toc-text">0x01 删除指定hash值的文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-寻找某一日期创建的文件"><span class="toc-number">2.</span> <span class="toc-text">0x02 寻找某一日期创建的文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-wmi无文件后门检测"><span class="toc-number">3.</span> <span class="toc-text">0x03 wmi无文件后门检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-powershell解码"><span class="toc-number">4.</span> <span class="toc-text">0x04 powershell解码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-计划任务相关"><span class="toc-number">5.</span> <span class="toc-text">0x05 计划任务相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x06-判断是否有打永恒之蓝补丁"><span class="toc-number">6.</span> <span class="toc-text">0x06 判断是否有打永恒之蓝补丁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x07-防火墙及ipsec相关操作"><span class="toc-number">7.</span> <span class="toc-text">0x07 防火墙及ipsec相关操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x08-获取进程md5"><span class="toc-number">8.</span> <span class="toc-text">0x08 获取进程md5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x09-恶意服务检测"><span class="toc-number">9.</span> <span class="toc-text">0x09 恶意服务检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x10-常用wmi命令"><span class="toc-number">10.</span> <span class="toc-text">0x10 常用wmi命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其它"><span class="toc-number"></span> <span class="toc-text">其它</span></a>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        应急响应笔记 windows 常用命令记录
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-02-12T05:12:02.000Z" itemprop="datePublished">2019-02-12</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/应急响应/">应急响应</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>以下案例均为项目中遇到的，欢迎补充,文章随时更新</p>
+</blockquote>
+<h3 id="0x01-删除指定hash值的文件"><a href="#0x01-删除指定hash值的文件" class="headerlink" title="0x01 删除指定hash值的文件"></a>0x01 删除指定hash值的文件</h3><p>需求：<br>已知恶意文件md5值为：<code>59B18D6146A2AA066F661599C496090D</code>、<code>6FF97A7DABF09EBB07C157F286DC81AD</code> ，需要全部删除。</p>
+<p>代码如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[array]<span class="variable">$md5</span>=<span class="built_in">Get-FileHash</span> .\*.exe -Algorithm md5</span><br><span class="line"><span class="variable">$md5</span> | Where -Property Hash <span class="nomarkup">-in</span> -Value <span class="string">"59B18D6146A2AA066F661599C496090D"</span>,<span class="string">"6FF97A7DABF09EBB07C157F286DC81AD"</span></span><br><span class="line"> | <span class="built_in">Remove-Item</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>例图：</strong><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1103363282.png" alt></p>
+<blockquote>
+<p>ps:低版本powershell不支持，以下代码为通用获取md5函数</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Get-md5 &#123;</span><br><span class="line">  <span class="keyword">Param</span>(<span class="variable">$path</span>)</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">Test-Path</span> <span class="variable">$path</span> -PathType Leaf )&#123;</span><br><span class="line">  <span class="variable">$md5file</span>=certutil -hashfile <span class="variable">$path</span> MD5</span><br><span class="line">  [string]<span class="variable">$hash</span>=<span class="variable">$md5file</span> <span class="nomarkup">-match</span> <span class="string">"^[a-f0-9]&#123;32&#125;$"</span></span><br><span class="line">  <span class="variable">$retVal</span> = <span class="built_in">New-Object</span> -TypeName psobject -Property @&#123;</span><br><span class="line">                    PATH = <span class="variable">$path</span></span><br><span class="line">                    Hash = <span class="variable">$hash</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="variable">$retVal</span></span><br><span class="line"></span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="built_in">write-host</span> [-] <span class="string">'Get-md5'</span> c:\windows\system32\calc.exe -ForegroundColor Red</span><br><span class="line">  <span class="keyword">break</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/3939328751.png" alt><br>cmd下获取md5:<br><code>certutil -hashfile c:\windows\system32\cmd.exe MD5 |findstr /r &quot;^[a-fA-F0-9]*$&quot;</code></p>
+<blockquote>
+<p>支持powershell 2.0 的get-hash<br><a href="https://gist.github.com/jaredcatkinson/7d561b553a04501238f8e4f061f112b7" target="_blank" rel="noopener">https://gist.github.com/jaredcatkinson/7d561b553a04501238f8e4f061f112b7</a></p>
+</blockquote>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/287109341.png" alt></p>
+<p><strong>案例：搜索系统目录下恶意文件</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Get-md5 &#123;</span><br><span class="line">  <span class="keyword">Param</span>(<span class="variable">$path</span>)</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">Test-Path</span> <span class="variable">$path</span> -PathType Leaf )&#123;</span><br><span class="line">  <span class="variable">$md5file</span>=certutil -hashfile <span class="string">"<span class="variable">$path</span>"</span> MD5</span><br><span class="line">  [string]<span class="variable">$hash</span>=<span class="variable">$md5file</span> <span class="nomarkup">-match</span> <span class="string">"^[a-f0-9]&#123;32&#125;$"</span></span><br><span class="line">  <span class="variable">$retVal</span> = <span class="built_in">New-Object</span> -TypeName psobject -Property @&#123;</span><br><span class="line">                    Path = <span class="variable">$path</span></span><br><span class="line">                    Hash = <span class="variable">$hash</span>.ToUpper()</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="variable">$retVal</span></span><br><span class="line"></span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[array]<span class="variable">$md5</span>=<span class="built_in">Get-ChildItem</span>  <span class="variable">$env:SystemRoot</span>  -ErrorAction <span class="number">0</span>  -Force -recurse -Filter *.exe | % &#123;Get-md5  <span class="variable">$_</span>.FullName&#125;</span><br><span class="line"><span class="variable">$md5</span>  | where &#123;(<span class="variable">$_</span>.Hash <span class="nomarkup">-eq</span> <span class="string">"6983F7001DE10F4D19FC2D794C3EB534"</span> -or  <span class="variable">$_</span>.Hash <span class="nomarkup">-eq</span> <span class="string">"59B18D6146A2AA066F661599C496090D"</span> -or  <span class="variable">$_</span>.Hash <span class="nomarkup">-eq</span> <span class="string">"CCE36235A525858EB55070847296C4C8"</span> -or  <span class="variable">$_</span>.Hash <span class="nomarkup">-eq</span> <span class="string">"9911858E9BEC100CCF6D8134915103EC"</span> -or  <span class="variable">$_</span>.Hash <span class="nomarkup">-eq</span> <span class="string">"74E2A43B2B7C6E258B3A3FC2516C1235"</span> -or  <span class="variable">$_</span>.Hash <span class="nomarkup">-eq</span> <span class="string">"D4E2EBCF92CF1B2E759FF7CE1F5688CA"</span> -or  <span class="variable">$_</span>.Hash <span class="nomarkup">-eq</span> <span class="string">"FB89D40E24F5FF55228C38B2B07B2E77"</span> -or  <span class="variable">$_</span>.Hash <span class="nomarkup">-eq</span> <span class="string">"637BF46077AD083659D3B96A010F38FE"</span>)&#125; | %&#123;<span class="built_in">write-host</span> <span class="variable">$_Path</span>&#125;</span><br><span class="line">[array]<span class="variable">$md5</span>=@()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2058851295.png" alt></p>
+<h3 id="0x02-寻找某一日期创建的文件"><a href="#0x02-寻找某一日期创建的文件" class="headerlink" title="0x02 寻找某一日期创建的文件"></a>0x02 寻找某一日期创建的文件</h3><p>需求：得知某一日期遭攻击，想列出攻击日期内产生的文件</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">forfiles /m *.exe /d +<span class="number">2019</span>/<span class="number">2</span>/<span class="number">12</span> /s /p c:\  /c "<span class="built_in">cmd</span> /c <span class="built_in">echo</span> @<span class="built_in">path</span> @fdate @ftime" <span class="number">2</span>&gt;<span class="built_in">nul</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>例图</strong></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/280331542.png" alt></p>
+<blockquote>
+<p>forfiles是一个很强大的命令，windows下有非常详细的帮助，这里就不赘述用法了。</p>
+</blockquote>
+<h3 id="0x03-wmi无文件后门检测"><a href="#0x03-wmi无文件后门检测" class="headerlink" title="0x03 wmi无文件后门检测"></a>0x03 wmi无文件后门检测</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-WmiObject</span> -Namespace root\default -list | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.name <span class="nomarkup">-Match</span> <span class="string">"^[a-z]"</span>&#125;</span><br><span class="line"><span class="built_in">Get-WmiObject</span> -Namespace root\subscription -class commandlineeventconsumer</span><br><span class="line"><span class="built_in">Get-WmiObject</span> -Namespace root\subscription -class __eventfilter</span><br><span class="line"><span class="built_in">Get-WmiObject</span> -Namespace root\subscription -class __FilterToConsumerBinding</span><br></pre></td></tr></table></figure>
+
+<p>图例：<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1023506850.png" alt><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1550764772.png" alt><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2955844708.png" alt="111.png"></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1129965653.png" alt></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/4279610697.png" alt></p>
+<h3 id="0x04-powershell解码"><a href="#0x04-powershell解码" class="headerlink" title="0x04 powershell解码"></a>0x04 powershell解码</h3><blockquote>
+<p>需求：遇到powershell -enc 方式执行需要解码</p>
+</blockquote>
+<p><strong>解码</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String(<span class="string">"UnicodeBase64编码放到此处"</span>))</span><br></pre></td></tr></table></figure>
+
+<p><strong>编码</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes(<span class="string">"任意字符串放此处"</span>))</span><br></pre></td></tr></table></figure>
+
+<p><strong>例图：</strong></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/738368265.png" alt></p>
+<h3 id="0x05-计划任务相关"><a href="#0x05-计划任务相关" class="headerlink" title="0x05 计划任务相关"></a>0x05 计划任务相关</h3><p>1、 查看计划任务列表</p>
+<p><code>schtasks /query /fo LIST</code></p>
+<p>2、查看计划任务详情</p>
+<p><code>schtasks /query /v /tn &quot;\Microsoft\windows\Bluetooths&quot; /fo list</code></p>
+<p><strong>例图：</strong></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2586815607.png" alt></p>
+<h3 id="0x06-判断是否有打永恒之蓝补丁"><a href="#0x06-判断是否有打永恒之蓝补丁" class="headerlink" title="0x06 判断是否有打永恒之蓝补丁"></a>0x06 判断是否有打永恒之蓝补丁</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[array]<span class="variable">$hotfixid</span>=<span class="built_in">get-hotfix</span> -id KB4012606,KB3210720,KB3210721,KB4012598,KB4012212,KB4012215,KB4012213,KB4012216,KB4012214,KB4012217,KB4013198,KB4015549 -ErrorAction <span class="number">0</span>  | <span class="built_in">ForEach-Object</span> &#123;<span class="variable">$_</span>.HotFixID&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$hotfixid</span> <span class="nomarkup">-eq</span> <span class="literal">$null</span>)</span><br><span class="line"> &#123;</span><br><span class="line"> <span class="built_in">Write-host</span> <span class="string">"[-] 危险: MS17010B补丁未打，易遭永恒之蓝攻击!"</span> -ForegroundColor Red</span><br><span class="line"> <span class="built_in">Write-host</span> <span class="string">"补丁参考1: https://docs.microsoft.com/zh-cn/security-updates/Securitybulletins/2017/ms17-010"</span> -ForegroundColor DarkYellow</span><br><span class="line"> <span class="built_in">Write-host</span> <span class="string">"补丁参考2: https://b.360.cn/other/onionwormfix"</span> -ForegroundColor DarkYellow</span><br><span class="line"> &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"> <span class="built_in">Write-Host</span> <span class="string">"[+] ms17010 补丁以打"</span>  -ForegroundColor Green</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/1926447350.png" alt></p>
+<h3 id="0x07-防火墙及ipsec相关操作"><a href="#0x07-防火墙及ipsec相关操作" class="headerlink" title="0x07 防火墙及ipsec相关操作"></a>0x07 防火墙及ipsec相关操作</h3><p><strong>windows防火墙允许445入站</strong></p>
+<p><code>netsh advfirewall set allprofiles state on netsh advfirewall firewall add rule name=&quot;allow tcp 445&quot; dir=in protocol=tcp localport=445 action=allow</code> #允许445</p>
+<p><strong>ipsec 禁止139、445、135端口</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">netsh ipsec static add policy name=tomcatgo</span><br><span class="line">netsh ipsec static add filterlist name=Filter1</span><br><span class="line">netsh ipsec static add filter filterlist=Filter1 srcaddr=any dstaddr=Me dstport=135 protocol=TCP mirrored = yes</span><br><span class="line">echo “135端口已经关闭”</span><br><span class="line">netsh ipsec static add filter filterlist=Filter1 srcaddr=any dstaddr=Me dstport=139 protocol=TCP mirrored = yes</span><br><span class="line">echo “139端口已经关闭”</span><br><span class="line">netsh ipsec static add filter filterlist=Filter1 srcaddr=any dstaddr=Me dstport=445 protocol=TCP mirrored = yes</span><br><span class="line">echo “445端口已经关闭”</span><br><span class="line"></span><br><span class="line">netsh ipsec static add filter filterlist=Filter1 srcaddr=any dstaddr=Me dstport=135 protocol=UDP mirrored = yes</span><br><span class="line">netsh ipsec static add filter filterlist=Filter1 srcaddr=any dstaddr=Me dstport=139 protocol=UDP mirrored = yes</span><br><span class="line">netsh ipsec static add filter filterlist=Filter1 srcaddr=any dstaddr=Me dstport=445 protocol=UDP mirrored = yes</span><br><span class="line"></span><br><span class="line">netsh ipsec static add filteraction name=Filteraction1 action=block</span><br><span class="line">netsh ipsec static add rule name=Rule1 policy=tomcatgo filterlist=Filter1 filteraction=FilteraAtion1</span><br><span class="line">netsh ipsec static set policy name=tomcatgo assign=y</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x08-获取进程md5"><a href="#0x08-获取进程md5" class="headerlink" title="0x08 获取进程md5"></a>0x08 获取进程md5</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">get-process</span> | where path <span class="nomarkup">-ne</span> <span class="literal">$null</span> | %&#123;<span class="built_in">Get-FileHash</span> <span class="variable">$_</span>.path -Algorithm md5&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/3289779667.png" alt></p>
+<h3 id="0x09-恶意服务检测"><a href="#0x09-恶意服务检测" class="headerlink" title="0x09 恶意服务检测"></a>0x09 恶意服务检测</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-WmiObject</span> win32_service |?&#123; <span class="variable">$_</span>.name <span class="nomarkup">-eq</span> <span class="string">'svchost.exe'</span> -and <span class="variable">$_</span>.PathName <span class="nomarkup">-notlike</span>  <span class="string">'*C:\WINDOWS\System32\svchost.exe*'</span> -and <span class="variable">$_</span>.PathName <span class="nomarkup">-not</span></span><br><span class="line">like <span class="string">'*c:\Windows\SysWOW64\svchost.exe*'</span>&#125; | select Name, DisplayName, State, PathName</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-WmiObject</span> win32_service | ?&#123;<span class="variable">$_</span>.PathName <span class="nomarkup">-like</span> <span class="string">'*svchost.exe*'</span>&#125; | select Name, DisplayName, @&#123;Name=<span class="string">"Path"</span>; Expression=&#123;<span class="variable">$_</span>.PathName.split(<span class="string">'</span></span><br><span class="line"><span class="string">'</span>)[<span class="number">0</span>]&#125;&#125; | <span class="built_in">Format-List</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/494053681.png" alt></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/550706275.png" alt></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-WmiObject</span> win32_service |select name, @&#123;N=<span class="string">'FileHash'</span>;E=&#123;(<span class="built_in">Get-FileHash</span> <span class="variable">$_</span>.pathname -Algorithm md5 -ErrorAction <span class="number">0</span>).hash&#125;&#125;,pa</span><br><span class="line">thname| %&#123;<span class="keyword">if</span>(<span class="variable">$_</span>.filehash <span class="nomarkup">-eq</span> <span class="string">'51D3A1E2285E2E931A553281BBA10E81'</span>)&#123;<span class="built_in">Write-Host</span> 恶意服务:  <span class="variable">$_</span>.name 执行路径: <span class="variable">$_</span>.pathname -ForegroundColor Red&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>检测多个hash值</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Get-md5 &#123;</span><br><span class="line">  <span class="keyword">Param</span>(<span class="variable">$path</span>)</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">Test-Path</span> <span class="variable">$path</span> -PathType Leaf )&#123;</span><br><span class="line">  <span class="variable">$md5file</span>=certutil -hashfile <span class="string">"<span class="variable">$path</span>"</span> MD5</span><br><span class="line">  [string]<span class="variable">$hash</span>=<span class="variable">$md5file</span> <span class="nomarkup">-match</span> <span class="string">"^[a-f0-9]&#123;32&#125;$"</span></span><br><span class="line">  <span class="variable">$retVal</span> = <span class="built_in">New-Object</span> -TypeName psobject -Property @&#123;</span><br><span class="line">                    Path = <span class="variable">$path</span></span><br><span class="line">                    Hash = <span class="variable">$hash</span>.ToUpper()</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="variable">$retVal</span></span><br><span class="line"></span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;  </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[array]<span class="variable">$services_md5</span>=<span class="built_in">Get-WmiObject</span> win32_service  |?&#123; <span class="variable">$_</span>.PathName <span class="nomarkup">-notlike</span>  <span class="string">'*C:\WINDOWS\System32\svchost*'</span> -and <span class="variable">$_</span>.PathName <span class="nomarkup">-notlike</span> <span class="string">'*c:\Windows\SysWOW64\svchost*'</span>&#125;|select  name, @&#123;N=<span class="string">'FileHash'</span>;E=&#123;(Get-md5 <span class="variable">$_</span>.pathname.replace(<span class="string">'"'</span>,<span class="string">''</span>) ).hash&#125;&#125;,pathname </span><br><span class="line"><span class="comment">#$services_md5 |Where &#123;$_.FileHash -eq "6983F7001DE10F4D19FC2D794C3EB534" -or  $_.FileHash -eq "59B18D6146A2AA066F661599C496090D" -or  $_.FileHash -eq "CCE36235A525858EB55070847296C4C8" -or  $_.FileHash -eq "9911858E9BEC100CCF6D8134915103EC" -or  $_.FileHash -eq "74E2A43B2B7C6E258B3A3FC2516C1235" -or  $_.FileHash -eq "D4E2EBCF92CF1B2E759FF7CE1F5688CA" -or  $_.FileHash -eq "FB89D40E24F5FF55228C38B2B07B2E77" -or  $_.FileHash -eq "637BF46077AD083659D3B96A010F38FE"&#125;</span></span><br><span class="line"><span class="variable">$services_md5</span> |Where &#123;<span class="variable">$_</span>.FileHash <span class="nomarkup">-eq</span> <span class="string">'00A8C2DD875BC4B458CBFED72AAF45F4'</span> -or <span class="variable">$_</span>.FileHash <span class="nomarkup">-eq</span> <span class="string">'498A07B121D7A3815563DC15AC306EBD'</span> -or <span class="variable">$_</span>.FileHash <span class="nomarkup">-eq</span> <span class="string">'B4DAABEBBF16A7C8871209D946E917F3'</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/972269086.png" alt></p>
+<h3 id="0x10-常用wmi命令"><a href="#0x10-常用wmi命令" class="headerlink" title="0x10 常用wmi命令"></a>0x10 常用wmi命令</h3><p><strong>1、查看服务详情</strong></p>
+<p><code>wmic service get name,pathname,processid,startname,status,state /value</code></p>
+<p><strong>例图：</strong></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/3420416264.png" alt></p>
+<p><strong>2、查看进程详情</strong></p>
+<p><code>wmic process get CreationDate,name,processid,commandline,ExecutablePath /value</code></p>
+<p>图例：</p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2650766313.png" alt></p>
+<p><strong>3、查看补丁</strong></p>
+<p><code>wmic qfe get hotfixid</code></p>
+<p><strong>4、查看启动项</strong></p>
+<p><code>wmic startup</code></p>
+<p>图例：</p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/2239360247.png" alt><br><strong>5、安装软件列表</strong></p>
+<p><code>wmic /NAMESPACE:&quot;\\root\CIMV2&quot; PATH Win32_Product get name /FORMAT:table</code></p>
+<p><strong>6、获取快捷方式列表</strong></p>
+<p><code>wmic PATH Win32_ShortcutFile get name</code></p>
+<p><strong>7、获取dns缓存记录</strong></p>
+<blockquote>
+<p>可通过dns 缓存记录中查看是否有恶意请求<br><code>ipconfig /displaydns</code></p>
+</blockquote>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><blockquote>
+<p>更详细快捷的查杀建议使用<strong>pchunter</strong> <strong>火绒剑</strong> <strong>auturuns</strong> 等安全辅助工具</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-删除指定hash值的文件"><span class="toc-number">1.</span> <span class="toc-text">0x01 删除指定hash值的文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-寻找某一日期创建的文件"><span class="toc-number">2.</span> <span class="toc-text">0x02 寻找某一日期创建的文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-wmi无文件后门检测"><span class="toc-number">3.</span> <span class="toc-text">0x03 wmi无文件后门检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-powershell解码"><span class="toc-number">4.</span> <span class="toc-text">0x04 powershell解码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-计划任务相关"><span class="toc-number">5.</span> <span class="toc-text">0x05 计划任务相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x06-判断是否有打永恒之蓝补丁"><span class="toc-number">6.</span> <span class="toc-text">0x06 判断是否有打永恒之蓝补丁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x07-防火墙及ipsec相关操作"><span class="toc-number">7.</span> <span class="toc-text">0x07 防火墙及ipsec相关操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x08-获取进程md5"><span class="toc-number">8.</span> <span class="toc-text">0x08 获取进程md5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x09-恶意服务检测"><span class="toc-number">9.</span> <span class="toc-text">0x09 恶意服务检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x10-常用wmi命令"><span class="toc-number">10.</span> <span class="toc-text">0x10 常用wmi命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其它"><span class="toc-number"></span> <span class="toc-text">其它</span></a>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/02/12/threathunter-windows/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/02/12/threathunter-windows/&text=应急响应笔记 windows 常用命令记录"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/02/12/threathunter-windows/&title=应急响应笔记 windows 常用命令记录"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/02/12/threathunter-windows/&is_video=false&description=应急响应笔记 windows 常用命令记录"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=应急响应笔记 windows 常用命令记录&body=Check out this article: http://wolvez.club/2019/02/12/threathunter-windows/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/02/12/threathunter-windows/&title=应急响应笔记 windows 常用命令记录"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/02/12/threathunter-windows/&title=应急响应笔记 windows 常用命令记录"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/02/12/threathunter-windows/&title=应急响应笔记 windows 常用命令记录"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/02/12/threathunter-windows/&title=应急响应笔记 windows 常用命令记录"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/02/12/threathunter-windows/&name=应急响应笔记 windows 常用命令记录&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

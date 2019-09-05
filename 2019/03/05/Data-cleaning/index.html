@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="0x01 正则基础POSIX字符组   POSIX字符组 说明 范围    [[:alnum:]] 字母字符和数字字符 [a-zA-Z0-9]   [[:alpha:]] 字母 [a-zA-Z]   [[:ascii:]] ASCII字符 [\x00-\x7F]   [[:blank:]] 空格字符和制表符 [ \t]   [[:cntrl:]] 控制字符 [\x00-\x1F\x7F]   [[">
+<meta name="keywords" content="regx sql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据清洗杂项">
+<meta property="og:url" content="http://wolvez.club/2019/03/05/Data-cleaning/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="0x01 正则基础POSIX字符组   POSIX字符组 说明 范围    [[:alnum:]] 字母字符和数字字符 [a-zA-Z0-9]   [[:alpha:]] 字母 [a-zA-Z]   [[:ascii:]] ASCII字符 [\x00-\x7F]   [[:blank:]] 空格字符和制表符 [ \t]   [[:cntrl:]] 控制字符 [\x00-\x1F\x7F]   [[">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-09T00:43:45.870Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据清洗杂项">
+<meta name="twitter:description" content="0x01 正则基础POSIX字符组   POSIX字符组 说明 范围    [[:alnum:]] 字母字符和数字字符 [a-zA-Z0-9]   [[:alpha:]] 字母 [a-zA-Z]   [[:ascii:]] ASCII字符 [\x00-\x7F]   [[:blank:]] 空格字符和制表符 [ \t]   [[:cntrl:]] 控制字符 [\x00-\x1F\x7F]   [[">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>数据清洗杂项</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/03/06/WannaMiner-chek/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/02/12/threathunter-windows/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/03/05/Data-cleaning/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/03/05/Data-cleaning/&text=数据清洗杂项"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/03/05/Data-cleaning/&title=数据清洗杂项"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/03/05/Data-cleaning/&is_video=false&description=数据清洗杂项"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=数据清洗杂项&body=Check out this article: http://wolvez.club/2019/03/05/Data-cleaning/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/03/05/Data-cleaning/&title=数据清洗杂项"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/03/05/Data-cleaning/&title=数据清洗杂项"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/03/05/Data-cleaning/&title=数据清洗杂项"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/03/05/Data-cleaning/&title=数据清洗杂项"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/03/05/Data-cleaning/&name=数据清洗杂项&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-正则基础"><span class="toc-number">1.</span> <span class="toc-text">0x01 正则基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#POSIX字符组"><span class="toc-number">1.1.</span> <span class="toc-text">POSIX字符组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正反向预查"><span class="toc-number">1.2.</span> <span class="toc-text">正反向预查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试代码"><span class="toc-number">1.3.</span> <span class="toc-text">测试代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向预查"><span class="toc-number">1.4.</span> <span class="toc-text">反向预查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-字符处理"><span class="toc-number">2.</span> <span class="toc-text">0x02 字符处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编码转换"><span class="toc-number">2.1.</span> <span class="toc-text">编码转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换成-unix-格式-转换换行符"><span class="toc-number">2.2.</span> <span class="toc-text">转换成 unix 格式(转换换行符)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#剔除无效字符及空行"><span class="toc-number">2.3.</span> <span class="toc-text">剔除无效字符及空行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#去除重复"><span class="toc-number">2.4.</span> <span class="toc-text">去除重复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#清洗案例"><span class="toc-number">2.5.</span> <span class="toc-text">清洗案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导入数据库"><span class="toc-number">3.</span> <span class="toc-text">导入数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见grep匹配"><span class="toc-number">3.1.</span> <span class="toc-text">常见grep匹配</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-oracle-aes解密"><span class="toc-number">4.</span> <span class="toc-text">0x04 oracle aes解密</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用mysql"><span class="toc-number">4.0.1.</span> <span class="toc-text">使用mysql</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用php"><span class="toc-number">4.0.2.</span> <span class="toc-text">使用php</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-其他导库笔记"><span class="toc-number">5.</span> <span class="toc-text">0x05 其他导库笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql-相关"><span class="toc-number">5.1.</span> <span class="toc-text">mysql 相关</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-字符统计筛选"><span class="toc-number">6.</span> <span class="toc-text">0x06 字符统计筛选</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        数据清洗杂项
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-03-05T14:44:17.000Z" itemprop="datePublished">2019-03-05</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/regx-sql/">regx sql</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="0x01-正则基础"><a href="#0x01-正则基础" class="headerlink" title="0x01 正则基础"></a>0x01 正则基础</h2><h3 id="POSIX字符组"><a href="#POSIX字符组" class="headerlink" title="POSIX字符组"></a>POSIX字符组</h3><table>
+<thead>
+<tr>
+<th align="left">POSIX字符组</th>
+<th align="left">说明</th>
+<th align="left">范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>[[:alnum:]]</code></td>
+<td align="left">字母字符和数字字符</td>
+<td align="left"><code>[a-zA-Z0-9]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:alpha:]]</code></td>
+<td align="left">字母</td>
+<td align="left"><code>[a-zA-Z]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:ascii:]]</code></td>
+<td align="left">ASCII字符</td>
+<td align="left"><code>[\x00-\x7F]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:blank:]]</code></td>
+<td align="left">空格字符和制表符</td>
+<td align="left"><code>[ \t]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:cntrl:]]</code></td>
+<td align="left">控制字符</td>
+<td align="left"><code>[\x00-\x1F\x7F]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:digit:]]</code></td>
+<td align="left">数字字符</td>
+<td align="left"><code>[0-9]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:graph:]]</code></td>
+<td align="left">空白字符之外的字符</td>
+<td align="left"><code>[\x21-\x7E]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:lower:]]</code></td>
+<td align="left">小写字母字符</td>
+<td align="left"><code>[a-z]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:print:]]</code></td>
+<td align="left"><code>[:graph:]</code>和空白字符</td>
+<td align="left"><code>[\x20-\x7E\]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:punct:]]</code></td>
+<td align="left">标点符号</td>
+<td align="left"><code>[]!&quot;\#$%&amp;&#39;\()*+,./:;&lt;=&gt;? @^_{|\}~-]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:space:]]</code></td>
+<td align="left">空白字符</td>
+<td align="left"><code>[ \t\r\n\v\f]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:upper:]]</code></td>
+<td align="left">大写字母字符</td>
+<td align="left"><code>[A-Z]</code></td>
+</tr>
+<tr>
+<td align="left"><code>[[:xdigit:]]</code></td>
+<td align="left">十六进制字符</td>
+<td align="left"><code>[A-Fa-f0-9]</code></td>
+</tr>
+</tbody></table>
+<h3 id="正反向预查"><a href="#正反向预查" class="headerlink" title="正反向预查"></a>正反向预查</h3><table>
+<thead>
+<tr>
+<th align="center">字符组</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>(?:pattern)</code></td>
+<td align="center">匹配pattern但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用或字符<code>(|)</code>来组合一个模式的各个部分是很有用。例如<code>industr(?:y|ies)</code>就是一个比<code>industry|industries</code>更简略的表达式。</td>
+</tr>
+<tr>
+<td align="center"><code>(?=pattern)</code></td>
+<td align="center">正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，<code>Windows(?=95|98|NT|2000)</code>能匹配<code>Windows2000</code>中的<code>Windows</code>，但不能匹配<code>Windows3.1</code>中的<code>Windows</code>。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td align="center"><code>(?!pattern)</code></td>
+<td align="center">正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如<code>Windows(?!95|98|NT|2000)</code>能匹配<code>Windows3.1</code>中的<code>Windows</code>，但不能匹配<code>Windows2000</code>中的<code>Windows</code>。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始</td>
+</tr>
+<tr>
+<td align="center"><code>(?&lt;=pattern)</code></td>
+<td align="center">反向肯定预查，与正向肯定预查类拟，只是方向相反。例如，<code>(?&lt;=95|98|NT|2000)Windows</code>能匹配<code>2000Windows</code>中的<code>Windows</code>，但不能匹配<code>3.1Windows</code>中的<code>Windows</code>。</td>
+</tr>
+<tr>
+<td align="center"><code>(?&lt;!pattern)</code></td>
+<td align="center">反向否定预查，与正向否定预查类拟，只是方向相反。例如<code>(?&lt;!95|98|NT|2000)Windows</code>能匹配<code>3.1Windows</code>中的<code>Windows</code>，但不能匹配<code>2000Windows</code>中的<code>Windows</code>。</td>
+</tr>
+</tbody></table>
+<h3 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">preg_match(<span class="string">'#Windows(?=2000|XP|7)#'</span>, <span class="string">'WindowsXP'</span>, $matchResult1);</span><br><span class="line">preg_match(<span class="string">'#Windows(?=2000|XP|7)#'</span>, <span class="string">'Windows7'</span>, $matchResult2);</span><br><span class="line">preg_match(<span class="string">'#Windows(?=2000|XP|7)#'</span>, <span class="string">'Windows2000'</span>, $matchResult3);</span><br><span class="line">preg_match(<span class="string">'#Windows(?=2000|XP|7)#'</span>, <span class="string">'Windows2008'</span>, $matchResult4);</span><br><span class="line"></span><br><span class="line"><span class="comment">//高级点</span></span><br><span class="line">preg_match(<span class="string">'#Win\w+(?=2000|XP|7)#'</span>, <span class="string">'Windows2000'</span>, $matchResult5);</span><br><span class="line"></span><br><span class="line">preg_match(<span class="string">'#Win\w+(?=2\d+)#'</span>, <span class="string">'Windows2006'</span>, $matchResult6);</span><br><span class="line">preg_match(<span class="string">'#Win\w+(?=2\d+)#'</span>, <span class="string">'Windows2007'</span>, $matchResult7);</span><br><span class="line">preg_match(<span class="string">'#Win\w+(?=2\d+)#'</span>, <span class="string">'Windows2008'</span>, $matchResult8);</span><br><span class="line">preg_match(<span class="string">'#Win\w+(?=2\d+)#'</span>, <span class="string">'Windows3008'</span>, $matchResult9);</span><br><span class="line"></span><br><span class="line">header(<span class="string">'Content-type:text/plain'</span>);</span><br><span class="line">print_r([</span><br><span class="line">	$matchResult1[<span class="number">0</span>], <span class="comment">//Windows</span></span><br><span class="line">	$matchResult2[<span class="number">0</span>], <span class="comment">//Windows</span></span><br><span class="line">	$matchResult3[<span class="number">0</span>], <span class="comment">//Windows</span></span><br><span class="line">	$matchResult4, <span class="comment">//匹配失败</span></span><br><span class="line">	</span><br><span class="line">	$matchResult5[<span class="number">0</span>], <span class="comment">//Windows</span></span><br><span class="line">	$matchResult6[<span class="number">0</span>], <span class="comment">//Windows</span></span><br><span class="line">	$matchResult7[<span class="number">0</span>], <span class="comment">//Windows</span></span><br><span class="line">	$matchResult8[<span class="number">0</span>], <span class="comment">//匹配失败</span></span><br><span class="line">	$matchResult9, <span class="comment">//匹配失败</span></span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+
+<h3 id="反向预查"><a href="#反向预查" class="headerlink" title="反向预查"></a>反向预查</h3><p>这个思维是相反的，比如<code>Windows(?!2000|XP|7)</code>不能匹配Windows7、Windows2000、WindowsXP里的Windows，却能匹配Windows2008里的Windows，例子就不做了，关键符号就是<code>?!</code></p>
+<h2 id="0x02-字符处理"><a href="#0x02-字符处理" class="headerlink" title="0x02 字符处理"></a>0x02 字符处理</h2><h3 id="编码转换"><a href="#编码转换" class="headerlink" title="编码转换"></a>编码转换</h3><blockquote>
+<p>编码不正确会导致 各种莫名奇妙的问题 乱码 甚至 编辑的时候卡住 或 报错<br>所有第一步就是要将转换编码</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">enca -L zh_CN.UTF-8 baidu.txt  <span class="comment">#查看该文本编码</span></span><br><span class="line">iconv -c -f GB2312 -t utf-8 <span class="comment">#转换方法1</span></span><br><span class="line">enca -L zh_CN.UTF-8 -c  <span class="comment">#方法2 自动转换</span></span><br></pre></td></tr></table></figure>
+
+<p>当然也可以直接</p>
+<p><code>iconv -c -f ASCII -t ASCII  test.txt</code></p>
+<h3 id="转换成-unix-格式-转换换行符"><a href="#转换成-unix-格式-转换换行符" class="headerlink" title="转换成 unix 格式(转换换行符)"></a>转换成 unix 格式(转换换行符)</h3><p><code>dos2unix</code>  当然也可以用<code>tr</code> ,<code>sed</code></p>
+<p>导入数据报错<code>ERROR 1300 (HY000): Invalid utf8 character string:</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET character_set_client = utf8mb4; </span><br><span class="line">mysql&gt; SET character_set_results = utf8mb4; </span><br><span class="line">mysql&gt; SET character_set_connection = utf8mb4; </span><br><span class="line">mysql&gt; SET character_set_server = utf8mb4;</span><br><span class="line">mysql&gt; SET character_set_database = utf8mb4;</span><br></pre></td></tr></table></figure>
+
+<h3 id="剔除无效字符及空行"><a href="#剔除无效字符及空行" class="headerlink" title="剔除无效字符及空行"></a>剔除无效字符及空行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -e <span class="string">'s/[\x01-\x19]//g'</span> -e <span class="string">'s/\x00/ /g'</span>  -e <span class="string">'s/[\x1a-\x1f]//g'</span> -e <span class="string">'s/^[ \t]*//'</span> -e <span class="string">'s/[ \t]*$//'</span></span><br></pre></td></tr></table></figure>
+
+<p>当然也可以使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -a -v <span class="string">'[[:cntrl:]]'</span> <span class="comment">#处理不够干净 还是喜欢用上面的方法</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="去除重复"><a href="#去除重复" class="headerlink" title="去除重复"></a>去除重复</h3><p><code>sort baidu.log | uniq</code> #测试该方法是我所知的最快的 缺点就是只是按照开头字符排序<br><code>awk &quot;{print length($1),$1}&quot; file.txt | sort -n | awk &quot;{print $2}&quot;</code>  字符串按照长度排序(短-&gt;长)   很慢</p>
+<h3 id="清洗案例"><a href="#清洗案例" class="headerlink" title="清洗案例"></a>清洗案例</h3><blockquote>
+<p>如下数据中<code>152221111null</code> 由于导出数据库时替换问题缺少引号导致无法导入数据库</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> OT_FORMH <span class="keyword">VALUES</span>(<span class="string">'554354353'</span>, <span class="literal">null</span>, <span class="string">'武汉武昌'</span>, <span class="string">'周杰伦'</span>, <span class="string">'152221111null,</span></span><br><span class="line"><span class="string">'</span><span class="number">666666666666</span><span class="string">', null, '</span>HEHE<span class="string">', null, '</span>hahah<span class="string">', '</span>ddddd<span class="string">', null, null, null);</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>修复后：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> OT_FORMH <span class="keyword">VALUES</span>(<span class="string">'554354353'</span>, <span class="literal">null</span>, <span class="string">'武汉武昌'</span>, <span class="string">'周杰伦'</span>, <span class="string">'152221111'</span>,</span><br><span class="line"><span class="string">'666666666666'</span>, <span class="literal">null</span>, <span class="string">'HEHE'</span>, <span class="literal">null</span>, <span class="string">'hahah'</span>, <span class="string">'ddddd'</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>语句</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">"s/null\([[:alnum:]]\)/\1/"</span> a.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>数据</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> OT_FORMH <span class="keyword">VALUES</span>(<span class="string">'54534543535'</span>, <span class="string">'302'</span>, <span class="string">'武汉武昌'</span>, <span class="string">'马培月'</span>, <span class="string">'6757657'</span>, <span class="string">'546565469879'</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="string">'fd'</span>, null7657657<span class="string">', null, null);</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>null7657657&#39;</code></strong> 缺少引号,多一个null</p>
+<p><strong>修复语句</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">"s/null\([[:alnum:]]\)/\'\1/"</span> a.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>问题数据</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> OT_FORMH <span class="keyword">VALUES</span>(<span class="string">'564654654'</span>, <span class="string">'302'</span>, <span class="string">'武汉华东师范大学,a栋302'</span>, <span class="string">'马晓晓'</span>, <span class="string">'15678123456'</span>, <span class="string">'999999'</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="literal">null</span>, <span class="string">'HUAWEI'</span>, <span class="number">543535</span><span class="string">', null, null);</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong><code>0937536518&#39;</code></strong> 缺少单引号，<strong>武汉华东师范大学</strong><code>,</code>逗号也需要考虑</p>
+</blockquote>
+<p><strong>修复命令</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat a.txt |sed "s/,\s\([[:digit:]]\&#123;5,\&#125;',\)/ ,'\1/g"</span><br></pre></td></tr></table></figure>
+
+<p>名字如：<code>Tobey &#39;s</code> 包含单引号造成sql执行错误<br><strong>问题数据</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO OT_FORMH VALUES(&apos;xxxxxxxx&apos;, &apos;807&apos;, &apos;厦门市&apos;, &apos;Tom&apos;s xxxxx&apos;, &apos;777777&apos;, &apos;0694013143&apos;, &apos;xxxxx&apos;, null, null, null, &apos;100050&apos;, &apos;073222138&apos;, null, null);</span><br><span class="line"> INSERT INTO OT_FORMH VALUES(&apos;UEU117022513079&apos;, &apos;106&apos;, &apos;ddddd Ce&apos;Tive&apos;, &apos;林月月&apos;, &apos;09276576510&apos;, &apos;800056033355&apos;, &apos;ddddddd&apos;, null, null, null, &apos;200004&apos;, null, &apos;丹东&apos;, null);</span><br></pre></td></tr></table></figure>
+
+<p><strong>修复命令</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat f.txt |sed &quot;s/\([^( ]\)&apos;\([[:alpha:]]\)/\1 \2/g&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>涉及知识点:</strong></p>
+<blockquote>
+<p><code>&amp;</code> 元字符是有用的，但更有用的功能是能够在正则表达式中定义特定区域，通过定义正则表达式的特定的一部分，您可以引用字符引用这部分。<br>反向引用时,你必须首先定义一个区域,然后回顾这个区域。定义一个区域是在你感兴趣的区域插入\和括号。你周围的第一区域被通过<code>\1</code>引用,第二个地区用 <code>\2</code>引用，等等。</p>
+</blockquote>
+<blockquote>
+<p>替换所有不包含<code>;</code>符号换行，并重新换行</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat a.txt | sed <span class="string">':a;N;$!ba;s/[\r\n]/ /g'</span> |sed <span class="string">'s/\;/;\r\n/g'</span> &gt;a1.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>剔除多余的单引号</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat ff.txt</span><br><span class="line">INSERT INTO CU_AAA VALUES(&apos;5345435&apos;, &apos;65467457&apos;);</span><br><span class="line">INSERT INTO CU_AAA VALUES(&apos;5435435&apos;, &apos;&apos;6546543&apos;);</span><br><span class="line">INSERT INTO CU_AAA VALUES(&apos;5354354&apos;, &apos;5345345&apos;);</span><br><span class="line">INSERT INTO CU_AAA VALUES(&apos;543543543&apos;, &apos;&apos;);</span><br><span class="line">INSERT INTO CU_AAA VALUES(&apos;&apos;, &apos;5435435&apos;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat tel1.txt|sed <span class="string">'/\'</span>\<span class="string">')/!s/\'</span>\<span class="string">'/\'</span>/g<span class="string">' &gt;tel2.txt</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>剔除无意义字符</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -e <span class="string">'s/[^[:print:]]//g'</span> -e <span class="string">'s/\xef//g'</span> -e <span class="string">'s/\xbf//g'</span> -e <span class="string">'s/\xbd//g'</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="导入数据库"><a href="#导入数据库" class="headerlink" title="导入数据库"></a>导入数据库</h2><p><code>mysql -uroot -proot -Ddddd --default_character_set utf8 &lt;sql.txt</code></p>
+<h3 id="常见grep匹配"><a href="#常见grep匹配" class="headerlink" title="常见grep匹配"></a>常见grep匹配</h3><p>查找email</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -b -a -E -o <span class="string">"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]&#123;2,6&#125;\b"</span></span><br></pre></td></tr></table></figure>
+
+<p>匹配 <code>&lt;h1 class=&quot;page-title&quot;&gt;</code>之间字符</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -oP <span class="string">'(?&lt;=&lt;h1 class="page-title"&gt;).*?(?=&lt;\/h1&gt;)'</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="0x04-oracle-aes解密"><a href="#0x04-oracle-aes解密" class="headerlink" title="0x04 oracle aes解密"></a>0x04 oracle aes解密</h2><h4 id="使用mysql"><a href="#使用mysql" class="headerlink" title="使用mysql"></a>使用mysql</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 解密</span></span><br><span class="line"><span class="keyword">SET</span> block_encryption_mode = <span class="string">'aes-256-cbc'</span>;</span><br><span class="line"><span class="keyword">SET</span> @init_vector = <span class="keyword">UNHEX</span>(<span class="string">'00000000000000000000000000000000'</span>);</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">AES_DECRYPT</span>(<span class="keyword">unhex</span>(<span class="string">'39B84FD13BF16DC7813CGB3D4A113685'</span>),<span class="keyword">upper</span>(<span class="keyword">md5</span>(<span class="string">'key-text'</span>)),@init_vector);</span><br><span class="line"><span class="comment">##或直接key</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">AES_DECRYPT</span>(<span class="keyword">unhex</span>(<span class="string">'39B84FD13BF16DC7813CGB3D4A113685'</span>),<span class="string">'KEY0000000000000'</span>,@init_vector);</span><br><span class="line"></span><br><span class="line"><span class="comment">##加密</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">HEX</span>(<span class="keyword">AES_ENCRYPT</span>(<span class="string">'54353453453'</span>, <span class="string">'KEY'</span>, @init_vector));</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用php"><a href="#使用php" class="headerlink" title="使用php"></a>使用php</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encryptNew</span><span class="params">($str, $key)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> bin2hex(openssl_encrypt($str, <span class="string">'AES-256-ECB'</span>, $key, OPENSSL_RAW_DATA));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">decryptNew</span><span class="params">($encryptedStr, $key)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> openssl_decrypt(hex2bin($encryptedStr), <span class="string">'AES-256-ECB'</span>, $key, OPENSSL_RAW_DATA);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x05-其他导库笔记"><a href="#0x05-其他导库笔记" class="headerlink" title="0x05 其他导库笔记"></a>0x05 其他导库笔记</h2><p>快速显示某一行：<br><code>cat sql.txt | head -n 981 | tail -n +981</code><br><code>sed -n &#39;5243,5245p&#39;</code></p>
+<h3 id="mysql-相关"><a href="#mysql-相关" class="headerlink" title="mysql 相关"></a>mysql 相关</h3><p><strong><em>mysql导入大数据处理</em></strong><br><code>set global slave_net_timeout=3600;</code><br><code>SET GLOBAL max_allowed_packet=1073741824;select @@max_allowed_packet</code></p>
+<p><strong>快速导库</strong></p>
+<blockquote>
+<p>先导库后创索引要快得多<br>load data infile 很快</p>
+</blockquote>
+<p><code>load data infile &#39;/var/lib/mysql-files/CU_AAA.txt&#39; IGNORE into table CUST_TEL fields terminated by &#39;&lt;terminated&gt;&#39;;</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span>  <span class="keyword">TABLE</span> <span class="string">`qqinfo`</span>.<span class="string">`qqinfo`</span> (</span><br><span class="line">  <span class="string">`ID`</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">  <span class="string">`QQNum`</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">  <span class="string">`Nick`</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>) <span class="literal">NULL</span> ,</span><br><span class="line">  <span class="string">`QunNum`</span> <span class="built_in">VARCHAR</span>(<span class="number">45</span>) <span class="literal">NULL</span> ,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`ID`</span>) )</span><br><span class="line"><span class="keyword">ENGINE</span> = MyISAM</span><br><span class="line"><span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> = utf8</span><br><span class="line"><span class="keyword">COLLATE</span> = utf8_general_ci;</span><br><span class="line"></span><br><span class="line"><span class="comment">##修改字段编码</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="string">`qqinfo`</span>  <span class="keyword">CHANGE</span> <span class="string">`Nick`</span>  <span class="string">`Nick`</span> <span class="built_in">VARCHAR</span>(<span class="number">45</span>)  <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_bin</span><br><span class="line"></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">infile</span> <span class="string">'H:\\mysql\\sql.txt'</span> <span class="keyword">into</span> <span class="keyword">table</span> qqinfo <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">':'</span> (<span class="keyword">ID</span>,QQNum,Nick,QunNum);</span><br><span class="line"></span><br><span class="line"><span class="comment">##设置 所有编码 </span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">names</span> utf8;</span><br><span class="line"><span class="comment">##查看编码</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'character%'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">##修改数据库编码</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">database</span> <span class="string">`qqinfo`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_bin</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">database</span> <span class="string">`qqinfo`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> gbk <span class="keyword">COLLATE</span> gbk_chinese_ci</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> <span class="string">`db_name`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">##修改表编码</span></span><br><span class="line"><span class="keyword">use</span> qqinfo;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="string">`qqinfo`</span> <span class="keyword">default</span> <span class="built_in">character</span> <span class="keyword">set</span> utf8 <span class="keyword">collate</span> utf8_bin;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">##注：1.UTF8不要导入gbk，gbk不要导入UTF8;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##都在界面下设置好</span></span><br><span class="line"></span><br><span class="line">1 hour 26 min 38.72 sec</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> ix_QQNum <span class="keyword">ON</span> qqinfo (QQNum) 创建索引</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`qqinfo`</span> (</span><br><span class="line">  <span class="string">`ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`QQNum`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`Nick`</span> <span class="built_in">char</span>(<span class="number">12</span>)  <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`QunNum`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`ID`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=MyISAM <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=gb2312;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> idx_qqinfo <span class="keyword">ON</span> qqinfo (QQNum,QunNum);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> qqinfo <span class="keyword">ADD</span> <span class="keyword">INDEX</span> index_qqinfo_QQNum_QunNum (QQNum,QunNum);</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">GLOBAL</span> innodb_flush_log_at_trx_commit = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##先建索引，再执行set GLOBAL innodb_flush_log_at_trx_commit = 0;再倒入数据；</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">innodb_flush_log_at_trx_commit</span><br><span class="line"></span><br><span class="line">innodb_buffer_pool_size</span><br><span class="line">如果用<span class="keyword">Innodb</span>，那么这是一个重要变量。相对于MyISAM来说，<span class="keyword">Innodb</span>对于buffer <span class="keyword">size</span>更敏感。MySIAM可能对于大数据量使用默认的key_buffer_size也还好，但<span class="keyword">Innodb</span>在大数据量时用默认值就感觉在爬了。 <span class="keyword">Innodb</span>的缓冲池会缓存数据和索引，所以不需要给系统的缓存留空间，如果只用<span class="keyword">Innodb</span>，可以把这个值设为内存的<span class="number">70</span>%<span class="number">-80</span>%。和 key_buffer相同，如果数据量比较小也不怎么增加，那么不要把这个值设太高也可以提高内存的使用率。</span><br><span class="line"></span><br><span class="line">innodb_additional_pool_size </span><br><span class="line">这个的效果不是很明显，至少是当操作系统能合理分配内存时。但你可能仍需要设成<span class="number">20</span>M或更多一点以看<span class="keyword">Innodb</span>会分配多少内存做其他用途。</span><br><span class="line"></span><br><span class="line">innodb_log_file_size</span><br><span class="line">对于写很多尤其是大数据量时非常重要。要注意，大的文件提供更高的性能，但数据库恢复时会用更多的时间。我一般用<span class="number">64</span>M<span class="number">-512</span>M，具体取决于服务器的空间。</span><br><span class="line"></span><br><span class="line">innodb_log_buffer_size </span><br><span class="line">默认值对于多数中等写操作和事务短的运用都是可以的。如 果经常做更新或者使用了很多<span class="built_in">blob</span>数据，应该增大这个值。但太大了也是浪费内存，因为<span class="number">1</span>秒钟总会 <span class="keyword">flush</span>（这个词的中文怎么说呢？）一次，所以不需要设到超过<span class="number">1</span>秒的需求。<span class="number">8</span>M<span class="number">-16</span>M一般应该够了。小的运用可以设更小一点。</span><br><span class="line"></span><br><span class="line">innodb_flush_log_at_trx_commit  （这个很管用） </span><br><span class="line">抱怨<span class="keyword">Innodb</span>比MyISAM慢 </span><br><span class="line"><span class="number">100</span>倍？那么你大概是忘了调整这个值。默认值<span class="number">1</span>的意思是每一次事务提交或事务外的指令都需要把日志写入（<span class="keyword">flush</span>）硬盘，这是很费时的。特别是使用电 </span><br><span class="line">池供电缓存（Battery backed up </span><br><span class="line"><span class="keyword">cache</span>）时。设成<span class="number">2</span>对于很多运用，特别是从MyISAM表转过来的是可以的，它的意思是不写入硬盘而是写入系统缓存。日志仍然会每秒<span class="keyword">flush</span>到硬 </span><br><span class="line">盘，所以你一般不会丢失超过<span class="number">1</span><span class="number">-2</span>秒的更新。设成<span class="number">0</span>会更快一点，但安全方面比较差，即使MySQL挂了也可能会丢失事务的数据。而值<span class="number">2</span>只会在整个操作系统 </span><br><span class="line">挂了时才可能丢数据。 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">每个MyISAM在磁盘上存储成三个文件。第一个文件的名字以表的名字开始，扩展名指出文件类型。.frm文件存储表定义。数据文件的扩展名为.MYD (MYData)。索引文件的扩展名是.MYI (MYIndex)。</span><br><span class="line"></span><br><span class="line">mysql 状态</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">STATUS</span> <span class="keyword">like</span> <span class="string">'_cache%'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%tmp%'</span>;</span><br><span class="line">+<span class="comment">----------------------------+-------------------------------------------------+</span></span><br><span class="line">| Variable_name              | Value                                           |</span><br><span class="line">+<span class="comment">----------------------------+-------------------------------------------------+</span></span><br><span class="line">| default_tmp_storage_engine | InnoDB                                          |</span><br><span class="line">| max_tmp_tables             | 32                                              |</span><br><span class="line">| slave_load_tmpdir          | C:\Windows\SERVIC~2\NETWOR~1\AppData\Local\Temp |</span><br><span class="line">| tmp_table_size             | 57671680                                        |</span><br><span class="line">| tmpdir                     | C:\Windows\SERVIC~2\NETWOR~1\AppData\Local\Temp |</span><br><span class="line">+<span class="comment">----------------------------+-------------------------------------------------+</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">show</span> <span class="keyword">global</span> <span class="keyword">status</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> 优化相关</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">http</span>://wenku.baidu.com/<span class="keyword">link</span>?<span class="keyword">url</span>=wPDRuX34e7Z8o-JJG5BT7Tu1gq43c5ZS2X8_2IRnlSrniYUTxMsPk_Hz8Pqw3FxFE0v3tiKO-Sr_Jumn6bZAIYbZMWo5BAFg9rJkJEfD75e</span><br><span class="line"> <span class="keyword">http</span>://blog.chinaunix.net/uid<span class="number">-24145780</span>-<span class="keyword">id</span><span class="number">-125159.</span>html</span><br><span class="line"> </span><br><span class="line"> 复制表</span><br><span class="line"> </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`qqinfo_1`</span> (</span><br><span class="line">  <span class="string">`ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`QQNum`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`Nick`</span> <span class="built_in">char</span>(<span class="number">20</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`QunNum`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`ID`</span>),</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`inx_qqinfo`</span> (<span class="string">`QQNum`</span>,<span class="string">`QunNum`</span>) <span class="keyword">USING</span> <span class="keyword">HASH</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=MyISAM AUTO_INCREMENT=<span class="number">179780305</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=gbk DELAY_KEY_WRITE=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="keyword">insert</span> <span class="keyword">into</span> qqinfo_1 (<span class="string">`QQNum`</span>,<span class="string">`Nick`</span>,<span class="string">`QunNum`</span>) <span class="keyword">select</span> <span class="string">`QQNum`</span>,<span class="string">`Nick`</span>,<span class="string">`QunNum`</span> <span class="keyword">from</span> qqinfo.qqinfo; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mysql 导库</span><br><span class="line">指定编码不易出错</span><br><span class="line"></span><br><span class="line">mysql -uroot <span class="comment">--default-character-set=utf8 net &lt; net.txt </span></span><br><span class="line"></span><br><span class="line">mysqldump -h 127.0.0.1 -uroot  -proot <span class="comment">--opt --skip-lock-tables --default-character-set=utf8  net1 members &gt;/data/www/pmxy/data/net1.txt</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mysql中所有库查找包含某个字段的表 如 password</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> table_schema,table_name,column_name <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema !=<span class="number">0x696E666F726D6174696F6E5F736368656D61</span> <span class="keyword">and</span> table_schema !=<span class="number">0x6D7973716C</span> <span class="keyword">and</span> table_schema !=<span class="number">0x706572666F726D616E63655F736368656D61</span> <span class="keyword">and</span> (column_name <span class="keyword">like</span> <span class="string">'%pass%'</span> <span class="keyword">or</span> column_name <span class="keyword">like</span> <span class="string">'%pwd%'</span>); </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">infile</span> 比<span class="keyword">source</span>  及直接导入<span class="keyword">sql</span> 文件快无数倍！强烈建议使用</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x06-字符统计筛选"><a href="#0x06-字符统计筛选" class="headerlink" title="0x06 字符统计筛选"></a>0x06 字符统计筛选</h2><blockquote>
+<p>以下内容来源t00ls.net @download</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br></pre></td><td class="code"><pre><span class="line">//整理字符集为键盘上的字符5-30位的密码</span><br><span class="line">grep -o -P <span class="string">"[[:lower:][:upper:][:digit:][:punct:] ]+"</span> 2014_1_last | awk <span class="string">'&#123;if(length($0) &gt; 4 &amp;&amp; length($0) &lt; 31) print $0&#125;'</span> &gt;&gt; 2014_1_last_</span><br><span class="line"></span><br><span class="line">//删除1-7位的纯大写、1-7位的纯小写、1-9位的纯数字</span><br><span class="line">sed <span class="string">"/^[[:upper:]]\&#123;1,7\&#125;$/d;/^[[:lower:]]\&#123;1,7\&#125;$/d;/^[[:digit:]]\&#123;1,9\&#125;$/d;"</span> 2014_1_last_ &gt;&gt;2014_1_last__</span><br><span class="line"></span><br><span class="line">//hashcat_masks 排名</span><br><span class="line">sed <span class="string">'s/[[:lower:]]/l/g;s/[[:upper:]]/u/g;s/[[:digit:]]/d/g;s/[[:punct:] ]/s/g'</span> 2014_1_last__ | sort | uniq -c | sort -nr &gt;&gt;2014_1_last__hashcat_masks_sus</span><br><span class="line"></span><br><span class="line">//hashcat_masks 将luds前边加 ?</span><br><span class="line">sed <span class="string">'s/\([luds]\)/?\0/g;'</span> 2014_1_last__hashcat_masks_sus</span><br><span class="line"> </span><br><span class="line">//密码长度排名</span><br><span class="line">1、awk <span class="string">'&#123;printf("%s %s %s\r\n",$1,length($2),$2)&#125;'</span> 2014_1_last__hashcat_masks_sus &gt;&gt;2014_1_last__hashcat_masks_sus_length</span><br><span class="line">2、awk <span class="string">'&#123;a[$2]+=$1;&#125;END&#123;for(i in a)&#123;&#123;print i" "a[i];&#125;&#125;&#125;'</span> 2014_1_last_x_hashcat_masks_sus_length | sort -nr -k2</span><br><span class="line">11 25281160</span><br><span class="line">10 15342231</span><br><span class="line">12 11047379</span><br><span class="line">14 9794974</span><br><span class="line">13 9105853</span><br><span class="line">9 8726583</span><br><span class="line">15 6864187</span><br><span class="line">8 6617661</span><br><span class="line">16 6235360</span><br><span class="line">7 1848134</span><br><span class="line">6 899233</span><br><span class="line">17 83551</span><br><span class="line">18 40174</span><br><span class="line">19 32202</span><br><span class="line">21 12649</span><br><span class="line">20 8847</span><br><span class="line">22 2216</span><br><span class="line">23 1824</span><br><span class="line">24 1333</span><br><span class="line">25 927</span><br><span class="line">28 918</span><br><span class="line">26 829</span><br><span class="line">27 733</span><br><span class="line">29 400</span><br><span class="line">30 255</span><br><span class="line">5 28</span><br><span class="line"></span><br><span class="line">//长度百分比排名</span><br><span class="line">$ awk <span class="string">'&#123;a[$2]+=$1;&#125;END&#123;for(i in a)&#123;&#123;print i" "a[i];&#125;&#125;&#125;'</span> 2014_1_last__hashcat_masks_sus_length | awk <span class="string">'&#123;a[NR]=$1;b[NR]=$2;s+=$2&#125;END&#123;for(j=1;j&lt;NR+1;j++) printf "%s\t%.5f%\n",a[j],b[j]*100/s&#125;'</span> 2014_1_last__length_sus | sort -nr -k2</span><br><span class="line">11      24.79769%</span><br><span class="line">10      15.04883%</span><br><span class="line">12      10.83611%</span><br><span class="line">14      9.60766%</span><br><span class="line">13      8.93172%</span><br><span class="line">9       8.55970%</span><br><span class="line">15      6.73292%</span><br><span class="line">8       6.49111%</span><br><span class="line">16      6.11612%</span><br><span class="line">7       1.81279%</span><br><span class="line">6       0.88204%</span><br><span class="line">17      0.08195%</span><br><span class="line">18      0.03941%</span><br><span class="line">19      0.03159%</span><br><span class="line">21      0.01241%</span><br><span class="line">20      0.00868%</span><br><span class="line">22      0.00217%</span><br><span class="line">23      0.00179%</span><br><span class="line">24      0.00131%</span><br><span class="line">25      0.00091%</span><br><span class="line">28      0.00090%</span><br><span class="line">26      0.00081%</span><br><span class="line">27      0.00072%</span><br><span class="line">29      0.00039%</span><br><span class="line">30      0.00025%</span><br><span class="line">5       0.00003%</span><br><span class="line"></span><br><span class="line">-----------------------------------</span><br><span class="line">//同时包含四种字符的排序</span><br><span class="line">$ grep <span class="string">'[u]'</span> 2014_1_last_x_hashcat_masks_sus | grep <span class="string">'[d]'</span> | grep <span class="string">'[l]'</span> | grep <span class="string">'[s]'</span> | head -n 10 | nl</span><br><span class="line">     1     1074 ullsdddd</span><br><span class="line">     2      963 ulllsdddd</span><br><span class="line">     3      834 ullsdddddd</span><br><span class="line">     4      807 ulldddds</span><br><span class="line">     5      800 ullllsdddd</span><br><span class="line">     6      735 uldddddds</span><br><span class="line">     7      735 ulddddddddddds</span><br><span class="line">     8      715 ulldddddds</span><br><span class="line">     9      703 ulddddddds</span><br><span class="line">    10      687 ullldddds</span><br><span class="line"></span><br><span class="line">//同时包含大小写数字的排序</span><br><span class="line">$ grep <span class="string">'[u]'</span> 2014_1_last__hashcat_masks_sus | grep <span class="string">'[d]'</span> | grep <span class="string">'[l]'</span> | grep <span class="string">'[^s]'</span> | head -n 10 | nl</span><br><span class="line">     1    14383 ulldddddd</span><br><span class="line">     2    13679 uldddddd</span><br><span class="line">     3    11557 ulldddddddd</span><br><span class="line">     4    11054 uldddddddd</span><br><span class="line">     5    11003 ulddddddddddd</span><br><span class="line">     6    10521 ullldddd</span><br><span class="line">     7    10099 ullddddddd</span><br><span class="line">     8    10060 ullddddddddddd</span><br><span class="line">     9     9967 ulddddddd</span><br><span class="line">    10     9264 ulllldddd</span><br><span class="line"></span><br><span class="line">//同时包含大小写的排序</span><br><span class="line">$ grep <span class="string">'[u]'</span> 2014_1_last__hashcat_masks_sus | grep <span class="string">'[l]'</span> | grep <span class="string">'[^d]'</span> | grep <span class="string">'[^s]'</span> | head -n 10 | nl</span><br><span class="line">     1    14383 ulldddddd</span><br><span class="line">     2    13679 uldddddd</span><br><span class="line">     3    11557 ulldddddddd</span><br><span class="line">     4    11054 uldddddddd</span><br><span class="line">     5    11003 ulddddddddddd</span><br><span class="line">     6    10521 ullldddd</span><br><span class="line">     7    10099 ullddddddd</span><br><span class="line">     8    10060 ullddddddddddd</span><br><span class="line">     9     9967 ulddddddd</span><br><span class="line">    10     9264 ulllldddd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//连续的纯字符的排序</span><br><span class="line">$ sed -n <span class="string">'/\b\([luds]\)\1*$/p'</span> 2014_1_last__hashcat_masks_sus</span><br><span class="line">16406454 ddddddddddd</span><br><span class="line">5475964 dddddddddd</span><br><span class="line">2129702 dddddddddddd</span><br><span class="line">1189570 dddddddddddddd</span><br><span class="line"> 822811 llllllllll</span><br><span class="line"> 734170 lllllllll</span><br><span class="line"> 658042 ddddddddddddd</span><br><span class="line"> 653511 llllllll</span><br><span class="line"> 643282 lllllllllll</span><br><span class="line"> 606358 dddddddddddddddd</span><br><span class="line"> 570914 llllllllllll</span><br><span class="line"></span><br><span class="line">//统计开头的第一个字母的数量排序</span><br><span class="line">$ awk <span class="string">'&#123;a[substr($3,1,1)]+=$1;&#125;END&#123;for(i in a)&#123;&#123;print i" "a[i];&#125;&#125;&#125;'</span> 2014_1_last__hashcat_masks_sus_length | sort -nr -k2</span><br><span class="line"></span><br><span class="line">//统计开头的第二个字母的数量排序</span><br><span class="line">$ awk <span class="string">'&#123;a[substr($3,2,1)]+=$1;&#125;END&#123;for(i in a)&#123;&#123;print i" "a[i];&#125;&#125;&#125;'</span> 2014_1_last__hashcat_masks_sus_length | sort -nr -k2</span><br><span class="line"></span><br><span class="line">//统计开头的第三个字母的数量排序</span><br><span class="line">$ awk <span class="string">'&#123;a[substr($3,3,1)]+=$1;&#125;END&#123;for(i in a)&#123;&#123;print i" "a[i];&#125;&#125;&#125;'</span> 2014_1_last__hashcat_masks_sus_length | sort -nr -k2</span><br><span class="line"></span><br><span class="line">//统计开头的前二个字母的数量排序</span><br><span class="line">$ awk <span class="string">'&#123;a[substr($3,1,2)]+=$1;&#125;END&#123;for(i in a)&#123;&#123;print i" "a[i];&#125;&#125;&#125;'</span> 2014_1_last__hashcat_masks_sus_length | sort -nr -k2</span><br><span class="line"></span><br><span class="line">//统计开头的前三个字母的数量排序</span><br><span class="line">$ awk <span class="string">'&#123;a[substr($3,1,3)]+=$1;&#125;END&#123;for(i in a)&#123;&#123;print i" "a[i];&#125;&#125;&#125;'</span> 2014_1_last_x_hashcat_masks_sus_length | sort -nr -k2</span><br><span class="line"></span><br><span class="line">//统计开头的前四个字母的数量排序</span><br><span class="line">$ awk <span class="string">'&#123;a[substr($3,1,4)]+=$1;&#125;END&#123;for(i in a)&#123;&#123;print i" "a[i];&#125;&#125;&#125;'</span> 2014_1_last__hashcat_masks_sus_length | sort -nr -k2</span><br><span class="line"></span><br><span class="line">//统计开头的最后一个字母的数量排序</span><br><span class="line">$ awk <span class="string">'&#123;a[substr($3,length($3),1)]+=$1;&#125;END&#123;for(i in a)&#123;&#123;print i" "a[i];&#125;&#125;&#125;'</span> 2014_1_last__hashcat_masks_sus_length | sort -nr -k2</span><br><span class="line"></span><br><span class="line">//提取特定字符集的字典</span><br><span class="line"></span><br><span class="line">grep -P <span class="string">"^[[:lower:]]+$"</span> 2014_1_last__ &gt;&gt;2014_1_last__lower</span><br><span class="line">grep -P <span class="string">"^[[:upper:]]+$"</span> 2014_1_last__ &gt;&gt;2014_1_last__upper</span><br><span class="line">grep -P <span class="string">"^[[:digit:]]+$"</span> 2014_1_last__ &gt;&gt;2014_1_last__digit</span><br><span class="line">grep -P <span class="string">"^[[:punct:] ]+$"</span> 2014_1_last__ &gt;&gt;2014_1_last__punct</span><br><span class="line">grep -P <span class="string">"^[[:lower:][:upper:]]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:lower:]]+$"</span> | grep -P -v <span class="string">"^[[:upper:]]+$"</span> &gt;&gt;2014_1_last__lowerupper</span><br><span class="line">grep -P <span class="string">"^[[:upper:][:punct:] ]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:upper:]]+$"</span> | grep -P -v <span class="string">"^[[:punct:] ]+$"</span> &gt;&gt;2014_1_last__upperpunct</span><br><span class="line">grep -P <span class="string">"^[[:lower:][:punct:] ]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:lower:]]+$"</span> | grep -P -v <span class="string">"^[[:punct:] ]+$"</span> &gt;&gt;2014_1_last__lowerpunct</span><br><span class="line">grep -P <span class="string">"^[[:lower:][:digit:]]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:lower:]]+$"</span> | grep -P -v <span class="string">"^[[:digit:]]+$"</span> &gt;&gt;2014_1_last__lowerdigit</span><br><span class="line">grep -P <span class="string">"^[[:upper:][:digit:]]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:upper:]]+$"</span> | grep -P -v <span class="string">"^[[:digit:]]+$"</span> &gt;&gt;2014_1_last__upperdigit</span><br><span class="line">grep -P <span class="string">"^[[:digit:][:punct:] ]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:digit:]]+$"</span> | grep -P -v <span class="string">"^[[:punct:] ]+$"</span> &gt;&gt;2014_1_last__digitpunct</span><br><span class="line">grep -P <span class="string">"^[[:lower:][:digit:][:punct:] ]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:lower:]]+$"</span> | grep -P -v <span class="string">"^[[:digit:]]+$"</span> | grep -P -v <span class="string">"^[[:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:lower:][:digit:]]+$"</span> | grep -P -v <span class="string">"^[[:lower:][:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:digit:][:punct:] ]+$"</span>&gt;&gt;2014_1_last__lowerdigitpunct</span><br><span class="line">grep -P <span class="string">"^[[:upper:][:digit:][:punct:] ]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:upper:]]+$"</span> | grep -P -v <span class="string">"^[[:digit:]]+$"</span> | grep -P -v <span class="string">"^[[:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:upper:][:digit:]]+$"</span> | grep -P -v <span class="string">"^[[:upper:][:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:digit:][:punct:] ]+$"</span>&gt;&gt;2014_1_last__upperdigitpunct</span><br><span class="line">grep -P <span class="string">"^[[:lower:][:upper:][:digit:]]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:lower:]]+$"</span> | grep -P -v <span class="string">"^[[:upper:]]+$"</span> | grep -P -v <span class="string">"^[[:digit:]]+$"</span> | grep -P -v <span class="string">"^[[:lower:][:upper:]]+$"</span> | grep -P -v <span class="string">"^[[:lower:][:digit:]]+$"</span> | grep -P -v <span class="string">"^[[:upper:][:digit:]]+$"</span> &gt;&gt;2014_1_last__lowerupperdigit</span><br><span class="line">grep -P <span class="string">"^[[:lower:][:upper:][:punct:] ]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:lower:][:upper:]]+$"</span> | grep -P -v <span class="string">"^[[:lower:]]+$"</span>  | grep -P -v <span class="string">"^[[:upper:]]+$"</span> | grep -P -v <span class="string">"^[[:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:lower:][:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:upper:][:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:lower:][:upper:]]+$"</span> &gt;&gt;2014_1_last__lowerupperpunct</span><br><span class="line">grep -P <span class="string">"^[[:lower:][:upper:][:digit:][:punct:] ]+$"</span> 2014_1_last__ | grep -P -v <span class="string">"^[[:alnum:]]+$"</span> | grep -P -v <span class="string">"^[[:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:lower:][:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:upper:][:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:digit:][:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:upper:][:digit:][:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:lower:][:digit:][:punct:] ]+$"</span> | grep -P -v <span class="string">"^[[:lower:][:upper:][:punct:] ]+$"</span> &gt;&gt;2014_1_last__lowerupperdigitpunct</span><br><span class="line"></span><br><span class="line">//用户名和密码组合</span><br><span class="line">$ cat user.txt</span><br><span class="line">root</span><br><span class="line">manager</span><br><span class="line"></span><br><span class="line">$ cat pass.txt</span><br><span class="line">123</span><br><span class="line">456</span><br><span class="line">asd</span><br><span class="line">password</span><br><span class="line">admin</span><br><span class="line"></span><br><span class="line">$ awk <span class="string">'NR==FNR&#123;a[FNR]=$1;num=FNR&#125;NR&gt;FNR&#123;for(i=1;i&lt;=num;i++)&#123;print a[i] ":" $1&#125;&#125;'</span> user.txt pass.txt</span><br><span class="line">root:123</span><br><span class="line">manager:123</span><br><span class="line">root:456</span><br><span class="line">manager:456</span><br><span class="line">root:asd</span><br><span class="line">manager:asd</span><br><span class="line">root:password</span><br><span class="line">manager:password</span><br><span class="line">root:admin</span><br><span class="line">manager:admin</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-正则基础"><span class="toc-number">1.</span> <span class="toc-text">0x01 正则基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#POSIX字符组"><span class="toc-number">1.1.</span> <span class="toc-text">POSIX字符组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正反向预查"><span class="toc-number">1.2.</span> <span class="toc-text">正反向预查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试代码"><span class="toc-number">1.3.</span> <span class="toc-text">测试代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向预查"><span class="toc-number">1.4.</span> <span class="toc-text">反向预查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-字符处理"><span class="toc-number">2.</span> <span class="toc-text">0x02 字符处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编码转换"><span class="toc-number">2.1.</span> <span class="toc-text">编码转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换成-unix-格式-转换换行符"><span class="toc-number">2.2.</span> <span class="toc-text">转换成 unix 格式(转换换行符)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#剔除无效字符及空行"><span class="toc-number">2.3.</span> <span class="toc-text">剔除无效字符及空行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#去除重复"><span class="toc-number">2.4.</span> <span class="toc-text">去除重复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#清洗案例"><span class="toc-number">2.5.</span> <span class="toc-text">清洗案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导入数据库"><span class="toc-number">3.</span> <span class="toc-text">导入数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见grep匹配"><span class="toc-number">3.1.</span> <span class="toc-text">常见grep匹配</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-oracle-aes解密"><span class="toc-number">4.</span> <span class="toc-text">0x04 oracle aes解密</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用mysql"><span class="toc-number">4.0.1.</span> <span class="toc-text">使用mysql</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用php"><span class="toc-number">4.0.2.</span> <span class="toc-text">使用php</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-其他导库笔记"><span class="toc-number">5.</span> <span class="toc-text">0x05 其他导库笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql-相关"><span class="toc-number">5.1.</span> <span class="toc-text">mysql 相关</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06-字符统计筛选"><span class="toc-number">6.</span> <span class="toc-text">0x06 字符统计筛选</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/03/05/Data-cleaning/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/03/05/Data-cleaning/&text=数据清洗杂项"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/03/05/Data-cleaning/&title=数据清洗杂项"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/03/05/Data-cleaning/&is_video=false&description=数据清洗杂项"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=数据清洗杂项&body=Check out this article: http://wolvez.club/2019/03/05/Data-cleaning/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/03/05/Data-cleaning/&title=数据清洗杂项"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/03/05/Data-cleaning/&title=数据清洗杂项"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/03/05/Data-cleaning/&title=数据清洗杂项"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/03/05/Data-cleaning/&title=数据清洗杂项"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/03/05/Data-cleaning/&name=数据清洗杂项&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

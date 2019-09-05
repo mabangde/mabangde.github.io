@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="文章首发：t00ls本文参考文章为什么要用sqlite ?1、想将数据放进移动存储设备方便随时随地查询2、sqlite 跨平台 ，无需服务，仅一个可执行文件即可 需解决的问题：sqlite 按常规插入数据是非常慢的，不适合插入大数据采用下面的方法后 速度 大大的增加，数G文本 入库都 非常快(相对) 采用技术：1、关闭写同步(synchronous)说明： 简要说来，full写入速度最慢，但保证数">
+<meta name="keywords" content="数据优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sqlite 高速插入文本文件">
+<meta property="og:url" content="http://wolvez.club/2015/05/24/sqlite-fast/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="文章首发：t00ls本文参考文章为什么要用sqlite ?1、想将数据放进移动存储设备方便随时随地查询2、sqlite 跨平台 ，无需服务，仅一个可执行文件即可 需解决的问题：sqlite 按常规插入数据是非常慢的，不适合插入大数据采用下面的方法后 速度 大大的增加，数G文本 入库都 非常快(相对) 采用技术：1、关闭写同步(synchronous)说明： 简要说来，full写入速度最慢，但保证数">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/buhuo.png">
+<meta property="og:updated_time" content="2019-07-16T16:31:13.540Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sqlite 高速插入文本文件">
+<meta name="twitter:description" content="文章首发：t00ls本文参考文章为什么要用sqlite ?1、想将数据放进移动存储设备方便随时随地查询2、sqlite 跨平台 ，无需服务，仅一个可执行文件即可 需解决的问题：sqlite 按常规插入数据是非常慢的，不适合插入大数据采用下面的方法后 速度 大大的增加，数G文本 入库都 非常快(相对) 采用技术：1、关闭写同步(synchronous)说明： 简要说来，full写入速度最慢，但保证数">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/buhuo.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>sqlite 高速插入文本文件</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2015/05/24/host2ip/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2015/05/24/web-find-mysql-links/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2015/05/24/sqlite-fast/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2015/05/24/sqlite-fast/&text=sqlite 高速插入文本文件"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2015/05/24/sqlite-fast/&title=sqlite 高速插入文本文件"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2015/05/24/sqlite-fast/&is_video=false&description=sqlite 高速插入文本文件"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=sqlite 高速插入文本文件&body=Check out this article: http://wolvez.club/2015/05/24/sqlite-fast/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2015/05/24/sqlite-fast/&title=sqlite 高速插入文本文件"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2015/05/24/sqlite-fast/&title=sqlite 高速插入文本文件"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2015/05/24/sqlite-fast/&title=sqlite 高速插入文本文件"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2015/05/24/sqlite-fast/&title=sqlite 高速插入文本文件"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2015/05/24/sqlite-fast/&name=sqlite 高速插入文本文件&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        sqlite 高速插入文本文件
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2015-05-24T07:15:00.000Z" itemprop="datePublished">2015-05-24</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/数据优化/">数据优化</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>文章首发：<br><a href="https://www.t00ls.net/thread-29905-1-1.html" target="_blank" rel="noopener">t00ls</a><br><a href="http://blog.csdn.net/chenguanzhou123/article/details/9376537" target="_blank" rel="noopener">本文参考文章</a><br>为什么要用<strong>sqlite</strong> ?<br>1、想将数据放进移动存储设备方便随时随地查询<br>2、<strong>sqlite</strong> 跨平台 ，无需服务，仅一个可执行文件即可</p>
+<p>需解决的问题：<br>sqlite 按常规插入数据是非常慢的，不适合插入大数据<br>采用下面的方法后 速度 大大的增加，数G文本 入库都 非常快(相对)</p>
+<p>采用技术：<br>1、关闭写同步(<strong>synchronous</strong>)<br>说明：</p>
+<p>简要说来，full写入速度最慢，但保证数据是安全的，不受断电、系统崩溃等影响，而off可以加速数据库的一些操作，但如果系统崩溃或断电，则数据库可能会损毁。<br>SQLite3中，该选项的默认值就是full，如果我们再插入数据前将其改为off，则会提高效率。如果仅仅将SQLite当做一种临时数据库的话，完全没必要设置为full</p>
+<p>2、执行准备 <strong>prepare</strong></p>
+<p>说明：</p>
+<p>SQLite执行SQL语句的时候，有两种方式：一种是使用前文提到的函数sqlite3_exec()，该函数直接调用包含SQL语句的字符串；另一种方法就是“执行准备”（类似于存储过程）操作，即先将SQL语句编译好，然后再一步一步（或一行一行）地执行。如果采用前者的话，就算开起了事务，SQLite仍然要对循环中每一句SQL语句进行“词法分析”和“语法分析”，这对于同时插入大量数据的操作来说，简直就是浪费时间。因此，要进一步提高插入效率的话，就应该使用后者。</p>
+<p>3、显式开启事务 <strong>BEGIN…COMMIT</strong><br>说明：</p>
+<p>SQLite的数据库本质上来讲就是一个磁盘上的文件，所以一切的数据库操作其实都会转化为对文件的操作，而频繁的文件操作将会是一个很好时的过程，会极大地影响数据库存取的速度。<br>        采用该种方法 就是将全部要执行的SQL语句先缓存在内存当中，然后等到COMMIT的时候一次性的写入数据库，这样数据库文件只被打开关闭了一次，效率自然大大的提高。<br>4、查询的话普通索引依旧很慢 我们可以采用fulltext 索引 速度比mysql快</p>
+<p>下面我们将1千万数据插入sqlite 看看消耗多少时间<br><code>php test.php</code><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images/buhuo.png" alt></p>
+<p>测试代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$t1 = microtime(<span class="keyword">true</span>);</span><br><span class="line">ini_set(<span class="string">"memory_limit"</span>,<span class="string">'-1'</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sqllite</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $r_db;</span><br><span class="line">    <span class="keyword">private</span> $r_table=<span class="string">'test'</span>;   </span><br><span class="line">       </span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;r_db=<span class="keyword">new</span> PDO(<span class="string">'sqlite:test.db3'</span>);</span><br><span class="line">$sql =<span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">PRAGMA temp_store = memory;</span></span><br><span class="line"><span class="string">PRAGMA locking_mode = EXCLUSIVE;</span></span><br><span class="line"><span class="string">PRAGMA synchronous = OFF;</span></span><br><span class="line"><span class="string">PRAGMA cache_size = 400000;</span></span><br><span class="line"><span class="string">PRAGMA page_size = 4096;</span></span><br><span class="line"><span class="string">PRAGMA auto_vacuum=NONE;</span></span><br><span class="line"><span class="string">PRAGMA count_changes = OFF;</span></span><br><span class="line"><span class="string">PRAGMA journal_mode = OFF;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS <span class="subst">&#123;$this-&gt;r_table&#125;</span> (</span></span><br><span class="line"><span class="string">        'id'  INTEGER primary key AUTOINCREMENT NOT NULL,</span></span><br><span class="line"><span class="string">        'test' char(15) NOT NULL</span></span><br><span class="line"><span class="string">);</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line"><span class="comment">//exit($sql.PHP_EOL);</span></span><br><span class="line"><span class="keyword">$this</span>-&gt;r_db-&gt;exec($sql);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (PDOException $ex)&#123;</span><br><span class="line">        <span class="keyword">die</span> (<span class="string">"[Error]  "</span>.$ex-&gt;getMessage() .PHP_EOL.</span><br><span class="line">        <span class="string">'         sudo apt-get install php5-sqlite php5-pdo'</span>.PHP_EOL.</span><br><span class="line">        <span class="string">'         add/edit in php.ini'</span>.PHP_EOL.</span><br><span class="line">        <span class="string">'         extension=pdo.so or pdo_sqlite.dll'</span>.PHP_EOL</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">show_count</span><span class="params">()</span></span>&#123;</span><br><span class="line">$sql =<span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">SELECT count(id) from <span class="subst">&#123;$this-&gt;r_table&#125;</span>;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line"></span><br><span class="line">$result=<span class="keyword">$this</span>-&gt;r_db-&gt;prepare($sql);</span><br><span class="line">$result-&gt;execute();</span><br><span class="line">$result= $result-&gt;fetch();</span><br><span class="line"><span class="keyword">return</span> $result[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">deleteTable</span><span class="params">()</span></span>&#123;</span><br><span class="line">$db=<span class="keyword">$this</span>-&gt;r_db;   </span><br><span class="line">$sql =<span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">drop table if exists <span class="subst">&#123;$this-&gt;r_table&#125;</span>;</span></span><br><span class="line"><span class="string">drop INDEX if exists qq_idx;</span></span><br><span class="line"><span class="string">delete from sqlite_sequence;</span></span><br><span class="line"><span class="string">vacuum;</span></span><br><span class="line">EOF;</span><br><span class="line">$db-&gt;exec($sql);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">import</span><span class="params">()</span></span>&#123;</span><br><span class="line">$db=<span class="keyword">$this</span>-&gt;r_db;</span><br><span class="line">$db-&gt;beginTransaction();</span><br><span class="line"><span class="keyword">for</span> ($i=<span class="number">1</span>;$i&lt;=<span class="number">10000000</span>;$i++)&#123;</span><br><span class="line">$sql =<span class="string">"insert into &#123;$this-&gt;r_table&#125;('test') VALUES ('&#123;$i&#125;');"</span>;</span><br><span class="line"><span class="comment">//echo $sql.PHP_EOL;</span></span><br><span class="line">$db-&gt;exec($sql);</span><br><span class="line">&#125;</span><br><span class="line">$db-&gt;commit();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">$this</span>-&gt;r_db=<span class="keyword">null</span>;      </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$sql=<span class="keyword">new</span> sqllite();</span><br><span class="line">$sql-&gt;import();</span><br><span class="line">$t2 = microtime(<span class="keyword">true</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'插入 10000000 条数据'</span>.PHP_EOL;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'耗时'</span>.round($t2-$t1,<span class="number">3</span>).<span class="string">'秒'</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>下面的例子就是将某文本文件(某数据库)插入数据库<br>建议先用shell命令 处理好 再入库 减少php操作 (如剔除 不规则字符 、转换编码 格式规范)<br>awk sed grep…</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"memory_limit"</span>,<span class="string">'-1'</span>);</span><br><span class="line">$table=<span class="string">'sgk'</span>;</span><br><span class="line"></span><br><span class="line">$txt=<span class="string">'moko.txt'</span>;  <span class="comment">//要导入的文本</span></span><br><span class="line">$from=<span class="string">'moko'</span>;    <span class="comment">//数据来源</span></span><br><span class="line"><span class="comment">//$db=$from.'.db3';  //测试临时库名</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">empty</span>($db)?$db=<span class="string">'sgk.db3'</span>:$db;</span><br><span class="line"></span><br><span class="line"><span class="comment">//$index="&#123;$table&#125;_idx";</span></span><br><span class="line"></span><br><span class="line">$db = <span class="keyword">new</span> SQLite3($db);</span><br><span class="line">$s =<span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">PRAGMA temp_store = memory;</span></span><br><span class="line"><span class="string">PRAGMA locking_mode = EXCLUSIVE;</span></span><br><span class="line"><span class="string">PRAGMA synchronous = OFF;</span></span><br><span class="line"><span class="string">PRAGMA cache_size = 400000;</span></span><br><span class="line"><span class="string">PRAGMA page_size = 4096;</span></span><br><span class="line"><span class="string">PRAGMA auto_vacuum=NONE;</span></span><br><span class="line"><span class="string">PRAGMA count_changes = OFF;</span></span><br><span class="line"><span class="string">PRAGMA journal_mode = OFF;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS <span class="subst">&#123;$table&#125;</span> (</span></span><br><span class="line"><span class="string">        'id'  INTEGER primary key AUTOINCREMENT NOT NULL,</span></span><br><span class="line"><span class="string">        'uname' char(15) NOT NULL ,</span></span><br><span class="line"><span class="string">        'pass'  char(25)  NOT NULL,</span></span><br><span class="line"><span class="string">'from'  char(15) NULL</span></span><br><span class="line"><span class="string">);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line"></span><br><span class="line">$db-&gt;exec($s);</span><br><span class="line"></span><br><span class="line">$sql =<span class="string">"insert into &#123;$table&#125;('uname','pass','from') VALUES (?,?,'&#123;$from&#125;');"</span>;</span><br><span class="line"></span><br><span class="line">$stmt = $db-&gt;prepare($sql);</span><br><span class="line"></span><br><span class="line">$db-&gt;exec(<span class="string">"BEGIN"</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">FALSE</span> !==($fp=fopen($txt,<span class="string">'r'</span>)))&#123;</span><br><span class="line"><span class="keyword">while</span>(!feof($fp))&#123;</span><br><span class="line">$buffer=rtrim(fgets($fp));</span><br><span class="line"></span><br><span class="line">@<span class="keyword">list</span>($email,$uname,$pass)=@explode(<span class="string">"----"</span>,$buffer);</span><br><span class="line">@$stmt-&gt;reset();</span><br><span class="line">@$stmt-&gt;clear();</span><br><span class="line">$stmt-&gt;bindValue(<span class="number">1</span>, $email.<span class="string">"\t"</span>.$uname, SQLITE3_TEXT);        </span><br><span class="line">$stmt-&gt;bindValue(<span class="number">2</span>, $pass, SQLITE3_TEXT);</span><br><span class="line">@$stmt-&gt;execute();        </span><br><span class="line">&#125;</span><br><span class="line">$db-&gt;exec(<span class="string">"COMMIT"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其实本文就是提供搭建 可移动社工库的一个思路。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2015/05/24/sqlite-fast/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2015/05/24/sqlite-fast/&text=sqlite 高速插入文本文件"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2015/05/24/sqlite-fast/&title=sqlite 高速插入文本文件"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2015/05/24/sqlite-fast/&is_video=false&description=sqlite 高速插入文本文件"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=sqlite 高速插入文本文件&body=Check out this article: http://wolvez.club/2015/05/24/sqlite-fast/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2015/05/24/sqlite-fast/&title=sqlite 高速插入文本文件"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2015/05/24/sqlite-fast/&title=sqlite 高速插入文本文件"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2015/05/24/sqlite-fast/&title=sqlite 高速插入文本文件"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2015/05/24/sqlite-fast/&title=sqlite 高速插入文本文件"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2015/05/24/sqlite-fast/&name=sqlite 高速插入文本文件&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

@@ -1,0 +1,6 @@
+@font-face {
+  font-family: 'Meslo LG';
+  font-style: normal;
+  src: local('Meslo LG S'), url(
+    https://wolvez.oss-cn-hangzhou.aliyuncs.com/files/MesloLGS-Regular.ttf) format('truetype');
+}

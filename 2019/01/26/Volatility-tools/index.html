@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="应急响应笔记持续更新中，大部分内容都是工作上遇到的，欢迎讨论  1. 共享访问监控 功能：查看连接 场景：某机器提供共享，共享文件夹一直报毒，使用该工具可快速知道哪些机器访问了该机器共享 下载地址：networkopenedfiles-x64.zip  使用效果如下： 设置存储日志：  ps:后来发现windows 自带共享会话监视功能  其它:组策略中开启审核对象访问,并对共享目录中添加对应的">
+<meta name="keywords" content="应急响应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应急分析取证工具篇">
+<meta property="og:url" content="http://wolvez.club/2019/01/26/Volatility-tools/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="应急响应笔记持续更新中，大部分内容都是工作上遇到的，欢迎讨论  1. 共享访问监控 功能：查看连接 场景：某机器提供共享，共享文件夹一直报毒，使用该工具可快速知道哪些机器访问了该机器共享 下载地址：networkopenedfiles-x64.zip  使用效果如下： 设置存储日志：  ps:后来发现windows 自带共享会话监视功能  其它:组策略中开启审核对象访问,并对共享目录中添加对应的">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/cf74d7647803cf1df3e9681447abdb5a.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/4ae41839c00bf802df062cc0b8f888ea.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/492f6a446ac1ccdbb1bb9785f3e7524a.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/f5951b7fa73a21e77638f9c64e473c3b.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/1e444bd284979447c123f80e7945693c.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/83dbf2e863f4b81328df571368e1e3de.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/57b13d67c449a4294454557d7002fed3.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/ee03222c2bccbf497ae37f7173ec6a53.png">
+<meta property="og:updated_time" content="2019-07-28T18:54:26.530Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="应急分析取证工具篇">
+<meta name="twitter:description" content="应急响应笔记持续更新中，大部分内容都是工作上遇到的，欢迎讨论  1. 共享访问监控 功能：查看连接 场景：某机器提供共享，共享文件夹一直报毒，使用该工具可快速知道哪些机器访问了该机器共享 下载地址：networkopenedfiles-x64.zip  使用效果如下： 设置存储日志：  ps:后来发现windows 自带共享会话监视功能  其它:组策略中开启审核对象访问,并对共享目录中添加对应的">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/cf74d7647803cf1df3e9681447abdb5a.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>应急分析取证工具篇</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/02/12/threathunter-windows/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/01/06/sql-pentest/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/01/26/Volatility-tools/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/01/26/Volatility-tools/&text=应急分析取证工具篇"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/01/26/Volatility-tools/&title=应急分析取证工具篇"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/01/26/Volatility-tools/&is_video=false&description=应急分析取证工具篇"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=应急分析取证工具篇&body=Check out this article: http://wolvez.club/2019/01/26/Volatility-tools/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/01/26/Volatility-tools/&title=应急分析取证工具篇"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/01/26/Volatility-tools/&title=应急分析取证工具篇"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/01/26/Volatility-tools/&title=应急分析取证工具篇"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/01/26/Volatility-tools/&title=应急分析取证工具篇"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/01/26/Volatility-tools/&name=应急分析取证工具篇&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-共享访问监控"><span class="toc-number">1.</span> <span class="toc-text">1. 共享访问监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-wifi使用记录"><span class="toc-number">2.</span> <span class="toc-text">2. wifi使用记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-usb使用记录"><span class="toc-number">3.</span> <span class="toc-text">3. usb使用记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-内存取证"><span class="toc-number">4.</span> <span class="toc-text">4. 内存取证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Ghost-镜像浏览"><span class="toc-number">5.</span> <span class="toc-text">5. Ghost 镜像浏览</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        应急分析取证工具篇
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-01-26T15:16:00.000Z" itemprop="datePublished">2019-01-26</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/应急响应/">应急响应</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>应急响应笔记持续更新中，大部分内容都是工作上遇到的，欢迎讨论</p>
+</blockquote>
+<h3 id="1-共享访问监控"><a href="#1-共享访问监控" class="headerlink" title="1. 共享访问监控"></a>1. 共享访问监控</h3><ul>
+<li>功能：查看连接</li>
+<li>场景：某机器提供共享，共享文件夹一直报毒，使用该工具可快速知道哪些机器访问了该机器共享</li>
+<li>下载地址：<a href="http://www.nirsoft.net/utils/networkopenedfiles-x64.zip" target="_blank" rel="noopener">networkopenedfiles-x64.zip</a></li>
+</ul>
+<p><strong>使用效果如下：</strong><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/cf74d7647803cf1df3e9681447abdb5a.png" alt="2019-07-29-02-42-37"></p>
+<p><strong>设置存储日志：</strong><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/4ae41839c00bf802df062cc0b8f888ea.png" alt="2019-07-29-02-42-58"></p>
+<blockquote>
+<p>ps:后来发现windows 自带共享会话监视功能</p>
+</blockquote>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/492f6a446ac1ccdbb1bb9785f3e7524a.png" alt="2019-07-29-02-43-27"><br><strong>其它:</strong><br>组策略中开启<strong>审核对象访问</strong>,并对<strong>共享目录</strong>中添加对应的审核账号的写入属性<strong>成功</strong>和<strong>删除</strong>的审核,即可在操作系统安全日志中看到相关记录<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/f5951b7fa73a21e77638f9c64e473c3b.png" alt="2019-07-29-02-39-55"></p>
+<h3 id="2-wifi使用记录"><a href="#2-wifi使用记录" class="headerlink" title="2. wifi使用记录"></a>2. wifi使用记录</h3><ul>
+<li>功能：查看使用wifi历史记录</li>
+<li>场景：看该电脑是否有连接过其它无线网络，以证明非本内网络导致感染</li>
+<li>下载地址：<a href="http://www.nirsoft.net/utils/wifihistoryview.zip" target="_blank" rel="noopener">wifihistoryview</a></li>
+</ul>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/1e444bd284979447c123f80e7945693c.png" alt="2019-07-29-02-43-57"></p>
+<h3 id="3-usb使用记录"><a href="#3-usb使用记录" class="headerlink" title="3. usb使用记录"></a>3. usb使用记录</h3><ul>
+<li>功能：查看插入或拔出系统的任何USB设备的详细信息。</li>
+<li>场景：查看是否为u盘传输导致感染</li>
+<li>下载地址：<a href="https://www.nirsoft.net/utils/usblogview.zip" target="_blank" rel="noopener">usblogview.zip</a></li>
+</ul>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/83dbf2e863f4b81328df571368e1e3de.png" alt="2019-07-29-02-44-19"></p>
+<h3 id="4-内存取证"><a href="#4-内存取证" class="headerlink" title="4. 内存取证"></a>4. 内存取证</h3><ul>
+<li>内存镜像工具 DumpIt.exe</li>
+<li>介绍：DumpIt 是一款绿色免安装的 windows 内存镜像取证工具。利用它我们可以轻松地将一个系统的完整内存镜像下来，并用于后续的调查取证工作。</li>
+</ul>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/57b13d67c449a4294454557d7002fed3.png" alt="突破来源:即刻安全"></p>
+<blockquote>
+<p>下载地址 <a href="https://my.comae.io/tools" target="_blank" rel="noopener">Comae-Toolkit</a></p>
+<ul>
+<li><a href="http://www.secist.com/archives/2076.html" target="_blank" rel="noopener">http://www.secist.com/archives/2076.html</a></li>
+<li><a href="http://blog.md5.red/?p=578" target="_blank" rel="noopener">http://blog.md5.red/?p=578</a></li>
+</ul>
+</blockquote>
+<ul>
+<li>raw 内存取证</li>
+<li>github:<a href="https://github.com/volatilityfoundation" target="_blank" rel="noopener">https://github.com/volatilityfoundation</a></li>
+<li>exe下载:<a href="https://www.volatilityfoundation.org/releases" target="_blank" rel="noopener">https://www.volatilityfoundation.org/releases</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python vol.py -f /root/lltest/PC-20170527XAOD-20180409-232828.raw --profile=Win7SP1x86 pslist</span><br><span class="line">python vol.py -f /root/lltest/PC-20170527XAOD-20180409-232828.raw --profile=Win7SP1x86 psxview</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/ee03222c2bccbf497ae37f7173ec6a53.png" alt="2019-07-29-02-45-40"></p>
+<ul>
+<li>参考:<a href="https://xz.aliyun.com/t/2497" target="_blank" rel="noopener">https://xz.aliyun.com/t/2497</a></li>
+</ul>
+<h3 id="5-Ghost-镜像浏览"><a href="#5-Ghost-镜像浏览" class="headerlink" title="5. Ghost 镜像浏览"></a>5. Ghost 镜像浏览</h3><ul>
+<li><p>ghost-explorer </p>
+</li>
+<li><p>系统比较复杂不便现场分析，可备份ghost 文件，后面用ghost-explorer 进行提取相关文件</p>
+</li>
+<li><p>背景：一次应急过程，客户铲掉了受感染系统，而这台服务器刚好是关键线索。幸好客户前面做了ghost备份。后面通过ghost-explorer  提取ghost 镜像注册表、日志信息成功溯源。</p>
+</li>
+<li><p>官网 <a href="https://www.symantec.com/connect/blogs/ghost-explorer" target="_blank" rel="noopener">https://www.symantec.com/connect/blogs/ghost-explorer</a> </p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-共享访问监控"><span class="toc-number">1.</span> <span class="toc-text">1. 共享访问监控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-wifi使用记录"><span class="toc-number">2.</span> <span class="toc-text">2. wifi使用记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-usb使用记录"><span class="toc-number">3.</span> <span class="toc-text">3. usb使用记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-内存取证"><span class="toc-number">4.</span> <span class="toc-text">4. 内存取证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Ghost-镜像浏览"><span class="toc-number">5.</span> <span class="toc-text">5. Ghost 镜像浏览</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/01/26/Volatility-tools/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/01/26/Volatility-tools/&text=应急分析取证工具篇"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/01/26/Volatility-tools/&title=应急分析取证工具篇"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/01/26/Volatility-tools/&is_video=false&description=应急分析取证工具篇"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=应急分析取证工具篇&body=Check out this article: http://wolvez.club/2019/01/26/Volatility-tools/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/01/26/Volatility-tools/&title=应急分析取证工具篇"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/01/26/Volatility-tools/&title=应急分析取证工具篇"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/01/26/Volatility-tools/&title=应急分析取证工具篇"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/01/26/Volatility-tools/&title=应急分析取证工具篇"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/01/26/Volatility-tools/&name=应急分析取证工具篇&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

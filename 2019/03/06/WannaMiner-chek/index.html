@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="发现可疑进程:外部扫描:  该木马通常会开启65531-65533 端口  nmap -p65531-65533 --open -oG d:\result1.txt 10.230.12.1/16 过滤出受影响IP：grep -oE &amp;quot;\b([0-9]{1,3}\.){3}[0-9]{1,3}\b&amp;quot; 230-result1.txt  恶意端口对应进程:恶意进程对应服务:对应服务名">
+<meta name="keywords" content="应急响应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WannaMiner 挖矿木马手工检测笔记">
+<meta property="og:url" content="http://wolvez.club/2019/03/06/WannaMiner-chek/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="发现可疑进程:外部扫描:  该木马通常会开启65531-65533 端口  nmap -p65531-65533 --open -oG d:\result1.txt 10.230.12.1/16 过滤出受影响IP：grep -oE &amp;quot;\b([0-9]{1,3}\.){3}[0-9]{1,3}\b&amp;quot; 230-result1.txt  恶意端口对应进程:恶意进程对应服务:对应服务名">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/a0bb3745392df5dbf807ee805f07544f.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/e10abfa4791caddda43161a31ad7ddcb.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/f7118c5858256943273daa21ea0df961.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/f945b3d48d450d8441f20902a1f41289.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/d3827ee675618acd8b6682077206c65e.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/ea6cd096b4e4fccc20ee173d82b1ca5d.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/5c2f88b609b50a1c9f8e7d539fb5d839.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/5b23a7091fb761b47cb025d821b223a2.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/b571017d34845bd594d4388c429f02b0.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/4c0d6f2cec5c3610d5f6c6de54e494ba.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/c28f0ec08a9a7c2f6b215a6a07043c2d.png">
+<meta property="og:updated_time" content="2019-07-28T18:22:04.950Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WannaMiner 挖矿木马手工检测笔记">
+<meta name="twitter:description" content="发现可疑进程:外部扫描:  该木马通常会开启65531-65533 端口  nmap -p65531-65533 --open -oG d:\result1.txt 10.230.12.1/16 过滤出受影响IP：grep -oE &amp;quot;\b([0-9]{1,3}\.){3}[0-9]{1,3}\b&amp;quot; 230-result1.txt  恶意端口对应进程:恶意进程对应服务:对应服务名">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/a0bb3745392df5dbf807ee805f07544f.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>WannaMiner 挖矿木马手工检测笔记</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/03/15/DriverLife-Worm-killer/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/03/05/Data-cleaning/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/03/06/WannaMiner-chek/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&text=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&title=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&is_video=false&description=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WannaMiner 挖矿木马手工检测笔记&body=Check out this article: http://wolvez.club/2019/03/06/WannaMiner-chek/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&title=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&title=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&title=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&title=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&name=WannaMiner 挖矿木马手工检测笔记&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#发现可疑进程"><span class="toc-number">1.</span> <span class="toc-text">发现可疑进程:</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        WannaMiner 挖矿木马手工检测笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-03-06T08:36:59.000Z" itemprop="datePublished">2019-03-06</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/应急响应/">应急响应</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="发现可疑进程"><a href="#发现可疑进程" class="headerlink" title="发现可疑进程:"></a>发现可疑进程:</h3><p><strong>外部扫描:</strong></p>
+<blockquote>
+<p>该木马通常会开启65531-65533 端口</p>
+</blockquote>
+<p><code>nmap -p65531-65533 --open -oG d:\result1.txt 10.230.12.1/16</code></p>
+<p><strong>过滤出受影响IP：</strong><br><code>grep -oE &quot;\b([0-9]{1,3}\.){3}[0-9]{1,3}\b&quot; 230-result1.txt</code></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/a0bb3745392df5dbf807ee805f07544f.png" alt="2019-07-29-02-00-07"></p>
+<p><strong>恶意端口对应进程:</strong><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/e10abfa4791caddda43161a31ad7ddcb.png" alt="2019-07-29-02-00-33"><br><strong>恶意进程对应服务:</strong><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/f7118c5858256943273daa21ea0df961.png" alt="2019-07-29-02-01-22"><br>对应服务名:<code>snmpstorsrv</code></p>
+<p><strong>恶意服务详情</strong><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/f945b3d48d450d8441f20902a1f41289.png" alt="2019-07-29-02-02-05"></p>
+<p><strong>服务加载模块</strong></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/d3827ee675618acd8b6682077206c65e.png" alt="2019-07-29-02-02-28"><br>加载dll:<code>snmpstorsrv.dll</code></p>
+<p><strong>加载恶意模块位置</strong></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/ea6cd096b4e4fccc20ee173d82b1ca5d.png" alt="2019-07-29-02-03-45"><br>dll位置:<code>C:\Windows\system32\snmpstorsrv.dll</code></p>
+<p><strong>dll模块对应的md5</strong></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/5c2f88b609b50a1c9f8e7d539fb5d839.png" alt="2019-07-29-02-04-42"></p>
+<p>MD5:<code>42A12DE5A2B8CFF827407877DBD66B16</code><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/5b23a7091fb761b47cb025d821b223a2.png" alt="2019-07-29-02-05-07"><br>360威胁情报查看确实有相应的威胁情报信息，并有相关安全报道</p>
+<p><strong>查看文件创建日期</strong><br><code>Get-Item C:\Windows\system32\snmpstorsrv.dll</code></p>
+<p><code>2009/7/14      9:39</code>  修改过文件时间不准确</p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/b571017d34845bd594d4388c429f02b0.png" alt="2019-07-29-02-06-00"><br><strong>导出注册表查看服务创建日期</strong><br>服务创建日期:<code>2018/11/16 - 18:17</code></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/4c0d6f2cec5c3610d5f6c6de54e494ba.png" alt="2019-07-29-02-06-27"><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/c28f0ec08a9a7c2f6b215a6a07043c2d.png" alt="2019-07-29-02-06-51"></p>
+<blockquote>
+<p>更详细快捷的查杀建议使用<strong>pchunter</strong> <strong>火绒剑</strong> <strong>auturuns</strong>等安全工具</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#发现可疑进程"><span class="toc-number">1.</span> <span class="toc-text">发现可疑进程:</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/03/06/WannaMiner-chek/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&text=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&title=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&is_video=false&description=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WannaMiner 挖矿木马手工检测笔记&body=Check out this article: http://wolvez.club/2019/03/06/WannaMiner-chek/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&title=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&title=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&title=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&title=WannaMiner 挖矿木马手工检测笔记"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/03/06/WannaMiner-chek/&name=WannaMiner 挖矿木马手工检测笔记&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="功能描述：将大量的域名转换成ip 按ip排序 并获取服务器基本信息 使用场景：如某个大型网络 我们获取了数千子域名有多个网段我们通过ip 以及服务器基本信息 判断 域名所对应的网段 及所采用的 WebServer 服务器 版本 该脚本采用 多进程技术 加快了转换速度控制超时时间 防止 执行卡死 丢弃 无法访问的 ip使用前请确认您dns 解析速度够快建议将dns 设置为 8.8.8.8 或114.">
+<meta name="keywords" content="多进程 php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="批量域名转ip及相关信息">
+<meta property="og:url" content="http://wolvez.club/2015/05/24/host2ip/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="功能描述：将大量的域名转换成ip 按ip排序 并获取服务器基本信息 使用场景：如某个大型网络 我们获取了数千子域名有多个网段我们通过ip 以及服务器基本信息 判断 域名所对应的网段 及所采用的 WebServer 服务器 版本 该脚本采用 多进程技术 加快了转换速度控制超时时间 防止 执行卡死 丢弃 无法访问的 ip使用前请确认您dns 解析速度够快建议将dns 设置为 8.8.8.8 或114.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-16T16:39:13.610Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="批量域名转ip及相关信息">
+<meta name="twitter:description" content="功能描述：将大量的域名转换成ip 按ip排序 并获取服务器基本信息 使用场景：如某个大型网络 我们获取了数千子域名有多个网段我们通过ip 以及服务器基本信息 判断 域名所对应的网段 及所采用的 WebServer 服务器 版本 该脚本采用 多进程技术 加快了转换速度控制超时时间 防止 执行卡死 丢弃 无法访问的 ip使用前请确认您dns 解析速度够快建议将dns 设置为 8.8.8.8 或114.">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>批量域名转ip及相关信息</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2015/05/24/Small-ssd/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2015/05/24/sqlite-fast/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2015/05/24/host2ip/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2015/05/24/host2ip/&text=批量域名转ip及相关信息"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2015/05/24/host2ip/&title=批量域名转ip及相关信息"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2015/05/24/host2ip/&is_video=false&description=批量域名转ip及相关信息"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=批量域名转ip及相关信息&body=Check out this article: http://wolvez.club/2015/05/24/host2ip/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2015/05/24/host2ip/&title=批量域名转ip及相关信息"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2015/05/24/host2ip/&title=批量域名转ip及相关信息"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2015/05/24/host2ip/&title=批量域名转ip及相关信息"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2015/05/24/host2ip/&title=批量域名转ip及相关信息"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2015/05/24/host2ip/&name=批量域名转ip及相关信息&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        批量域名转ip及相关信息
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2015-05-24T10:11:00.000Z" itemprop="datePublished">2015-05-24</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/多进程-php/">多进程 php</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>功能描述：<br>将大量的域名转换成ip 按ip排序 并获取服务器基本信息</p>
+<p>使用场景：<br>如某个大型网络 我们获取了数千子域名<br>有多个网段<br>我们通过ip 以及服务器基本信息 判断 域名所对应的网段 及所采用的 WebServer 服务器 版本</p>
+<p>该脚本采用 多进程技术 加快了转换速度<br>控制超时时间 防止 执行卡死 丢弃 无法访问的 ip<br>使用前请确认您dns 解析速度够快<br>建议将dns 设置为 <code>8.8.8.8</code> 或<code>114.114.114.114</code><br>或挂海外vpn<br>以获取最佳结果<br>由于该脚本使用<code>wmi</code> 控制多进程所以仅支持<strong>windows</strong>，<strong>linux</strong>下用其它技术实现<br>该脚本调用php 模块：<code>pdo_sqlite</code> <code>curl</code> 使用前请确认 您的php 开启相关模块<br>使用前请不要修改文件名字</p>
+<p>windows 命令行下：</p>
+<p><code>commandline &gt; php host2ip.php host.txt</code><br><strong>host.txt</strong> 为多个 网站域名文件<br>执行完毕将会在当前目录生成<strong>result.txt</strong>的结果文件</p>
+<p><strong>resolveip.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">isset</span>($argv[<span class="number">1</span>]) ? $host = trim($argv[<span class="number">1</span>]) : <span class="keyword">exit</span>();</span><br><span class="line"><span class="keyword">include</span> <span class="string">'sqlite.php'</span>;</span><br><span class="line">$sql = <span class="keyword">new</span> sqllite();</span><br><span class="line">$result = _gethostbyname($host);</span><br><span class="line"></span><br><span class="line"><span class="comment">//域名转ip</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_gethostbyname</span><span class="params">($host)</span> </span>&#123;</span><br><span class="line">    $ip = gethostbyname($host);</span><br><span class="line">    <span class="keyword">if</span> (chk_ip($ip)) &#123;</span><br><span class="line">        $i[<span class="string">'host'</span>] = $host;</span><br><span class="line">        $i[<span class="string">'ip'</span>] = $ip;</span><br><span class="line">        <span class="keyword">return</span> $i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">empty</span>($result[<span class="string">'ip'</span>])) &#123;</span><br><span class="line">    $sc = $sql-&gt;server_ip_exit($result[<span class="string">'ip'</span>]);</span><br><span class="line">    <span class="keyword">if</span> ($sc != <span class="number">0</span>) &#123;</span><br><span class="line">        </span><br><span class="line">        $serv = $sql-&gt;get_server($result[<span class="string">'ip'</span>]);</span><br><span class="line">        $sql-&gt;insert($result[<span class="string">'host'</span>], $result[<span class="string">'ip'</span>], $serv);</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        $server = get_server($result[<span class="string">'ip'</span>]);</span><br><span class="line">        $sql-&gt;insert($result[<span class="string">'host'</span>], $result[<span class="string">'ip'</span>], $server);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_server</span><span class="params">($host)</span> </span>&#123;</span><br><span class="line">    $ch = curl_init();</span><br><span class="line">    curl_setopt($ch, CURLOPT_URL, $host);</span><br><span class="line">    curl_setopt($ch, CURLOPT_HEADER, <span class="keyword">true</span>);</span><br><span class="line">    curl_setopt($ch, CURLOPT_NOBODY, <span class="keyword">true</span>);</span><br><span class="line">    curl_setopt($ch, CURLOPT_RETURNTRANSFER, <span class="keyword">true</span>);</span><br><span class="line">    curl_setopt($ch, CURLOPT_USERAGENT, <span class="string">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A'</span>);</span><br><span class="line">    curl_setopt($ch, CURLOPT_TIMEOUT, <span class="number">5</span>);</span><br><span class="line">    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, <span class="number">5</span>);</span><br><span class="line">    </span><br><span class="line">    $head = curl_exec($ch);</span><br><span class="line">    preg_match_all(<span class="string">'/^(?:Server|X-Powered-By):\s([^[:cntrl:]]+)/im'</span>, $head, $server);</span><br><span class="line">    $info = $server[<span class="number">1</span>];</span><br><span class="line">    $c = count($info);</span><br><span class="line">    <span class="keyword">empty</span>($info) ? $banner = <span class="keyword">false</span> : $banner = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> ($banner &amp;&amp; $c != <span class="number">0</span>) &#123;</span><br><span class="line">        $c == <span class="number">2</span> ? $return = $info[<span class="number">0</span>] . <span class="string">' | '</span> . $info[<span class="number">1</span>] : $return = $info[<span class="number">0</span>];</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'(none)'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">chk_ip</span><span class="params">($ip)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE) &amp;&amp; substr($ip, <span class="number">0</span>, <span class="number">4</span>) != <span class="string">'127.'</span> &amp;&amp; substr($ip, <span class="number">0</span>, <span class="number">4</span>) != <span class="string">'255.'</span> &amp;&amp; $ip != <span class="string">'0.0.0.0'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> $ip;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>host2ip.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">date_default_timezone_set(<span class="string">'PRC'</span>);</span><br><span class="line">$start_time = func_time();</span><br><span class="line">is_file($argv[<span class="number">1</span>])?$hostfile=$argv[<span class="number">1</span>]:<span class="keyword">exit</span>(<span class="string">"php $argv[0] host.txt"</span>);</span><br><span class="line">$list=geturllist($hostfile);</span><br><span class="line">$counts=sizeof($list);	</span><br><span class="line"></span><br><span class="line">$Refresh=<span class="number">3000000</span>;<span class="comment">//刷新时间3 秒</span></span><br><span class="line">$thread=<span class="number">20</span>; <span class="comment">//并发</span></span><br><span class="line">$ExecTimeout=<span class="number">10</span>;</span><br><span class="line"><span class="comment">//$chunk=array_chunk($list,$thread);//从0 开始</span></span><br><span class="line">printf(<span class="string">"[i] 数量 %d 条,线程数%d ,刷新时间%d微秒,超时时间 %d秒\r\n"</span>,$counts,$thread,$Refresh,$ExecTimeout);</span><br><span class="line">usleep(<span class="number">500000</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"程序执行中...\r\n"</span>;</span><br><span class="line"><span class="keyword">foreach</span> ($list <span class="keyword">as</span> $c )&#123;</span><br><span class="line">	$task= task(<span class="string">'resolveip.php'</span>,$ExecTimeout);</span><br><span class="line">	back_run(<span class="string">'php.exe resolveip.php '</span>.$c);</span><br><span class="line">  <span class="keyword">if</span>($task &gt;= $thread)&#123;</span><br><span class="line">		  usleep($Refresh);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">task</span><span class="params">($taskname,$ExecTimeout)</span></span>&#123;</span><br><span class="line">$LocalWMISvc=<span class="keyword">new</span> com(<span class="string">'WinMgmts:&#123;impersonationLevel=impersonate&#125;!\\\\.\root\CIMV2'</span>);</span><br><span class="line"></span><br><span class="line">$QueryObjSet=$LocalWMISvc-&gt;ExecQuery(<span class="string">"select * from win32_process where commandline like '%&#123;$taskname&#125;%' and (name='php.exe' or name='cmd.exe')"</span>);</span><br><span class="line">$taskcount= $QueryObjSet-&gt;Count;</span><br><span class="line"><span class="keyword">foreach</span> ($QueryObjSet <span class="keyword">as</span> $process)&#123;</span><br><span class="line"><span class="keyword">if</span>((func_time() - strtotime(substr($process-&gt;CreationDate,<span class="number">0</span>,<span class="number">14</span>))) &gt;= $ExecTimeout)&#123;</span><br><span class="line">	@exec(<span class="string">"taskkill -pid $process-&gt;ProcessId /f 2&gt;nul"</span>,$o,$r); <span class="comment">//超时则强制退出</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> $taskcount;  <span class="comment">//返回进程数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">back_run</span><span class="params">($cmd)</span></span>&#123;</span><br><span class="line">	pclose(popen(<span class="string">"start /B "</span>. $cmd , <span class="string">"r"</span>)); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_echo</span><span class="params">($str)</span></span>&#123;</span><br><span class="line"><span class="keyword">echo</span> $str.PHP_EOL;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func_time</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">list</span>($microsec, $sec) = explode(<span class="string">' '</span>, microtime());</span><br><span class="line">    <span class="keyword">return</span> $sec;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">geturllist</span><span class="params">($hostfile)</span></span>&#123;</span><br><span class="line">$urllist=file($hostfile);</span><br><span class="line"><span class="keyword">if</span>(is_array($urllist))&#123;</span><br><span class="line">	$arr=array_unique($urllist);</span><br><span class="line">	$url=<span class="string">''</span>;</span><br><span class="line">	$urls=<span class="string">''</span>;</span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $s)&#123;</span><br><span class="line">	</span><br><span class="line">	$p = <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'/(http|https|ftp):\/\//i'</span>,</span><br><span class="line">        <span class="string">'/\//i'</span>,</span><br><span class="line">        <span class="string">'/\s*?/'</span>,</span><br><span class="line">    );</span><br><span class="line">    $url = preg_replace($p, <span class="string">""</span>, $s);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">empty</span>($url))&#123;</span><br><span class="line">    $urls[]=$url;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> $urls;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sleep(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">if</span>(task(<span class="string">'resolveip.php'</span>,$ExecTimeout) !=<span class="number">0</span>)&#123;</span><br><span class="line">sleep(<span class="number">5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">include</span> <span class="string">'sqlite.php'</span>;</span><br><span class="line">$sql=<span class="keyword">new</span> sqllite();</span><br><span class="line">$c=$sql-&gt;show_count();</span><br><span class="line">$Etime=round((func_time() - $start_time), <span class="number">4</span>);</span><br><span class="line">$fs=($counts-$c);</span><br><span class="line">printf(<span class="string">"共 %d host , 转换成功 %d 条, 失败 %d 条\r\n耗时:%d 秒 \r\n\r\n"</span>,$counts,$c,$fs,$Etime);</span><br><span class="line">$sql-&gt;dump();</span><br><span class="line"><span class="comment">//$sql-&gt;deleteTable();</span></span><br><span class="line">$sql=<span class="keyword">null</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>sqlite.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sqllite</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $ResultFile = <span class="string">'result.txt'</span>;</span><br><span class="line">    <span class="keyword">private</span> $r_db;</span><br><span class="line">    <span class="keyword">private</span> $r_table = <span class="string">'url2ip'</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">$this</span>-&gt;r_db = <span class="keyword">new</span> PDO(<span class="string">'sqlite:url2ip.db'</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">array</span>(PDO::ATTR_PERSISTENT =&gt; <span class="keyword">true</span>));</span><br><span class="line">             <span class="comment">//存储结果集</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">//初始化 创建相应的表</span></span><br><span class="line">            $sql = <span class="string">"PRAGMA synchronous = OFF;"</span>;</span><br><span class="line">            $sql.= <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS <span class="subst">&#123;$this-&gt;r_table&#125;</span> (</span></span><br><span class="line"><span class="string">	'id'  INTEGER primary key AUTOINCREMENT NOT NULL,</span></span><br><span class="line"><span class="string">	'domain'  varchar(50) NOT NULL ,</span></span><br><span class="line"><span class="string">	'ip'  varchar(20)  NOT NULL,</span></span><br><span class="line"><span class="string">	'server' varchar(100)	</span></span><br><span class="line"><span class="string">);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">CREATE UNIQUE INDEX 'unique_<span class="subst">&#123;$this-&gt;r_table&#125;</span>'</span></span><br><span class="line"><span class="string">ON 'url2ip' ('domain' ASC, 'ip' ASC);</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line">            <span class="keyword">$this</span>-&gt;r_db-&gt;exec($sql);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span>(PDOException $ex) &#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"[Error]  "</span> . $ex-&gt;getMessage() . PHP_EOL . <span class="string">'         add/edit in php.ini'</span> . PHP_EOL . <span class="string">'         extension=pdo_sqlite.so or pdo_sqlite.dll'</span> . PHP_EOL);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">insert</span><span class="params">($value1, $value2, $value3 = NULL)</span> </span>&#123;</span><br><span class="line">        $db = <span class="keyword">$this</span>-&gt;r_db;</span><br><span class="line">        $sql = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">insert into <span class="subst">&#123;$this-&gt;r_table&#125;</span>('domain','ip','server') VALUES ('<span class="subst">&#123;$value1&#125;</span>', '<span class="subst">&#123;$value2&#125;</span>','<span class="subst">&#123;$value3&#125;</span>') ;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line">        $db-&gt;exec($sql);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">show_result</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $sql = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">SELECT domain,ip,server from <span class="subst">&#123;$this-&gt;r_table&#125;</span>  ORDER BY ip;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line">        </span><br><span class="line">        $sql = <span class="keyword">$this</span>-&gt;r_db-&gt;query($sql);</span><br><span class="line">        $result = $sql-&gt;fetchAll();</span><br><span class="line">        <span class="keyword">return</span> $result;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">show_count</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $sql = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">SELECT count(*) from <span class="subst">&#123;$this-&gt;r_table&#125;</span>;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line">        </span><br><span class="line">        $result = <span class="keyword">$this</span>-&gt;r_db-&gt;prepare($sql);</span><br><span class="line">        $result-&gt;execute();</span><br><span class="line">        $result = $result-&gt;fetch();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> $result[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">deleteTable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $db = <span class="keyword">$this</span>-&gt;r_db;</span><br><span class="line">        $sql = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">drop table if exists <span class="subst">&#123;$this-&gt;r_table&#125;</span>;</span></span><br><span class="line"><span class="string">delete from sqlite_sequence;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line">        $db-&gt;exec($sql);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">server_ip_exit</span><span class="params">($ip)</span> </span>&#123;</span><br><span class="line">        $sql = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">SELECT count(*) from <span class="subst">&#123;$this-&gt;r_table&#125;</span> where ip='<span class="subst">&#123;$ip&#125;</span>' and server not NULL;   //该ip server无值</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line">        $result = <span class="keyword">$this</span>-&gt;r_db-&gt;prepare($sql);</span><br><span class="line">        $result-&gt;execute();</span><br><span class="line">        $result = $result-&gt;fetch();</span><br><span class="line">        <span class="keyword">return</span> $result[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get_server</span><span class="params">($ip)</span> </span>&#123;</span><br><span class="line">        $sql = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">select server from <span class="subst">&#123;$this-&gt;r_table&#125;</span> where ip='<span class="subst">&#123;$ip&#125;</span>' and server is not null limit 1;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line">        $result = <span class="keyword">$this</span>-&gt;r_db-&gt;prepare($sql);</span><br><span class="line">        $result-&gt;execute();</span><br><span class="line">        $result = $result-&gt;fetch();</span><br><span class="line">        <span class="keyword">return</span> $result[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    public function update_server($server,$ip)&#123;</span></span><br><span class="line"><span class="comment">    $db=$this-&gt;r_db;</span></span><br><span class="line"><span class="comment">    $sql =&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="comment">    update &#123;$this-&gt;r_table&#125; set server='&#123;$server&#125;' where ip='&#123;ip&#125;';</span></span><br><span class="line"><span class="comment">    EOF;</span></span><br><span class="line"><span class="comment">    $db-&gt;exec($sql);</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">import</span><span class="params">($file)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">FALSE</span> !== ($fp = fopen($file, <span class="string">'r'</span>))) &#123;</span><br><span class="line">            $db = <span class="keyword">$this</span>-&gt;r_db;</span><br><span class="line">            $db-&gt;beginTransaction();</span><br><span class="line">            <span class="keyword">while</span> (!feof($fp)) &#123;</span><br><span class="line">                $buffer = trim(fgets($fp, <span class="number">1024</span>));</span><br><span class="line">                <span class="keyword">list</span>($host, $ip, $server) = preg_split(<span class="string">'/\s+/'</span>, $buffer);</span><br><span class="line">                $sql = <span class="string">"insert into &#123;$this-&gt;r_table&#125;('domain','ip','server') VALUES ('&#123;$host&#125;', '&#123;$ip&#125;','$server') ;"</span>;</span><br><span class="line">                $db-&gt;exec($sql);</span><br><span class="line">            &#125;</span><br><span class="line">            $db-&gt;commit();</span><br><span class="line">            fclose($fp);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">dump</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $results = <span class="keyword">$this</span>-&gt;show_result();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">empty</span>($results) &amp;&amp; is_array($results)) &#123;</span><br><span class="line">            <span class="keyword">foreach</span> ($results <span class="keyword">as</span> $key =&gt; $r) &#123;</span><br><span class="line">                file_put_contents(<span class="keyword">$this</span>-&gt;ResultFile, str_pad($r[<span class="string">'domain'</span>], <span class="number">50</span>, <span class="string">' '</span>) . str_pad($r[<span class="string">'ip'</span>], <span class="number">50</span>, <span class="string">' '</span>) . str_pad($r[<span class="string">'server'</span>], <span class="number">100</span>, <span class="string">' '</span>) . PHP_EOL, FILE_APPEND);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'Dump Sussess! SaveTo: '</span> . <span class="keyword">$this</span>-&gt;ResultFile;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">exit</span>(<span class="string">"Dump Fail..!  The Result is the empty... \r\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;r_db = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2015/05/24/host2ip/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2015/05/24/host2ip/&text=批量域名转ip及相关信息"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2015/05/24/host2ip/&title=批量域名转ip及相关信息"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2015/05/24/host2ip/&is_video=false&description=批量域名转ip及相关信息"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=批量域名转ip及相关信息&body=Check out this article: http://wolvez.club/2015/05/24/host2ip/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2015/05/24/host2ip/&title=批量域名转ip及相关信息"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2015/05/24/host2ip/&title=批量域名转ip及相关信息"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2015/05/24/host2ip/&title=批量域名转ip及相关信息"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2015/05/24/host2ip/&title=批量域名转ip及相关信息"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2015/05/24/host2ip/&name=批量域名转ip及相关信息&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+

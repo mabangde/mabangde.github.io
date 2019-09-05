@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="前置知识常用事件 ID 含义   Event ID(2000/XP/2003) Event ID(Vista/7/8/2008/2012) 描述 日志名称    528 4624 成功登录 Security   529 4625 失败登录 Security   680 4776 成功/失败的账户认证 Security   624 4720 创建用户 Security   636 4732 添加用户">
+<meta name="keywords" content="应急响应">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows 日志分析">
+<meta property="og:url" content="http://wolvez.club/2019/04/07/EventLog/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="前置知识常用事件 ID 含义   Event ID(2000/XP/2003) Event ID(Vista/7/8/2008/2012) 描述 日志名称    528 4624 成功登录 Security   529 4625 失败登录 Security   680 4776 成功/失败的账户认证 Security   624 4720 创建用户 Security   636 4732 添加用户">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/c8584938b22eec1dd3f86528b1d630af.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/cebf28fffd121868e2b0b9b688cdc2a9.png">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/76632fe9dcbdffb78a9786506386a109.png">
+<meta property="og:updated_time" content="2019-07-19T11:32:45.970Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows 日志分析">
+<meta name="twitter:description" content="前置知识常用事件 ID 含义   Event ID(2000/XP/2003) Event ID(Vista/7/8/2008/2012) 描述 日志名称    528 4624 成功登录 Security   529 4625 失败登录 Security   680 4776 成功/失败的账户认证 Security   624 4720 创建用户 Security   636 4732 添加用户">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/c8584938b22eec1dd3f86528b1d630af.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>windows 日志分析</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/25/fiddler-app/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/03/15/DriverLife-Worm-killer/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/04/07/EventLog/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/04/07/EventLog/&text=windows 日志分析"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/04/07/EventLog/&title=windows 日志分析"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/04/07/EventLog/&is_video=false&description=windows 日志分析"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=windows 日志分析&body=Check out this article: http://wolvez.club/2019/04/07/EventLog/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/04/07/EventLog/&title=windows 日志分析"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/04/07/EventLog/&title=windows 日志分析"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/04/07/EventLog/&title=windows 日志分析"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/04/07/EventLog/&title=windows 日志分析"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/04/07/EventLog/&name=windows 日志分析&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前置知识"><span class="toc-number">1.</span> <span class="toc-text">前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用事件-ID-含义"><span class="toc-number">1.1.</span> <span class="toc-text">常用事件 ID 含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登陆类型"><span class="toc-number">1.2.</span> <span class="toc-text">登陆类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-Parser-常用命令"><span class="toc-number">2.</span> <span class="toc-text">Log Parser 常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用powershell-将外部日志导成csv"><span class="toc-number">3.</span> <span class="toc-text">使用powershell 将外部日志导成csv</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用WEVTUtil-powershell-将外部日志导出csv（最终版）"><span class="toc-number">4.</span> <span class="toc-text">使用WEVTUtil+powershell 将外部日志导出csv（最终版）</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        windows 日志分析
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-04-07T09:38:00.000Z" itemprop="datePublished">2019-04-07</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/应急响应/">应急响应</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><h3 id="常用事件-ID-含义"><a href="#常用事件-ID-含义" class="headerlink" title="常用事件 ID 含义"></a>常用事件 ID 含义</h3><table>
+<thead>
+<tr>
+<th>Event ID(2000/XP/2003)</th>
+<th>Event ID(Vista/7/8/2008/2012)</th>
+<th>描述</th>
+<th>日志名称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>528</td>
+<td>4624</td>
+<td>成功登录</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>529</td>
+<td>4625</td>
+<td>失败登录</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>680</td>
+<td>4776</td>
+<td>成功/失败的账户认证</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>624</td>
+<td>4720</td>
+<td>创建用户</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>636</td>
+<td>4732</td>
+<td>添加用户到启用安全性的本地组中</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>632</td>
+<td>4728</td>
+<td>添加用户到启用安全性的全局组中</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>2934</td>
+<td>7030</td>
+<td>服务创建错误</td>
+<td>System</td>
+</tr>
+<tr>
+<td>2944</td>
+<td>7040</td>
+<td>IPSEC服务服务的启动类型已从禁用更改为自动启动</td>
+<td>System</td>
+</tr>
+<tr>
+<td>2949</td>
+<td>7045</td>
+<td>服务创建</td>
+<td>System</td>
+</tr>
+<tr>
+<td>556</td>
+<td>4662</td>
+<td>DC hash传递攻击</td>
+<td>Security</td>
+</tr>
+</tbody></table>
+<h3 id="登陆类型"><a href="#登陆类型" class="headerlink" title="登陆类型"></a>登陆类型</h3><table>
+<thead>
+<tr>
+<th>登录类型</th>
+<th>登录类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>Interactive</td>
+<td>用户登录到本机</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Network</td>
+<td>用户或计算手机从网络登录到本机，如果网络共享，或使用 net use 访问网络共享，net view 查看网络共享</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Batch</td>
+<td>批处理登录类型，无需用户干预</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Service</td>
+<td>服务控制管理器登录</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Unlock</td>
+<td>用户解锁主机</td>
+</tr>
+<tr>
+<td>8</td>
+<td>NetworkCleartext</td>
+<td>用户从网络登录到此计算机，用户密码用非哈希的形式传递</td>
+</tr>
+<tr>
+<td>9</td>
+<td>NewCredentials</td>
+<td>进程或线程克隆了其当前令牌，但为出站连接指定了新凭据</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Remotelnteractive</td>
+<td>使用终端服务或远程桌面连接登录</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Cachedlnteractive</td>
+<td>用户使用本地存储在计算机上的凭据登录到计算机（域控制器可能无法验证凭据），如主机不能连接域控，以前使用域账户登录过这台主机，再登录就会产生这样日志</td>
+</tr>
+<tr>
+<td>12</td>
+<td>CachedRemotelnteractive</td>
+<td>与 Remotelnteractive 相同，内部用于审计目的</td>
+</tr>
+<tr>
+<td>13</td>
+<td>CachedUnlock</td>
+<td>登录尝试解锁</td>
+</tr>
+</tbody></table>
+<h2 id="Log-Parser-常用命令"><a href="#Log-Parser-常用命令" class="headerlink" title="Log Parser 常用命令"></a>Log Parser 常用命令</h2><p>失败记录(爆破行为)</p>
+<p><strong>直接查看</strong></p>
+<p><code>LogParser.exe  -stats:OFF -i:EVT  &quot;SELECT top 1000 TimeGenerated AS Date,  EXTRACT_TOKEN(strings,10,&#39;|&#39;) as Logtype,EXTRACT_TOKEN(strings,19,&#39;|&#39;) as SourceIP,EXTRACT_TOKEN(strings,13,&#39;|&#39;) as ComputerName,EXTRACT_TOKEN(strings,5,&#39;|&#39;) as User  from &#39;Security.evtx&#39; where EventID=4625&quot; -o:DATAGRID</code></p>
+<p><strong>导出csv</strong></p>
+<blockquote>
+<p>方便后期excel 分析</p>
+</blockquote>
+<p><code>LogParser.exe  -stats:OFF -i:EVT  &quot;SELECT  TimeGenerated AS Date,  EXTRACT_TOKEN(strings,10,&#39;|&#39;) as Logtype,EXTRACT_TOKEN(strings,19,&#39;|&#39;) as SourceIP,EXTRACT_TOKEN(strings,5,&#39;|&#39;) as User into tmp_result.csv from &#39;Security.evtx&#39; where EventID=4625&quot; -o:csv</code></p>
+<p><strong>成功登陆(4624)</strong></p>
+<blockquote>
+<p><code>not like &#39;%$&#39;</code> 一般用于查询非机器登陆域控账号</p>
+</blockquote>
+<p><code>LogParser.exe  -stats:OFF -i:EVT  &quot;SELECT  top 1000 TimeGenerated AS Date,EXTRACT_TOKEN(strings,8,&#39;|&#39;) as Logtype,EXTRACT_TOKEN(strings,18,&#39;|&#39;) as SourceIP,EXTRACT_TOKEN(strings,5,&#39;|&#39;) as User from  &#39;Security.evtx&#39; where EventID=4624 And User not like &#39;%$&#39;&quot; -o:DATAGRID</code></p>
+<p><strong>hash传递(4662)</strong><br><code>LogParser.exe -i:EVT &quot;select distinct TimeGenerated,EXTRACT_TOKEN(Strings,2,&#39;|&#39;) AS Domain,EXTRACT_TOKEN(Strings,1,&#39;|&#39;) AS UserName,ComputerName from Security where EventID=4662 order by TimeGenerated desc&quot; -o:DATAGRID</code></p>
+<h2 id="使用powershell-将外部日志导成csv"><a href="#使用powershell-将外部日志导成csv" class="headerlink" title="使用powershell 将外部日志导成csv"></a>使用powershell 将外部日志导成csv</h2><p><strong>evtx</strong> 导出<strong>csv</strong> 主要目的方便后面<strong>excel</strong> 分析、筛选。前面用多种方法导出csv发现速度慢得要命，<strong>LogParser.exe</strong>命令又太长， 后面版本将参数化、并加入多种日志一键导出</p>
+<blockquote>
+<p>使用Get-WinEvent 方法导出日志特点是非常非常非常慢，对于日志量小还可以接受。优点是完全使用powershell不依赖第三方，且可以导入外部日志 Get-EventLog 就要快很多，但是不支持导入外部日志，单纯分析当前机器日志可以使用Get-EventLog来实现</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$hostname</span>=(hostname)</span><br><span class="line"><span class="variable">$LogonType</span> = @&#123;</span><br><span class="line">    [uint32]<span class="number">2</span> = <span class="string">'Interactive'</span></span><br><span class="line">    [uint32]<span class="number">3</span> = <span class="string">'ipc 登陆'</span></span><br><span class="line">    [uint32]<span class="number">4</span> = <span class="string">'Batch'</span></span><br><span class="line">    [uint32]<span class="number">5</span> = <span class="string">'Service'</span></span><br><span class="line">    [uint32]<span class="number">7</span> = <span class="string">'Unlock'</span></span><br><span class="line">    [uint32]<span class="number">8</span> = <span class="string">'NetworkCleartext'</span></span><br><span class="line">    [uint32]<span class="number">9</span> = <span class="string">'NewCredentials'</span></span><br><span class="line">    [uint32]<span class="number">10</span> = <span class="string">'远程桌面登陆'</span></span><br><span class="line">    [uint32]<span class="number">11</span> = <span class="string">'CachedInteractive'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$events_fail</span> =<span class="built_in">Get-WinEvent</span> -FilterHashTable @&#123; ID=<span class="number">4625</span>;ProviderName=<span class="string">'Microsoft-Windows-Security-Auditing'</span>;LogName=<span class="string">"Security"</span>;Path=<span class="string">"日志路径\_Security.evtx"</span>;&#125;</span><br><span class="line"><span class="variable">$events_success</span> =<span class="built_in">Get-WinEvent</span> -FilterHashTable @&#123; ID=<span class="number">4624</span>;ProviderName=<span class="string">'Microsoft-Windows-Security-Auditing'</span>;LogName=<span class="string">"Security"</span>;Path=<span class="string">"日志路径\_Security.evtx"</span>;&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$events_fail</span>|<span class="built_in">ForEach-Object</span> &#123; <span class="built_in">New-Object</span> PSObject -Property ([ordered]@&#123;</span><br><span class="line">            MachineName = (<span class="variable">$_</span>.MachineName).Split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">            TimeCreated = <span class="variable">$_</span>.TimeCreated</span><br><span class="line">            User = <span class="variable">$_</span>.Properties[<span class="number">5</span>].Value</span><br><span class="line">            Domain = <span class="variable">$_</span>.Properties[<span class="number">6</span>].Value</span><br><span class="line">            LogonType = <span class="variable">$_</span>.Properties[<span class="number">10</span>].Value</span><br><span class="line">            LogonTypeString = <span class="variable">$LogonType</span>[<span class="variable">$_</span>.Properties[<span class="number">10</span>].Value]</span><br><span class="line">            SourceIP = <span class="variable">$_</span>.Properties[<span class="number">19</span>].Value</span><br><span class="line">            Keywords = <span class="variable">$_</span>.KeywordsDisplayNames -join <span class="string">";"</span></span><br><span class="line">        &#125;)&#125;|<span class="built_in">Export-Csv</span> -Path <span class="variable">$hostname</span><span class="string">"_fail_login.csv"</span> -NoTypeInformation -UseCulture  -Encoding Default</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$events_success</span> |<span class="built_in">ForEach-Object</span> &#123; <span class="built_in">New-Object</span> PSObject -Property ([ordered]@&#123;</span><br><span class="line">            MachineName = (<span class="variable">$_</span>.MachineName).Split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">            TimeCreated = <span class="variable">$_</span>.TimeCreated</span><br><span class="line">            User = <span class="variable">$_</span>.Properties[<span class="number">5</span>].Value</span><br><span class="line">            Domain = <span class="variable">$_</span>.Properties[<span class="number">6</span>].Value</span><br><span class="line">            LogonType = <span class="variable">$_</span>.Properties[<span class="number">8</span>].Value</span><br><span class="line">            LogonTypeString = <span class="variable">$LogonType</span>[<span class="variable">$_</span>.Properties[<span class="number">8</span>].Value]</span><br><span class="line">            SourceIP = <span class="variable">$_</span>.Properties[<span class="number">18</span>].Value</span><br><span class="line">            Keywords = <span class="variable">$_</span>.KeywordsDisplayNames -join <span class="string">";"</span></span><br><span class="line">        &#125;)&#125; | <span class="built_in">Export-Csv</span> -Path <span class="variable">$hostname</span><span class="string">"_success_login.csv"</span> -NoTypeInformation -UseCulture -Encoding Default</span><br></pre></td></tr></table></figure>
+
+<p><strong>效果如下：</strong><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/c8584938b22eec1dd3f86528b1d630af.png" alt="2019-07-19-04-53-03"></p>
+<h2 id="使用WEVTUtil-powershell-将外部日志导出csv（最终版）"><a href="#使用WEVTUtil-powershell-将外部日志导出csv（最终版）" class="headerlink" title="使用WEVTUtil+powershell 将外部日志导出csv（最终版）"></a>使用WEVTUtil+powershell 将外部日志导出csv（最终版）</h2><blockquote>
+<p>此种方法优点就是快，支持导入外部evtx，对于几百兆巨大日志丝毫不费力</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Param</span> (</span><br><span class="line">    [string]<span class="variable">$evtx</span> = <span class="variable">$pwd</span>.Path+<span class="string">"\*_Security.evtx"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="variable">$time</span>=<span class="built_in">Get-Date</span> -Format h:mm:ss</span><br><span class="line"><span class="variable">$evtx</span>=(<span class="built_in">Get-Item</span> <span class="variable">$evtx</span>).fullname</span><br><span class="line"><span class="variable">$outfile</span>=(<span class="built_in">Get-Item</span> <span class="variable">$evtx</span>).BaseName+<span class="string">".csv"</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$logsize</span>=[int]((<span class="built_in">Get-Item</span> <span class="variable">$evtx</span>).length/<span class="number">1</span>MB)</span><br><span class="line"></span><br><span class="line"><span class="built_in">write-host</span> [+] <span class="variable">$time</span> Load <span class="variable">$evtx</span> <span class="string">"("</span>Size: <span class="variable">$logsize</span> MB<span class="string">")"</span> ... -ForegroundColor Green</span><br><span class="line">[xml]<span class="variable">$xmldoc</span>=WEVTUtil qe  <span class="variable">$evtx</span> /q:<span class="string">"*[System[Provider[@Name='Microsoft-Windows-Security-Auditing']  and (EventID=4624 or EventID=4625)] and EventData[Data[@Name='LogonType']='3'] or EventData[Data[@Name='LogonType']='10']]"</span> /e:root /f:Xml  /lf</span><br><span class="line"></span><br><span class="line"><span class="variable">$xmlEvent</span>=<span class="variable">$xmldoc</span>.root.Event</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> OneEventToDict &#123;</span><br><span class="line">    <span class="keyword">Param</span> (</span><br><span class="line">        <span class="variable">$event</span></span><br><span class="line">    )</span><br><span class="line">    <span class="variable">$ret</span> = @&#123;</span><br><span class="line">        <span class="string">"SystemTime"</span> = <span class="variable">$event</span>.System.TimeCreated.SystemTime | Convert-DateTimeFormat -OutputFormat <span class="string">'yyyy"/"MM"/"dd HH:mm:ss'</span>;</span><br><span class="line">        <span class="string">"EventID"</span> = <span class="variable">$event</span>.System.EventID</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$data</span>=<span class="variable">$event</span>.EventData.Data</span><br><span class="line">    <span class="keyword">for</span> (<span class="variable">$i</span>=<span class="number">0</span>; <span class="variable">$i</span> <span class="nomarkup">-lt</span> <span class="variable">$data</span>.Count; <span class="variable">$i</span>++)&#123;</span><br><span class="line">        <span class="variable">$ret</span>.Add(<span class="variable">$data</span>[<span class="variable">$i</span>].name, <span class="variable">$data</span>[<span class="variable">$i</span>].<span class="string">'#text'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$ret</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">filter</span> Convert-DateTimeFormat</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">Param</span>(<span class="variable">$OutputFormat</span>=<span class="string">'yyyy-MM-dd HH:mm:ss fff'</span>)</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    ([DateTime]<span class="variable">$_</span>).ToString(<span class="variable">$OutputFormat</span>)</span><br><span class="line">  &#125; catch &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$time</span>=<span class="built_in">Get-Date</span> -Format h:mm:ss</span><br><span class="line"><span class="built_in">write-host</span> [+] <span class="variable">$time</span> Extract XML ... -ForegroundColor Green</span><br><span class="line">[System.Collections.ArrayList]<span class="variable">$results</span> = <span class="built_in">New-Object</span> System.Collections.ArrayList(<span class="literal">$null</span>)</span><br><span class="line"><span class="keyword">for</span> (<span class="variable">$i</span>=<span class="number">0</span>; <span class="variable">$i</span> <span class="nomarkup">-lt</span> <span class="variable">$xmlEvent</span>.Count; <span class="variable">$i</span>++)&#123;</span><br><span class="line">    <span class="variable">$event</span> = <span class="variable">$xmlEvent</span>[<span class="variable">$i</span>]</span><br><span class="line">    <span class="variable">$datas</span> = OneEventToDict <span class="variable">$event</span></span><br><span class="line"></span><br><span class="line">    <span class="variable">$results</span>.Add((<span class="built_in">New-Object</span> PSObject -Property <span class="variable">$datas</span>))|<span class="built_in">out-null</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$time</span>=<span class="built_in">Get-Date</span> -Format h:mm:ss</span><br><span class="line"><span class="built_in">write-host</span> [+] <span class="variable">$time</span> Dump into CSV: <span class="variable">$outfile</span> ... -ForegroundColor Green</span><br><span class="line"><span class="variable">$results</span> | <span class="built_in">Select-Object</span> SystemTime,IpAddress,TargetDomainName,TargetUserName,EventID,LogonType | <span class="built_in">Export-Csv</span> <span class="variable">$outfile</span> -NoTypeInformation -UseCulture  -Encoding Default -Force</span><br></pre></td></tr></table></figure>
+
+<p>最终根据excel处理<br><strong>效果如下：</strong></p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/cebf28fffd121868e2b0b9b688cdc2a9.png" alt="2019-07-19-04-57-06"><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/76632fe9dcbdffb78a9786506386a109.png" alt="2019-07-19-04-57-25"></p>
+<p><strong>附录</strong><br><a href="https://xz.aliyun.com/t/2524" target="_blank" rel="noopener">windows日志分析</a><br><a href="https://jpcertcc.github.io/ToolAnalysisResultSheet/" target="_blank" rel="noopener">恶意日志分析</a><br><a href="https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor" target="_blank" rel="noopener">windows日志</a><br><a href="https://gist.github.com/exp0se/1bae653b790cf5571d20" target="_blank" rel="noopener">logparser tips</a></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前置知识"><span class="toc-number">1.</span> <span class="toc-text">前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用事件-ID-含义"><span class="toc-number">1.1.</span> <span class="toc-text">常用事件 ID 含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登陆类型"><span class="toc-number">1.2.</span> <span class="toc-text">登陆类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log-Parser-常用命令"><span class="toc-number">2.</span> <span class="toc-text">Log Parser 常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用powershell-将外部日志导成csv"><span class="toc-number">3.</span> <span class="toc-text">使用powershell 将外部日志导成csv</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用WEVTUtil-powershell-将外部日志导出csv（最终版）"><span class="toc-number">4.</span> <span class="toc-text">使用WEVTUtil+powershell 将外部日志导出csv（最终版）</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2019/04/07/EventLog/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2019/04/07/EventLog/&text=windows 日志分析"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2019/04/07/EventLog/&title=windows 日志分析"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2019/04/07/EventLog/&is_video=false&description=windows 日志分析"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=windows 日志分析&body=Check out this article: http://wolvez.club/2019/04/07/EventLog/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2019/04/07/EventLog/&title=windows 日志分析"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2019/04/07/EventLog/&title=windows 日志分析"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2019/04/07/EventLog/&title=windows 日志分析"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2019/04/07/EventLog/&title=windows 日志分析"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2019/04/07/EventLog/&name=windows 日志分析&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
