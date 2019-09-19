@@ -15,7 +15,7 @@
 <meta property="og:description" content="背景: 已知内网某台机器mssql密码，想利用，php连接mssql又缺少库、webshell无root权限、不能出网、无交互、基于web建立socks通道很容易断、python打包文件过大或缺少库…此工具正是解决该问题的 未解决问题：   执行多行sql语句并打印 windows 认证 后面按需要考虑增加 CLR Agent Jobs SandBoxMode sp_OACreate 等方式命令">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/c8bba1200ce20590b720433127454158.png">
-<meta property="og:updated_time" content="2019-09-19T03:52:57.800Z">
+<meta property="og:updated_time" content="2019-09-19T04:02:17.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mssql linux 命令行工具">
 <meta name="twitter:description" content="背景: 已知内网某台机器mssql密码，想利用，php连接mssql又缺少库、webshell无root权限、不能出网、无交互、基于web建立socks通道很容易断、python打包文件过大或缺少库…此工具正是解决该问题的 未解决问题：   执行多行sql语句并打印 windows 认证 后面按需要考虑增加 CLR Agent Jobs SandBoxMode sp_OACreate 等方式命令">
@@ -148,7 +148,8 @@
 <li>后面按需要考虑增加 <code>CLR</code> <code>Agent Jobs</code> <code>SandBoxMode</code> <code>sp_OACreate</code> 等方式命令执行</li>
 </ol>
 <ul>
-<li><a href="https://github.com/mabangde/pentesttools/blob/master/linux/sqltool_amd64_upx.elf" target="_blank" rel="noopener">Download</a></li>
+<li><a href="https://github.com/mabangde/pentesttools/raw/master/linux/sqltool_amd64_upx.elf" target="_blank" rel="noopener">Download-linux</a></li>
+<li><a href="https://github.com/mabangde/pentesttools/raw/master/windows/sqltool_amd64.exe" target="_blank" rel="noopener">Download-win</a></li>
 </ul>
 <h4 id="编译"><a href="#编译" class="headerlink" title="编译:"></a>编译:</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run  --rm -it -v <span class="variable">$&#123;PWD&#125;</span>:/go golang:stretch env  GO111MODULE=on GOPROXY=https://goproxy.io GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags -s -a -installsuffix cgo sqltool.go</span><br><span class="line">upx -9 sqltool</span><br></pre></td></tr></table></figure>
 
