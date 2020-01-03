@@ -8,16 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="windows c 学习0x01 前置基础知识宽窄字符刚开始学编程的时候我们就接触了 char、char* 之类的，属于窄字节的，按照刚刚讲的，又多了一个 wchar_t 类型的字符，字符串指针的话就可以是 wchar_t* 类型。但是，在我们平时的编程过程中还会见到很多其他的复杂类型，如下：  窄字节：char、char * 、const char *CHAR、(PCHAR、PSTR、LPSTR">
 <meta name="keywords" content="c++学习">
-<meta property="og:type" content="website">
-<meta property="og:title" content="查看注册表键值修改时间">
-<meta property="og:url" content="http://wolvez.club/windows-api-study-1.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows-api-study-1">
+<meta property="og:url" content="http://wolvez.club/2020/01/04/windows-api-study-1/index.html">
 <meta property="og:site_name" content="wolvez&#39;s blog">
 <meta property="og:description" content="windows c 学习0x01 前置基础知识宽窄字符刚开始学编程的时候我们就接触了 char、char* 之类的，属于窄字节的，按照刚刚讲的，又多了一个 wchar_t 类型的字符，字符串指针的话就可以是 wchar_t* 类型。但是，在我们平时的编程过程中还会见到很多其他的复杂类型，如下：  窄字节：char、char * 、const char *CHAR、(PCHAR、PSTR、LPSTR">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/5bc3e4be2b68b375c5faf6e6e585f4a7.png">
-<meta property="og:updated_time" content="2020-01-03T18:04:20.458Z">
+<meta property="og:updated_time" content="2020-01-03T18:08:23.448Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="查看注册表键值修改时间">
+<meta name="twitter:title" content="windows-api-study-1">
 <meta name="twitter:description" content="windows c 学习0x01 前置基础知识宽窄字符刚开始学编程的时候我们就接触了 char、char* 之类的，属于窄字节的，按照刚刚讲的，又多了一个 wchar_t 类型的字符，字符串指针的话就可以是 wchar_t* 类型。但是，在我们平时的编程过程中还会见到很多其他的复杂类型，如下：  窄字节：char、char * 、const char *CHAR、(PCHAR、PSTR、LPSTR">
 <meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/5bc3e4be2b68b375c5faf6e6e585f4a7.png">
     
@@ -39,7 +39,7 @@
         
     
     <!-- title -->
-    <title>查看注册表键值修改时间</title>
+    <title>windows-api-study-1</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- rss -->
@@ -49,40 +49,92 @@
 
 <body>
     
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/01/04/hello-world/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/01/04/windows-api-study-1/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/01/04/windows-api-study-1/&text=windows-api-study-1"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows-api-study-1"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/01/04/windows-api-study-1/&is_video=false&description=windows-api-study-1"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=windows-api-study-1&body=Check out this article: http://wolvez.club/2020/01/04/windows-api-study-1/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows-api-study-1"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows-api-study-1"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows-api-study-1"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows-api-study-1"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/01/04/windows-api-study-1/&name=windows-api-study-1&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#windows-c-学习"><span class="toc-number">1.</span> <span class="toc-text">windows c 学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-前置基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 前置基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#宽窄字符"><span class="toc-number">1.1.1.</span> <span class="toc-text">宽窄字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#形参和实参"><span class="toc-number">1.1.2.</span> <span class="toc-text">形参和实参</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指针和引用"><span class="toc-number">1.1.3.</span> <span class="toc-text">指针和引用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#测试代码"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">测试代码:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#句柄"><span class="toc-number">1.1.4.</span> <span class="toc-text">句柄</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static关键字"><span class="toc-number">1.1.5.</span> <span class="toc-text">static关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作相关"><span class="toc-number">1.1.6.</span> <span class="toc-text">文件操作相关</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-windows-常用api学习"><span class="toc-number">1.2.</span> <span class="toc-text">0x02 windows 常用api学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ReadFile"><span class="toc-number">1.2.1.</span> <span class="toc-text">ReadFile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CreateProcess"><span class="toc-number">1.2.2.</span> <span class="toc-text">CreateProcess</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LogonUser"><span class="toc-number">1.2.3.</span> <span class="toc-text">LogonUser</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#语法"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参数说明"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">参数说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenProcessToken"><span class="toc-number">1.2.4.</span> <span class="toc-text">OpenProcessToken</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ImpersonateLoggedOnUser"><span class="toc-number">1.2.5.</span> <span class="toc-text">ImpersonateLoggedOnUser</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以下内容后续更新"><span class="toc-number">1.3.</span> <span class="toc-text">以下内容后续更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#malloc"><span class="toc-number">1.3.1.</span> <span class="toc-text">malloc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CreateProcessAsUser"><span class="toc-number">1.3.2.</span> <span class="toc-text">CreateProcessAsUser</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CreateProcessWithLogonW"><span class="toc-number">1.3.3.</span> <span class="toc-text">CreateProcessWithLogonW</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GetUserProfileDirectory"><span class="toc-number">1.3.4.</span> <span class="toc-text">GetUserProfileDirectory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DestroyEnvironmentBlock"><span class="toc-number">1.3.5.</span> <span class="toc-text">DestroyEnvironmentBlock</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
     <div class="content index width mx-auto px2 my4">
         
-          <header id="header">
-  <a href="/">
-  
-    
-      <div id="logo" style="background-image: url(/images/logo.png);"></div>
-    
-  
-    <div id="title">
-      <h1>wolvez&#39;s blog</h1>
-    </div>
-  </a>
-  <div id="nav">
-    <ul>
-      <li class="icon">
-        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
-      </li>
-       
-        <li><a href="/">Home</a></li>
-       
-        <li><a href="/about/">About</a></li>
-       
-        <li><a href="/links/">Links</a></li>
-       
-        <li><a href="/Search/">Search</a></li>
-      
-    </ul>
-  </div>
-</header>
-
-        
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        windows-api-study-1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-01-03T18:07:39.000Z" itemprop="datePublished">2020-01-04</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/c-学习/">c++学习</a>
+    </div>
+
+
+    </div>
+  </header>
   
 
   <div class="content" itemprop="articleBody">
@@ -267,7 +319,59 @@
   </div>
 </article>
 
+
+
     </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#windows-c-学习"><span class="toc-number">1.</span> <span class="toc-text">windows c 学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-前置基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">0x01 前置基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#宽窄字符"><span class="toc-number">1.1.1.</span> <span class="toc-text">宽窄字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#形参和实参"><span class="toc-number">1.1.2.</span> <span class="toc-text">形参和实参</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指针和引用"><span class="toc-number">1.1.3.</span> <span class="toc-text">指针和引用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#测试代码"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">测试代码:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#句柄"><span class="toc-number">1.1.4.</span> <span class="toc-text">句柄</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static关键字"><span class="toc-number">1.1.5.</span> <span class="toc-text">static关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作相关"><span class="toc-number">1.1.6.</span> <span class="toc-text">文件操作相关</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-windows-常用api学习"><span class="toc-number">1.2.</span> <span class="toc-text">0x02 windows 常用api学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ReadFile"><span class="toc-number">1.2.1.</span> <span class="toc-text">ReadFile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CreateProcess"><span class="toc-number">1.2.2.</span> <span class="toc-text">CreateProcess</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LogonUser"><span class="toc-number">1.2.3.</span> <span class="toc-text">LogonUser</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#语法"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参数说明"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">参数说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenProcessToken"><span class="toc-number">1.2.4.</span> <span class="toc-text">OpenProcessToken</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ImpersonateLoggedOnUser"><span class="toc-number">1.2.5.</span> <span class="toc-text">ImpersonateLoggedOnUser</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以下内容后续更新"><span class="toc-number">1.3.</span> <span class="toc-text">以下内容后续更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#malloc"><span class="toc-number">1.3.1.</span> <span class="toc-text">malloc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CreateProcessAsUser"><span class="toc-number">1.3.2.</span> <span class="toc-text">CreateProcessAsUser</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CreateProcessWithLogonW"><span class="toc-number">1.3.3.</span> <span class="toc-text">CreateProcessWithLogonW</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GetUserProfileDirectory"><span class="toc-number">1.3.4.</span> <span class="toc-text">GetUserProfileDirectory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DestroyEnvironmentBlock"><span class="toc-number">1.3.5.</span> <span class="toc-text">DestroyEnvironmentBlock</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/01/04/windows-api-study-1/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/01/04/windows-api-study-1/&text=windows-api-study-1"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows-api-study-1"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/01/04/windows-api-study-1/&is_video=false&description=windows-api-study-1"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=windows-api-study-1&body=Check out this article: http://wolvez.club/2020/01/04/windows-api-study-1/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows-api-study-1"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows-api-study-1"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows-api-study-1"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows-api-study-1"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/01/04/windows-api-study-1/&name=windows-api-study-1&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
     
     <footer id="footer">
   <div class="footer-left">
