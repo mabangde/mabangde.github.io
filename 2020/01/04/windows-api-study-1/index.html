@@ -9,15 +9,15 @@
     <meta name="description" content="0x01 前置基础知识宽窄字符刚开始学编程的时候我们就接触了 char、char* 之类的，属于窄字节的，按照刚刚讲的，又多了一个 wchar_t 类型的字符，字符串指针的话就可以是 wchar_t* 类型。但是，在我们平时的编程过程中还会见到很多其他的复杂类型，如下：  窄字节：char、char * 、const char *CHAR、(PCHAR、PSTR、LPSTR)、LPCSTR  Un">
 <meta name="keywords" content="c++学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="windows c 学习">
+<meta property="og:title" content="从零开始学windows API">
 <meta property="og:url" content="http://wolvez.club/2020/01/04/windows-api-study-1/index.html">
 <meta property="og:site_name" content="wolvez&#39;s blog">
 <meta property="og:description" content="0x01 前置基础知识宽窄字符刚开始学编程的时候我们就接触了 char、char* 之类的，属于窄字节的，按照刚刚讲的，又多了一个 wchar_t 类型的字符，字符串指针的话就可以是 wchar_t* 类型。但是，在我们平时的编程过程中还会见到很多其他的复杂类型，如下：  窄字节：char、char * 、const char *CHAR、(PCHAR、PSTR、LPSTR)、LPCSTR  Un">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/5bc3e4be2b68b375c5faf6e6e585f4a7.png">
-<meta property="og:updated_time" content="2020-01-03T18:10:09.328Z">
+<meta property="og:updated_time" content="2020-01-03T18:23:30.728Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="windows c 学习">
+<meta name="twitter:title" content="从零开始学windows API">
 <meta name="twitter:description" content="0x01 前置基础知识宽窄字符刚开始学编程的时候我们就接触了 char、char* 之类的，属于窄字节的，按照刚刚讲的，又多了一个 wchar_t 类型的字符，字符串指针的话就可以是 wchar_t* 类型。但是，在我们平时的编程过程中还会见到很多其他的复杂类型，如下：  窄字节：char、char * 、const char *CHAR、(PCHAR、PSTR、LPSTR)、LPCSTR  Un">
 <meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/5bc3e4be2b68b375c5faf6e6e585f4a7.png">
     
@@ -39,7 +39,7 @@
         
     
     <!-- title -->
-    <title>windows c 学习</title>
+    <title>从零开始学windows API</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- rss -->
@@ -71,6 +71,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/2020/01/17/cve-2020-0601/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" href="/2019/10/23/RegKeyLastWriteTime/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -86,15 +88,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/01/04/windows-api-study-1/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/01/04/windows-api-study-1/&text=windows c 学习"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows c 学习"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/01/04/windows-api-study-1/&is_video=false&description=windows c 学习"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=windows c 学习&body=Check out this article: http://wolvez.club/2020/01/04/windows-api-study-1/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows c 学习"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows c 学习"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows c 学习"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows c 学习"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/01/04/windows-api-study-1/&name=windows c 学习&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/01/04/windows-api-study-1/&text=从零开始学windows API"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=从零开始学windows API"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/01/04/windows-api-study-1/&is_video=false&description=从零开始学windows API"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=从零开始学windows API&body=Check out this article: http://wolvez.club/2020/01/04/windows-api-study-1/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=从零开始学windows API"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=从零开始学windows API"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=从零开始学windows API"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=从零开始学windows API"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/01/04/windows-api-study-1/&name=从零开始学windows API&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -111,7 +113,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        windows c 学习
+        从零开始学windows API
     </h1>
 
 
@@ -347,15 +349,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/01/04/windows-api-study-1/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/01/04/windows-api-study-1/&text=windows c 学习"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows c 学习"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/01/04/windows-api-study-1/&is_video=false&description=windows c 学习"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=windows c 学习&body=Check out this article: http://wolvez.club/2020/01/04/windows-api-study-1/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows c 学习"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows c 学习"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows c 学习"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=windows c 学习"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/01/04/windows-api-study-1/&name=windows c 学习&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/01/04/windows-api-study-1/&text=从零开始学windows API"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=从零开始学windows API"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/01/04/windows-api-study-1/&is_video=false&description=从零开始学windows API"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=从零开始学windows API&body=Check out this article: http://wolvez.club/2020/01/04/windows-api-study-1/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=从零开始学windows API"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=从零开始学windows API"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=从零开始学windows API"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/01/04/windows-api-study-1/&title=从零开始学windows API"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/01/04/windows-api-study-1/&name=从零开始学windows API&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
