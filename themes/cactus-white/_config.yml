@@ -1,0 +1,57 @@
+nav:
+  Home: /
+  About: /about/
+  #Writing: /posts/
+  Links: /links/
+  #Search: /Search/
+  Att&ck: /ATT-CK/
+  #Projects: http://github.com/mabangde
+
+#projects_url: http://github.com/mabangde
+
+customize:
+    gravatar:
+        email: 
+    logo:
+        enabled: true
+        width: 50
+        height: 50
+        url: /images/logo.png
+        gravatar: false
+    favicon: 
+      # eg. generate with http://realfavicongenerator.net/
+      desktop:
+        url: /images/favicon_wolv.ico
+        gravatar: false
+      android:
+        url: /images/favicon_wolv.ico
+        gravator: false
+      apple:
+        url: /images/favicon_wolv.ico
+        gravator: false
+    social_links:
+        github: http://github.com/mabangde
+        facebook: /
+        linkedin: /
+    show_all_posts: true
+    post_count: 10
+    highlight: pojoaque
+
+# RSS
+rss: false
+
+# Plugins
+plugins:
+    disqus_shortname: # Disqus Comments Shortname
+    google_analytics: false # enter the tracking ID for your Google Analytics
+
+# Miscellaneous
+miscellaneous:
+    open_graph: # see http://ogp.me
+        fb_app_id:
+        fb_admins:
+        twitter_id:
+        google_plus:
+
+local_search:
+  enable: true
