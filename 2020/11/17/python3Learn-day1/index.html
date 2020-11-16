@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="一直无法接受 python 的缩进语法,所以非常排斥 python, 但是工作中又离不开python, 所以只好接受它    1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727">
+<meta name="keywords" content="python3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python 模拟登录github">
+<meta property="og:url" content="http://wolvez.club/2020/11/17/python3Learn-day1/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="一直无法接受 python 的缩进语法,所以非常排斥 python, 但是工作中又离不开python, 所以只好接受它    1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/be968847d924dc7f898ea12e5c27fd61.png">
+<meta property="og:updated_time" content="2020-11-16T17:45:38.015Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python 模拟登录github">
+<meta name="twitter:description" content="一直无法接受 python 的缩进语法,所以非常排斥 python, 但是工作中又离不开python, 所以只好接受它    1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/be968847d924dc7f898ea12e5c27fd61.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>python 模拟登录github</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/ATT-CK/">Att&amp;ck</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/10/28/Invoke-Http-powershll/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/11/17/python3Learn-day1/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/11/17/python3Learn-day1/&text=python 模拟登录github"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/11/17/python3Learn-day1/&title=python 模拟登录github"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/11/17/python3Learn-day1/&is_video=false&description=python 模拟登录github"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python 模拟登录github&body=Check out this article: http://wolvez.club/2020/11/17/python3Learn-day1/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/11/17/python3Learn-day1/&title=python 模拟登录github"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/11/17/python3Learn-day1/&title=python 模拟登录github"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/11/17/python3Learn-day1/&title=python 模拟登录github"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/11/17/python3Learn-day1/&title=python 模拟登录github"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/11/17/python3Learn-day1/&name=python 模拟登录github&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        python 模拟登录github
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-11-16T17:40:15.000Z" itemprop="datePublished">2020-11-17</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/python3/">python3</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>一直无法接受 <code>python</code> 的缩进语法,所以非常排斥 <code>python</code>, 但是工作中又离不开<code>python</code>, 所以只好接受它 </p>
+</blockquote>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/be968847d924dc7f898ea12e5c27fd61.png" alt="2020-11-17-01-43-24"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">(user, password)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :rtype: str</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    session = requests.session()</span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">'Referer'</span>: <span class="string">'https://github.com/'</span>,</span><br><span class="line">        <span class="string">'Host'</span>: <span class="string">'github.com'</span>,</span><br><span class="line">        <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '</span></span><br><span class="line">                      <span class="string">'Chrome/86.0.4240.193 Safari/537.36'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 配置代理</span></span><br><span class="line">    proxies = &#123;</span><br><span class="line">        <span class="string">"http"</span>: <span class="string">"http://127.0.0.1:10809"</span>,</span><br><span class="line">        <span class="string">"https"</span>: <span class="string">"http://127.0.0.1:10809"</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    response = session.get(<span class="string">'https://github.com/login'</span>, headers=headers, proxies=proxies)</span><br><span class="line">    text = response.content.decode(<span class="string">"utf8"</span>)</span><br><span class="line">    token = re.findall(<span class="string">r'name="authenticity_token" value="(.*?)"'</span>, text)[<span class="number">0</span>]</span><br><span class="line">    timestamp = re.findall(<span class="string">r'timestamp" value="(\d+?)"'</span>, text)[<span class="number">0</span>]</span><br><span class="line">    timestamp_secret = re.findall(<span class="string">r'timestamp_secret" value="([a-fA-F\d]*?)"'</span>, text)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># login</span></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">'commit'</span>: <span class="string">'Sign in'</span>,</span><br><span class="line">        <span class="string">'authenticity_token'</span>: token,</span><br><span class="line">        <span class="string">'ga_id'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'login'</span>: user,</span><br><span class="line">        <span class="string">'password'</span>: password,</span><br><span class="line">        <span class="string">'webauthn-support'</span>: <span class="string">'supported'</span>,</span><br><span class="line">        <span class="string">'webauthn-iuvpaa-support'</span>: <span class="string">'unsupported'</span>,</span><br><span class="line">        <span class="string">'return_to'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'allow_signup'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'client_id'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'integration'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'required_field_a5b2'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'timestamp'</span>: timestamp,</span><br><span class="line">        <span class="string">'timestamp_secret'</span>: timestamp_secret</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    response = session.post(<span class="string">'https://github.com/session'</span>, data=data, headers=headers, proxies=proxies)</span><br><span class="line">    login_info = response.content.decode(<span class="string">"utf8"</span>)</span><br><span class="line">    <span class="comment"># print(login_info)</span></span><br><span class="line">    session_info = re.findall(<span class="string">'Incorrect username or password.'</span>, login_info)</span><br><span class="line">    <span class="comment"># print(session_info)</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> session_info:</span><br><span class="line">        print(<span class="string">'[+] login successful!'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">'[-] Incorrect username or password.'</span>)</span><br><span class="line">        sys.exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    info_url = <span class="string">'https://github.com/users/%s/pinned_items_modal'</span> % user</span><br><span class="line">    response = session.get(info_url, headers=headers, proxies=proxies)</span><br><span class="line">    git_info = response.content.decode(<span class="string">"utf8"</span>)</span><br><span class="line">    t = re.findall(</span><br><span class="line">        <span class="string">r'data-filter-item-text&gt;[\n\s]+(.*?)[\n\s]+&lt;/strong&gt;[\n\s]+&lt;span class="stars no-wrap"&gt;[\n\s]+(\d+)[\n\s]+&lt;svg'</span>,</span><br><span class="line">        git_info)</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    l = len(t)</span><br><span class="line">    <span class="keyword">while</span> i &lt; l:</span><br><span class="line">        print(t[i][<span class="number">0</span>], t[i][<span class="number">-1</span>], <span class="string">u'★  '</span>, <span class="string">' '</span>)</span><br><span class="line">        i = i + <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    login(<span class="string">'mabangde'</span>, <span class="string">'HECXZ78798798#@!#'</span>)</span><br><span class="line">    <span class="comment"># print(result)</span></span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/ATT-CK/">Att&amp;ck</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/11/17/python3Learn-day1/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/11/17/python3Learn-day1/&text=python 模拟登录github"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/11/17/python3Learn-day1/&title=python 模拟登录github"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/11/17/python3Learn-day1/&is_video=false&description=python 模拟登录github"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python 模拟登录github&body=Check out this article: http://wolvez.club/2020/11/17/python3Learn-day1/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/11/17/python3Learn-day1/&title=python 模拟登录github"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/11/17/python3Learn-day1/&title=python 模拟登录github"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/11/17/python3Learn-day1/&title=python 模拟登录github"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/11/17/python3Learn-day1/&title=python 模拟登录github"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/11/17/python3Learn-day1/&name=python 模拟登录github&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/ATT-CK/">Att&amp;ck</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
