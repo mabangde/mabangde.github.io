@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="配置情况 本地metasploit机器:192.168.3.23 公网vpn:181.122.37.15 内网靶机: 192.168.109.143  本地执行:1ssh -N -f -R 8201:192.168.3.23:8201 root@181.122.37.15  服务器rinetd配置:123vim /etc/rinetd.conf ## 配置0.0.0.0 8022 127.0.0.">
+    <meta name="description" content="配置情况 本地metasploit机器: 192.168.3.23 公网VPS: 181.122.37.15 内网靶机: 192.168.109.143  本地执行:1ssh -N -f -R 8201:192.168.3.23:8201 root@181.122.37.15  服务器rinetd配置:123vim /etc/rinetd.conf ## 配置0.0.0.0 8022 127.0.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="rinetd 使用">
 <meta property="og:url" content="http://wolvez.club/2020/12/01/metasploit-technique1/index.html">
 <meta property="og:site_name" content="wolvez&#39;s blog">
-<meta property="og:description" content="配置情况 本地metasploit机器:192.168.3.23 公网vpn:181.122.37.15 内网靶机: 192.168.109.143  本地执行:1ssh -N -f -R 8201:192.168.3.23:8201 root@181.122.37.15  服务器rinetd配置:123vim /etc/rinetd.conf ## 配置0.0.0.0 8022 127.0.0.">
+<meta property="og:description" content="配置情况 本地metasploit机器: 192.168.3.23 公网VPS: 181.122.37.15 内网靶机: 192.168.109.143  本地执行:1ssh -N -f -R 8201:192.168.3.23:8201 root@181.122.37.15  服务器rinetd配置:123vim /etc/rinetd.conf ## 配置0.0.0.0 8022 127.0.">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-12-01T14:19:46.596Z">
+<meta property="og:updated_time" content="2020-12-01T14:50:55.496Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="rinetd 使用">
-<meta name="twitter:description" content="配置情况 本地metasploit机器:192.168.3.23 公网vpn:181.122.37.15 内网靶机: 192.168.109.143  本地执行:1ssh -N -f -R 8201:192.168.3.23:8201 root@181.122.37.15  服务器rinetd配置:123vim /etc/rinetd.conf ## 配置0.0.0.0 8022 127.0.0.">
+<meta name="twitter:description" content="配置情况 本地metasploit机器: 192.168.3.23 公网VPS: 181.122.37.15 内网靶机: 192.168.109.143  本地执行:1ssh -N -f -R 8201:192.168.3.23:8201 root@181.122.37.15  服务器rinetd配置:123vim /etc/rinetd.conf ## 配置0.0.0.0 8022 127.0.">
     
     
         
@@ -131,8 +131,8 @@
 
   <div class="content" itemprop="articleBody">
     <h4 id="配置情况"><a href="#配置情况" class="headerlink" title="配置情况"></a>配置情况</h4><ul>
-<li>本地metasploit机器:192.168.3.23</li>
-<li>公网vpn:181.122.37.15</li>
+<li>本地<code>metasploit</code>机器: 192.168.3.23</li>
+<li>公网VPS: 181.122.37.15</li>
 <li>内网靶机: 192.168.109.143</li>
 </ul>
 <h4 id="本地执行"><a href="#本地执行" class="headerlink" title="本地执行:"></a>本地执行:</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -N -f -R 8201:192.168.3.23:8201 root@181.122.37.15</span><br></pre></td></tr></table></figure>
