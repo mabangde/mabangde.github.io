@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Dns附加后缀导致的问题</title>
+    <url>/2020/12/05/Dnssuffix/</url>
+    <content><![CDATA[<h2 id="0x01-关于内网短域名访问"><a href="#0x01-关于内网短域名访问" class="headerlink" title="0x01 关于内网短域名访问"></a>0x01 关于内网短域名访问</h2><p>很多公司会配置内网短域名访问内部网站,如访问<code>bbs</code>实际上跳转到<br><code>bbs.baiducorp.com</code> 这是如何实现的呢?</p>
+<h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理:"></a>实现原理:</h4><p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/199f083c9e6011a91ebb085be7babade.png" alt="2020-12-05-19-25-13"></p>
+<p>附加<strong>DNS</strong>后缀</p>
+<ol>
+<li><p>附加主要的和连接待定的DNS后缀 - &gt; <strong>附加主dns后缀</strong><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/39963873452ec6b02a91fe368ac2b881.png" alt="2020-12-05-18-45-44"></p>
+</li>
+<li><p>附加这些DNS后缀<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/654153dabca65f82594ea2034b10b8a4.png" alt="2020-12-05-19-20-18"></p>
+</li>
+</ol>
+<p>这样访问短域名就会自动补齐DNS后缀,实现内网短域名访问</p>
+<h2 id="0x02-遇到的问题"><a href="#0x02-遇到的问题" class="headerlink" title="0x02 遇到的问题"></a>0x02 遇到的问题</h2><p>无法使用dnslookup 去获取域名信息,想获取域名的NS信息返回的却是不相关的域名SOA记录</p>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/a3c92c0f59c937561946c2f10b43e161.png" alt="2020-12-05-19-26-30"></p>
+<p>抓数据包分析发现自动在请求的域名后面加上 baid.com.<strong>testcrop.com</strong><br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/abc43e83d5cae5b115cec11114dd951c.png" alt="2020-12-05-19-29-11"></p>
+<p>查看网络连接 高级TCP/IP设置里面附加DNS后缀设置,发现<strong>testcrop.com</strong> 为我本地附加的DNS后缀,所以就产生这样的问题</p>
+<h2 id="0x0x03-解决办法"><a href="#0x0x03-解决办法" class="headerlink" title="0x0x03 解决办法"></a>0x0x03 解决办法</h2><ol>
+<li><code>nslookup</code> 查看域名信息的时候在域名后面加上 “<strong>.</strong>“,如 <code>baidu.com</code><strong>.</strong>即可获取正确dns查询</li>
+</ol>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/1ffef6a6039a116991e89555e5a99bca.png" alt="2020-12-05-19-34-34"></p>
+<ol start="2">
+<li><code>python</code> 中可用如下两种方法解决<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/1654f9aa29e979a47db5b4b220b33449.png" alt="2020-12-05-19-37-23"></li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
     <title>rinetd 使用</title>
     <url>/2020/12/01/metasploit-technique1/</url>
     <content><![CDATA[<h4 id="配置情况"><a href="#配置情况" class="headerlink" title="配置情况"></a>配置情况</h4><ul>
