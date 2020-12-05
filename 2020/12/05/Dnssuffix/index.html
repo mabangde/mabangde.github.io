@@ -20,7 +20,8 @@
 <meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/abc43e83d5cae5b115cec11114dd951c.png">
 <meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/1ffef6a6039a116991e89555e5a99bca.png">
 <meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/1654f9aa29e979a47db5b4b220b33449.png">
-<meta property="og:updated_time" content="2020-12-05T11:39:04.017Z">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/eb711fa01e75ed7205455b032103ab8e.png">
+<meta property="og:updated_time" content="2020-12-05T11:49:18.085Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dns附加后缀导致的问题">
 <meta name="twitter:description" content="0x01 关于内网短域名访问很多公司会配置内网短域名访问内部网站,如访问bbs实际上跳转到bbs.baiducorp.com 这是如何实现的呢? 实现原理: 附加DNS后缀  附加主要的和连接待定的DNS后缀 - &amp;gt; 附加主dns后缀  附加这些DNS后缀   这样访问短域名就会自动补齐DNS后缀,实现内网短域名访问 0x02 遇到的问题无法使用dnslookup 去获取域名信息,想获取域名">
@@ -157,8 +158,14 @@
 </ol>
 <p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/1ffef6a6039a116991e89555e5a99bca.png" alt="2020-12-05-19-34-34"></p>
 <ol start="2">
-<li><code>python</code> 中可用如下两种方法解决<br><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/1654f9aa29e979a47db5b4b220b33449.png" alt="2020-12-05-19-37-23"></li>
+<li><code>python</code> 中可用如下两种方法解决</li>
 </ol>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/1654f9aa29e979a47db5b4b220b33449.png" alt="2020-12-05-19-37-23"></p>
+<ol start="3">
+<li><code>powershell Resolve-DnsName</code> 命令不会自动附加<code>DNS</code>后缀</li>
+</ol>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/eb711fa01e75ed7205455b032103ab8e.png" alt="2020-12-05-19-48-55"></p>
+<p><code>Resolve-DnsName -Name ctrip.com -Server 119.29.29.29 -Type NS</code></p>
 
   </div>
 </article>
