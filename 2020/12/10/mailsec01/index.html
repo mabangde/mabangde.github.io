@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="免杀没有绝对,各家杀软的策略都不一样,只有真正掌握各种机制才能更灵活的对抗杀软  技术点:   宏代码,不执行regsvr32命令 远程调用sct文件,实现免杀 csharp 可执行转js ,反序列化加载  原理: 宏调用DllInstall api 12345Private Declare PtrSafe Function DllInstall Lib &quot;scrobj.dll&quot; (ByVal">
+    <meta name="description" content="免杀没有绝对,各家杀软的策略都不一样,只有真正掌握各种机制才能更灵活的对抗杀软  为什么用宏: 宏不是漏洞,是office重要功能,很多办公自动化离不开宏 宏代码更灵活,能调用系统api,脚本变形容易,很容易就能绕过杀软  技术点:   宏代码,不执行regsvr32命令 远程调用sct文件,实现免杀 csharp 可执行转js ,反序列化加载  原理: 宏调用DllInstall api 12">
 <meta property="og:type" content="article">
 <meta property="og:title" content="邮件攻防--宏免杀姿势1">
 <meta property="og:url" content="http://wolvez.club/2020/12/10/mailsec01/index.html">
 <meta property="og:site_name" content="wolvez&#39;s blog">
-<meta property="og:description" content="免杀没有绝对,各家杀软的策略都不一样,只有真正掌握各种机制才能更灵活的对抗杀软  技术点:   宏代码,不执行regsvr32命令 远程调用sct文件,实现免杀 csharp 可执行转js ,反序列化加载  原理: 宏调用DllInstall api 12345Private Declare PtrSafe Function DllInstall Lib &quot;scrobj.dll&quot; (ByVal">
+<meta property="og:description" content="免杀没有绝对,各家杀软的策略都不一样,只有真正掌握各种机制才能更灵活的对抗杀软  为什么用宏: 宏不是漏洞,是office重要功能,很多办公自动化离不开宏 宏代码更灵活,能调用系统api,脚本变形容易,很容易就能绕过杀软  技术点:   宏代码,不执行regsvr32命令 远程调用sct文件,实现免杀 csharp 可执行转js ,反序列化加载  原理: 宏调用DllInstall api 12">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-12-09T17:20:45.012Z">
+<meta property="og:updated_time" content="2020-12-09T17:24:20.539Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="邮件攻防--宏免杀姿势1">
-<meta name="twitter:description" content="免杀没有绝对,各家杀软的策略都不一样,只有真正掌握各种机制才能更灵活的对抗杀软  技术点:   宏代码,不执行regsvr32命令 远程调用sct文件,实现免杀 csharp 可执行转js ,反序列化加载  原理: 宏调用DllInstall api 12345Private Declare PtrSafe Function DllInstall Lib &quot;scrobj.dll&quot; (ByVal">
+<meta name="twitter:description" content="免杀没有绝对,各家杀软的策略都不一样,只有真正掌握各种机制才能更灵活的对抗杀软  为什么用宏: 宏不是漏洞,是office重要功能,很多办公自动化离不开宏 宏代码更灵活,能调用系统api,脚本变形容易,很容易就能绕过杀软  技术点:   宏代码,不执行regsvr32命令 远程调用sct文件,实现免杀 csharp 可执行转js ,反序列化加载  原理: 宏调用DllInstall api 12">
     
     
         
@@ -96,7 +96,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-初步测试弹计算器"><span class="toc-number">1.</span> <span class="toc-text">0x01 初步测试弹计算器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-加载cobalt-strike-shellcode上线"><span class="toc-number">2.</span> <span class="toc-text">0x02 加载cobalt strike shellcode上线</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么用宏"><span class="toc-number">1.</span> <span class="toc-text">为什么用宏:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-初步测试弹计算器"><span class="toc-number">2.</span> <span class="toc-text">0x01 初步测试弹计算器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-加载cobalt-strike-shellcode上线"><span class="toc-number">3.</span> <span class="toc-text">0x02 加载cobalt strike shellcode上线</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -133,6 +133,10 @@
     <blockquote>
 <p>免杀没有绝对,各家杀软的策略都不一样,只有真正掌握各种机制才能更灵活的对抗杀软</p>
 </blockquote>
+<h3 id="为什么用宏"><a href="#为什么用宏" class="headerlink" title="为什么用宏:"></a>为什么用宏:</h3><ol>
+<li>宏不是漏洞,是office重要功能,很多办公自动化离不开宏</li>
+<li>宏代码更灵活,能调用系统api,脚本变形容易,很容易就能绕过杀软</li>
+</ol>
 <p>技术点: </p>
 <ol>
 <li>宏代码,不执行regsvr32命令 远程调用sct文件,实现免杀</li>
@@ -182,7 +186,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-初步测试弹计算器"><span class="toc-number">1.</span> <span class="toc-text">0x01 初步测试弹计算器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-加载cobalt-strike-shellcode上线"><span class="toc-number">2.</span> <span class="toc-text">0x02 加载cobalt strike shellcode上线</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么用宏"><span class="toc-number">1.</span> <span class="toc-text">为什么用宏:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-初步测试弹计算器"><span class="toc-number">2.</span> <span class="toc-text">0x01 初步测试弹计算器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-加载cobalt-strike-shellcode上线"><span class="toc-number">3.</span> <span class="toc-text">0x02 加载cobalt strike shellcode上线</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
