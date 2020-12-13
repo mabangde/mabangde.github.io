@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="请勿用于非法用途,仅供测试使用   开发此软件初衷:原本一直使用:swaks 工具进行邮件发送测试, 忽然有一天想发送带中文标题的发现乱码(这能忍?),想尝试修改swaks,看了swaks 源码之后放弃了,非常难读懂,所以就写了该工具  题外话: 网上只要涉及钓鱼邮件的文章都推荐用swaks,不是说这工具不好,这工具功能非常强大;网上很多文章关于邮件欺骗SPF描述很多都是错误的.     网上那">
+<meta property="og:type" content="article">
+<meta property="og:title" content="邮件测试工具">
+<meta property="og:url" content="http://wolvez.club/2020/12/14/mailsec02/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="请勿用于非法用途,仅供测试使用   开发此软件初衷:原本一直使用:swaks 工具进行邮件发送测试, 忽然有一天想发送带中文标题的发现乱码(这能忍?),想尝试修改swaks,看了swaks 源码之后放弃了,非常难读懂,所以就写了该工具  题外话: 网上只要涉及钓鱼邮件的文章都推荐用swaks,不是说这工具不好,这工具功能非常强大;网上很多文章关于邮件欺骗SPF描述很多都是错误的.     网上那">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/998ecb017cc934b5ca2439e4f98aa820.png">
+<meta property="og:updated_time" content="2020-12-13T20:28:23.212Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="邮件测试工具">
+<meta name="twitter:description" content="请勿用于非法用途,仅供测试使用   开发此软件初衷:原本一直使用:swaks 工具进行邮件发送测试, 忽然有一天想发送带中文标题的发现乱码(这能忍?),想尝试修改swaks,看了swaks 源码之后放弃了,非常难读懂,所以就写了该工具  题外话: 网上只要涉及钓鱼邮件的文章都推荐用swaks,不是说这工具不好,这工具功能非常强大;网上很多文章关于邮件欺骗SPF描述很多都是错误的.     网上那">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/998ecb017cc934b5ca2439e4f98aa820.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>邮件测试工具</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/ATT-CK/">Att&amp;ck</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/12/10/mailsec01/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/12/14/mailsec02/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/12/14/mailsec02/&text=邮件测试工具"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/12/14/mailsec02/&title=邮件测试工具"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/12/14/mailsec02/&is_video=false&description=邮件测试工具"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=邮件测试工具&body=Check out this article: http://wolvez.club/2020/12/14/mailsec02/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/12/14/mailsec02/&title=邮件测试工具"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/12/14/mailsec02/&title=邮件测试工具"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/12/14/mailsec02/&title=邮件测试工具"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/12/14/mailsec02/&title=邮件测试工具"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/12/14/mailsec02/&name=邮件测试工具&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        邮件测试工具
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-12-13T20:12:56.000Z" itemprop="datePublished">2020-12-14</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>请勿用于非法用途,仅供测试使用</p>
+</blockquote>
+<ul>
+<li><p>开发此软件初衷:<br>原本一直使用:<code>swaks</code> 工具进行邮件发送测试, 忽然有一天想发送带中文标题的发现乱码(这能忍?),想尝试修改<code>swaks</code>,看了<code>swaks</code> 源码之后放弃了,非常难读懂,所以就写了该工具</p>
+</li>
+<li><p>题外话: 网上只要涉及钓鱼邮件的文章都推荐用<code>swaks</code>,不是说这工具不好,这工具功能非常强大;网上很多文章关于邮件欺骗SPF描述很多都是错误的. </p>
+</li>
+</ul>
+<ul>
+<li>网上那么多类似的工具为什么要自己造轮子:<br>自己造轮子的好处是真正了解功能如何实现,出现bug或有其它需求知道怎么快速改</li>
+</ul>
+<ul>
+<li>其它: 70% 代码<strong>照抄</strong> <a href="https://github.com/dizballanze/mailsender/blob/master/emailsender/mail.py" target="_blank" rel="noopener">https://github.com/dizballanze/mailsender/blob/master/emailsender/mail.py</a> </li>
+</ul>
+<p><strong>推荐文章</strong></p>
+<ul>
+<li><a href="https://www.anquanke.com/post/id/218889" target="_blank" rel="noopener">https://www.anquanke.com/post/id/218889</a> (邮件伪造组合拳)</li>
+<li><a href="https://www.write-bug.com/article/60.html" target="_blank" rel="noopener">https://www.write-bug.com/article/60.html</a></li>
+</ul>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/998ecb017cc934b5ca2439e4f98aa820.png" alt="2020-12-14-04-15-18"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">from</span> smtplib <span class="keyword">import</span> SMTP</span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> encodebytes</span><br><span class="line"><span class="keyword">from</span> email.utils <span class="keyword">import</span> make_msgid, formatdate</span><br><span class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</span><br><span class="line"><span class="keyword">from</span> email.mime.application <span class="keyword">import</span> MIMEApplication</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.mime.base <span class="keyword">import</span> MIMEBase</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> dns.resolver</span><br><span class="line"><span class="keyword">from</span> email.header <span class="keyword">import</span> Header</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> open</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> basename</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isBase64</span><span class="params">(content)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> base64.b64encode(base64.b64decode(str)) == content</span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isFile</span><span class="params">(content)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> os.path.isfile(content)</span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ColorPrint</span><span class="params">(string=<span class="string">""</span>, flag=<span class="string">""</span>, verbose=<span class="string">""</span>)</span>:</span></span><br><span class="line">    colors = &#123;</span><br><span class="line">        <span class="string">u"gray"</span>: <span class="string">"2"</span>,</span><br><span class="line">        <span class="string">u"red"</span>: <span class="string">"31"</span>,</span><br><span class="line">        <span class="string">u"green"</span>: <span class="string">"32"</span>,</span><br><span class="line">        <span class="string">u"yellow"</span>: <span class="string">"33"</span>,</span><br><span class="line">        <span class="string">u"blue"</span>: <span class="string">"34"</span>,</span><br><span class="line">        <span class="string">u"pink"</span>: <span class="string">"35"</span>,</span><br><span class="line">        <span class="string">u"cyan"</span>: <span class="string">"36"</span>,</span><br><span class="line">        <span class="string">u"white"</span>: <span class="string">"37"</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    flags = &#123;</span><br><span class="line">        <span class="string">u"error"</span>: <span class="string">"[-] "</span>,</span><br><span class="line">        <span class="string">u"warning"</span>: <span class="string">"[!] "</span>,</span><br><span class="line">        <span class="string">u"info"</span>: <span class="string">"[*] "</span>,</span><br><span class="line">        <span class="string">u"success"</span>: <span class="string">"[+] "</span>,</span><br><span class="line">        <span class="string">u"debug"</span>: <span class="string">"&gt;&gt;&gt; "</span>,</span><br><span class="line">        <span class="string">u"echo"</span>: <span class="string">"&gt;&gt;&gt; "</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> flag == <span class="string">'error'</span>:</span><br><span class="line">            print(<span class="string">u"\033[%sm%s%s\033[0m"</span> % (colors[<span class="string">u"red"</span>], flags[flag], string))</span><br><span class="line">        <span class="keyword">if</span> flag == <span class="string">"info"</span>:</span><br><span class="line">            print(<span class="string">u"\033[%sm%s%s\033[0m"</span> % (colors[<span class="string">u"white"</span>], flags[flag], string))</span><br><span class="line">        <span class="keyword">if</span> flag == <span class="string">'echo'</span> <span class="keyword">or</span> flag == <span class="string">''</span> <span class="keyword">or</span> flag == <span class="number">0</span>:</span><br><span class="line">            print(<span class="string">u"\033[%sm%s%s\033[0m"</span> % (colors[<span class="string">u"white"</span>], flags[flag], string))</span><br><span class="line">        <span class="keyword">if</span> flag == <span class="string">'success'</span>:</span><br><span class="line">            print(<span class="string">u"\033[%sm%s%s\033[0m"</span> % (colors[<span class="string">u"green"</span>], flags[flag], string))</span><br><span class="line">        <span class="keyword">if</span> verbose == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">if</span> flag == <span class="string">'warning'</span>:</span><br><span class="line">                print(<span class="string">u"\033[%sm%s%s\033[0m"</span> % (colors[<span class="string">u"yellow"</span>], flags[flag], string))</span><br><span class="line">            <span class="keyword">if</span> flag == <span class="string">'debug'</span>:</span><br><span class="line">                print(<span class="string">"%s"</span>, string)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">DNSQuery</span><span class="params">(mailaddr)</span>:</span></span><br><span class="line">    verbose = <span class="number">1</span></span><br><span class="line">    dns_resolver = dns.resolver.Resolver(configure=<span class="literal">False</span>)</span><br><span class="line">    dns_resolver.timeout = <span class="number">5</span></span><br><span class="line">    dns_resolver.lifetime = <span class="number">5</span></span><br><span class="line">    dns_resolver.nameservers = [<span class="string">'119.29.29.29'</span>]</span><br><span class="line">    record = <span class="string">"MX"</span></span><br><span class="line">    domain = mailaddr[mailaddr.find(<span class="string">u"@"</span>) + <span class="number">1</span>:]</span><br><span class="line">    ColorPrint(<span class="string">"query MX of DNS for %s"</span> % domain, flag=<span class="string">"echo"</span>, verbose=verbose)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        MX = dns_resolver.resolve(domain, record)</span><br><span class="line">        m = random.randint(<span class="number">0</span>, len(MX))</span><br><span class="line">        mx = MX[<span class="number">0</span>].exchange</span><br><span class="line">        strMx = str(mx)[:<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">assert</span> strMx != <span class="string">u""</span></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        ColorPrint(<span class="string">"query MX of %s failed: %s"</span> % (strMx, e), flag=<span class="string">"error"</span>, verbose=verbose)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    ColorPrint(<span class="string">"MX Server: %s"</span> % strMx, flag=<span class="string">"success"</span>, verbose=verbose)</span><br><span class="line">    <span class="keyword">return</span> strMx</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">send_mail</span><span class="params">(server=None, port=None, mail_from=None, to=None, h_from=None, subject=None, content=None, html=None,</span></span></span><br><span class="line"><span class="function"><span class="params">              auth=None, user=None, password=None, tls=None, debuglevel=<span class="number">2</span>, attachment=None)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Compose mail headers</span></span><br><span class="line">    msg = MIMEMultipart(<span class="string">'alternative'</span>)</span><br><span class="line">    msg[<span class="string">'Subject'</span>] = Header(subject, <span class="string">'utf-8'</span>)</span><br><span class="line">    msg[<span class="string">'X-Mailer'</span>] = <span class="string">"MSOffice365"</span></span><br><span class="line">    msg[<span class="string">'To'</span>] = to</span><br><span class="line">    msg[<span class="string">'Message-id'</span>] = make_msgid()  <span class="comment"># Message-ID标头</span></span><br><span class="line">    msg[<span class="string">'Date'</span>] = formatdate()  <span class="comment"># 日期</span></span><br><span class="line">    <span class="keyword">if</span> h_from:</span><br><span class="line">        msg[<span class="string">'From'</span>] = h_from</span><br><span class="line">        msg[<span class="string">'MAIL-FROM'</span>] = mail_from</span><br><span class="line">    msg[<span class="string">'From'</span>] = mail_from</span><br><span class="line">    <span class="comment"># Compose mail body</span></span><br><span class="line">    <span class="keyword">if</span> html <span class="keyword">and</span> content:</span><br><span class="line">        ColorPrint(<span class="string">"The \"--html\" and \"--content\" args do not go together!"</span>, <span class="string">"error"</span>, verbose=<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> html:</span><br><span class="line">        <span class="keyword">if</span> isFile(html):</span><br><span class="line">            <span class="keyword">with</span> open(html, <span class="string">"rb"</span>) <span class="keyword">as</span> content_str:</span><br><span class="line">                new_content_str = content_str.read().decode(<span class="string">"UTF-8"</span>)</span><br><span class="line">                <span class="keyword">if</span> isBase64(new_content_str):</span><br><span class="line">                    base64txt = base64.b64decode(new_content_str.strip())</span><br><span class="line">                    html_part = MIMEText(base64txt.decode(), <span class="string">'html'</span>, <span class="string">"utf-8"</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    html_part = MIMEText(new_content_str, <span class="string">'html'</span>, <span class="string">"utf-8"</span>)</span><br><span class="line">                msg.attach(html_part)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ColorPrint(<span class="string">"Example:  \"--html\" ./msg.html !"</span>, <span class="string">"error"</span>, verbose=<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> content:</span><br><span class="line">        <span class="keyword">if</span> isFile(content):</span><br><span class="line">            <span class="keyword">with</span> open(content, <span class="string">"rb"</span>) <span class="keyword">as</span> content_str:</span><br><span class="line">                new_content_str = content_str.read().decode(<span class="string">"UTF-8"</span>)</span><br><span class="line">                <span class="keyword">if</span> isBase64(new_content_str):</span><br><span class="line">                    base64txt = base64.b64decode(new_content_str.strip())</span><br><span class="line">                    text_part = MIMEText(base64txt.decode(), <span class="string">'plain'</span>, <span class="string">"utf-8"</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    text_part = MIMEText(new_content_str, <span class="string">'plain'</span>, <span class="string">"utf-8"</span>)</span><br><span class="line">                msg.attach(text_part)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            text_part = MIMEText(content, <span class="string">'plain'</span>, <span class="string">"utf-8"</span>)</span><br><span class="line">            msg.attach(text_part)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> attachment:</span><br><span class="line">        <span class="keyword">with</span> open(attachment, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            attachfile = MIMEBase(<span class="string">'application'</span>, <span class="string">"octet-stream"</span>)</span><br><span class="line">            attachfile.set_payload(encodebytes(f.read()).decode())</span><br><span class="line">            f.close()</span><br><span class="line">            attachfile.add_header(<span class="string">'Content-Transfer-Encoding'</span>, <span class="string">'base64'</span>)</span><br><span class="line">            attachfile.add_header(<span class="string">'Content-Disposition'</span>, <span class="string">'attachment'</span>, filename=attachment)</span><br><span class="line">            msg.attach(attachfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    smtp = SMTP()</span><br><span class="line">    smtp.set_debuglevel(debuglevel)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> server:</span><br><span class="line">        server = DNSQuery(to)</span><br><span class="line">    ehlo = domain = to[to.find(<span class="string">u"@"</span>) + <span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        smtp.connect(server, port)</span><br><span class="line">        smtp.ehlo(ehlo)</span><br><span class="line">        <span class="keyword">if</span> auth:</span><br><span class="line">            smtp.login(user, password)</span><br><span class="line">        smtp.sendmail(mail_from, to, msg.as_string())</span><br><span class="line">        ColorPrint(<span class="string">"send success!"</span>, flag=<span class="string">"success"</span>, verbose=<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">except</span> SMTP.SMTPException <span class="keyword">as</span> e:</span><br><span class="line">        ColorPrint(e, flag=<span class="string">"error"</span>, verbose=<span class="number">1</span>)</span><br><span class="line">        smtp.quit()</span><br><span class="line">        smtp.close()</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        smtp.quit()</span><br><span class="line">        smtp.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser(description=<span class="string">"mailsender version 1.0 by wolvez"</span>, epilog=<span class="string">'Example :\nmailsender.py --auth 1 --server smtp.mailgun.org --user admin@wolvez.club --password password@00001 -to ffffff00000@gmail.com --subject "测试邮件" --mail-from admin@wolvez.club --debuglevel 1  --html ./test.html --file ./test.txt'</span>)</span><br><span class="line">parser.add_argument(<span class="string">"-s"</span>, <span class="string">"--server"</span>, help=<span class="string">"Smtp Server."</span>)  <span class="comment"># smtp服务器地址</span></span><br><span class="line">parser.add_argument(<span class="string">"-p"</span>, <span class="string">"--port"</span>, help=<span class="string">"Smtp Server Port."</span>, default=<span class="number">25</span>, type=int)  <span class="comment"># smtp服务器端口</span></span><br><span class="line">parser.add_argument(<span class="string">"--mail-from"</span>, dest=<span class="string">"mail_from"</span>, help=<span class="string">"from mail addresses."</span>, required=<span class="literal">True</span>)  <span class="comment"># 实际发送者,MAIL FROM</span></span><br><span class="line">parser.add_argument(<span class="string">"-to"</span>, <span class="string">"--to"</span>, help=<span class="string">"to mail addresses."</span>, required=<span class="literal">True</span>)  <span class="comment"># 接收邮件者,可为多个</span></span><br><span class="line">parser.add_argument(<span class="string">"--h-from"</span>, help=<span class="string">"mail Mailsender"</span>)  <span class="comment"># 显示的发件人,FROM</span></span><br><span class="line">parser.add_argument(<span class="string">"--subject"</span>, help=<span class="string">"message title"</span>, default=<span class="string">"testmail"</span>)  <span class="comment"># 邮件主题</span></span><br><span class="line">parser.add_argument(<span class="string">'--content'</span>, <span class="string">'--msg-content'</span>, <span class="string">"--body"</span>, help=<span class="string">"message body"</span>)  <span class="comment"># 邮件内容,如果为文件可包含html文件,也可以为输入包含html内容邮件</span></span><br><span class="line">parser.add_argument(<span class="string">"--html"</span>, help=<span class="string">"message html body"</span>)</span><br><span class="line">parser.add_argument(<span class="string">"--attachment"</span>, <span class="string">"--file"</span>, required=<span class="literal">False</span>, help=<span class="string">"One or few files to attach"</span>)  <span class="comment"># 邮件附件</span></span><br><span class="line">parser.add_argument(<span class="string">"--auth"</span>, help=<span class="string">"Smtp Auth"</span>, type=bool, default=<span class="literal">False</span>)  <span class="comment"># smtp登录</span></span><br><span class="line">parser.add_argument(<span class="string">"--user"</span>, help=<span class="string">"Smtp Auth username"</span>)  <span class="comment"># smtp 用户名</span></span><br><span class="line">parser.add_argument(<span class="string">"--password"</span>, help=<span class="string">"Smtp Auth Password"</span>)  <span class="comment"># smtp 密码</span></span><br><span class="line">parser.add_argument(<span class="string">'--tls'</span>, dest=<span class="string">'tls'</span>, default=<span class="literal">False</span>, type=bool, help=<span class="string">"Use TLS if specified"</span>)  <span class="comment"># smtpsll方式</span></span><br><span class="line">parser.add_argument(<span class="string">"--debuglevel"</span>, required=<span class="literal">False</span>, type=int, default=<span class="literal">True</span>, help=<span class="string">"Debug level"</span>)</span><br><span class="line"></span><br><span class="line">args = parser.parse_args()</span><br><span class="line">kwargs = args.__dict__</span><br><span class="line">send_mail(**kwargs)</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/ATT-CK/">Att&amp;ck</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/12/14/mailsec02/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/12/14/mailsec02/&text=邮件测试工具"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/12/14/mailsec02/&title=邮件测试工具"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/12/14/mailsec02/&is_video=false&description=邮件测试工具"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=邮件测试工具&body=Check out this article: http://wolvez.club/2020/12/14/mailsec02/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/12/14/mailsec02/&title=邮件测试工具"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/12/14/mailsec02/&title=邮件测试工具"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/12/14/mailsec02/&title=邮件测试工具"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/12/14/mailsec02/&title=邮件测试工具"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/12/14/mailsec02/&name=邮件测试工具&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/ATT-CK/">Att&amp;ck</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
