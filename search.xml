@@ -6,8 +6,10 @@
     <content><![CDATA[<blockquote>
 <p>众所周知,一般恶意样本或方法只要一公开就会被安全厂商分析,所以免杀不是绝对的,重点不在免杀而是思路</p>
 </blockquote>
-<p>免杀测试过程:</p>
-<ol>
+<blockquote>
+<p>python真香, 能快速实现你想实现的想法</p>
+</blockquote>
+<h3 id="免杀测试过程"><a href="#免杀测试过程" class="headerlink" title="免杀测试过程:"></a>免杀测试过程:</h3><ol>
 <li>对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀</li>
 <li>删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀</li>
 <li>写工具对base64 编码部分进行xor 混淆, key字段取当前环境中环境变量特定的值作为解密key,一般环境是没有该环境变量的</li>

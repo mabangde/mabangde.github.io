@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="众所周知,一般恶意样本或方法只要一公开就会被安全厂商分析,所以免杀不是绝对的,重点不在免杀而是思路  免杀测试过程:  对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀 删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀 写工具对base64 编码部分进行xor 混淆, key字段取当前环境中环境变量特定的值作为解密key">
+    <meta name="description" content="众所周知,一般恶意样本或方法只要一公开就会被安全厂商分析,所以免杀不是绝对的,重点不在免杀而是思路   python真香, 能快速实现你想实现的想法  免杀测试过程: 对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀 删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀 写工具对base64 编码部分进行xor 混淆, ke">
 <meta property="og:type" content="article">
 <meta property="og:title" content="邮件攻防--宏免杀姿势2">
 <meta property="og:url" content="http://wolvez.club/2020/12/17/macro/index.html">
 <meta property="og:site_name" content="wolvez&#39;s blog">
-<meta property="og:description" content="众所周知,一般恶意样本或方法只要一公开就会被安全厂商分析,所以免杀不是绝对的,重点不在免杀而是思路  免杀测试过程:  对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀 删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀 写工具对base64 编码部分进行xor 混淆, key字段取当前环境中环境变量特定的值作为解密key">
+<meta property="og:description" content="众所周知,一般恶意样本或方法只要一公开就会被安全厂商分析,所以免杀不是绝对的,重点不在免杀而是思路   python真香, 能快速实现你想实现的想法  免杀测试过程: 对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀 删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀 写工具对base64 编码部分进行xor 混淆, ke">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-12-17T12:36:58.412Z">
+<meta property="og:updated_time" content="2020-12-17T12:39:13.664Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="邮件攻防--宏免杀姿势2">
-<meta name="twitter:description" content="众所周知,一般恶意样本或方法只要一公开就会被安全厂商分析,所以免杀不是绝对的,重点不在免杀而是思路  免杀测试过程:  对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀 删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀 写工具对base64 编码部分进行xor 混淆, key字段取当前环境中环境变量特定的值作为解密key">
+<meta name="twitter:description" content="众所周知,一般恶意样本或方法只要一公开就会被安全厂商分析,所以免杀不是绝对的,重点不在免杀而是思路   python真香, 能快速实现你想实现的想法  免杀测试过程: 对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀 删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀 写工具对base64 编码部分进行xor 混淆, ke">
     
     
         
@@ -96,7 +96,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-cobaltstrike-生成csharp-shellcode"><span class="toc-number">1.</span> <span class="toc-text">0x01 cobaltstrike 生成csharp shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-使用shellcode加载器"><span class="toc-number">2.</span> <span class="toc-text">0x02 使用shellcode加载器:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-使用GadgetToJScript-生成vba"><span class="toc-number">3.</span> <span class="toc-text">0x03 使用GadgetToJScript 生成vba</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-对GadgetToJScript-生成的payload-stage部分进行xor处理"><span class="toc-number">4.</span> <span class="toc-text">0x04 对GadgetToJScript 生成的payload stage部分进行xor处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-模板文件"><span class="toc-number">5.</span> <span class="toc-text">0x05 模板文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x07-宏安全相关文章推荐"><span class="toc-number">6.</span> <span class="toc-text">0x07 宏安全相关文章推荐:</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#免杀测试过程"><span class="toc-number">1.</span> <span class="toc-text">免杀测试过程:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-cobaltstrike-生成csharp-shellcode"><span class="toc-number">2.</span> <span class="toc-text">0x01 cobaltstrike 生成csharp shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-使用shellcode加载器"><span class="toc-number">3.</span> <span class="toc-text">0x02 使用shellcode加载器:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-使用GadgetToJScript-生成vba"><span class="toc-number">4.</span> <span class="toc-text">0x03 使用GadgetToJScript 生成vba</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-对GadgetToJScript-生成的payload-stage部分进行xor处理"><span class="toc-number">5.</span> <span class="toc-text">0x04 对GadgetToJScript 生成的payload stage部分进行xor处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-模板文件"><span class="toc-number">6.</span> <span class="toc-text">0x05 模板文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x07-宏安全相关文章推荐"><span class="toc-number">7.</span> <span class="toc-text">0x07 宏安全相关文章推荐:</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -133,8 +133,10 @@
     <blockquote>
 <p>众所周知,一般恶意样本或方法只要一公开就会被安全厂商分析,所以免杀不是绝对的,重点不在免杀而是思路</p>
 </blockquote>
-<p>免杀测试过程:</p>
-<ol>
+<blockquote>
+<p>python真香, 能快速实现你想实现的想法</p>
+</blockquote>
+<h3 id="免杀测试过程"><a href="#免杀测试过程" class="headerlink" title="免杀测试过程:"></a>免杀测试过程:</h3><ol>
 <li>对GadgetToJScript 生成的payload 直接贴入word文档 ,发现被杀</li>
 <li>删除部分base64 编码过的字节码,发现不会被杀,说明是base64字节码部分被杀</li>
 <li>写工具对base64 编码部分进行xor 混淆, key字段取当前环境中环境变量特定的值作为解密key,一般环境是没有该环境变量的</li>
@@ -320,7 +322,7 @@ exec
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-cobaltstrike-生成csharp-shellcode"><span class="toc-number">1.</span> <span class="toc-text">0x01 cobaltstrike 生成csharp shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-使用shellcode加载器"><span class="toc-number">2.</span> <span class="toc-text">0x02 使用shellcode加载器:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-使用GadgetToJScript-生成vba"><span class="toc-number">3.</span> <span class="toc-text">0x03 使用GadgetToJScript 生成vba</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-对GadgetToJScript-生成的payload-stage部分进行xor处理"><span class="toc-number">4.</span> <span class="toc-text">0x04 对GadgetToJScript 生成的payload stage部分进行xor处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-模板文件"><span class="toc-number">5.</span> <span class="toc-text">0x05 模板文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x07-宏安全相关文章推荐"><span class="toc-number">6.</span> <span class="toc-text">0x07 宏安全相关文章推荐:</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#免杀测试过程"><span class="toc-number">1.</span> <span class="toc-text">免杀测试过程:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-cobaltstrike-生成csharp-shellcode"><span class="toc-number">2.</span> <span class="toc-text">0x01 cobaltstrike 生成csharp shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-使用shellcode加载器"><span class="toc-number">3.</span> <span class="toc-text">0x02 使用shellcode加载器:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-使用GadgetToJScript-生成vba"><span class="toc-number">4.</span> <span class="toc-text">0x03 使用GadgetToJScript 生成vba</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-对GadgetToJScript-生成的payload-stage部分进行xor处理"><span class="toc-number">5.</span> <span class="toc-text">0x04 对GadgetToJScript 生成的payload stage部分进行xor处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-模板文件"><span class="toc-number">6.</span> <span class="toc-text">0x05 模板文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x07-宏安全相关文章推荐"><span class="toc-number">7.</span> <span class="toc-text">0x07 宏安全相关文章推荐:</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
